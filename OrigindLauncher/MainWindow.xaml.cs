@@ -66,6 +66,7 @@ namespace OrigindLauncher
 
             gm.Run();
             StartButton.IsEnabled = true;
+
         }
 
         private void Close(object sender, RoutedEventArgs e)
