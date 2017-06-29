@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c07c13a7-f44d-47dc-981f-2878fac3b1dd</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>OrigindLauncher.Resources</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ClientManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configs\Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Definitions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSystem\DirectoryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Json\JsonHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Json\JsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LauncherCore\LauncherCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\AccountHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\Data\Account.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\AccountManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\ClientInfoGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\Data\ClientInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\Data\FileEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\MessageUploader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)String\SHA128Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)String\SHA512Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ExceptionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\JavaHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\PrivateHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\DownloadManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RestRequestFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Server\Data\UploadData.cs" />
+  </ItemGroup>
+</Project>

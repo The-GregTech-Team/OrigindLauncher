@@ -1,0 +1,140 @@
+﻿<Window x:Class="OrigindLauncher.UI.ExceptionHandlerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        FontFamily="Microsoft YaHei UI"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="Transparent"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontSize="13"
+        Title="崩溃辣!" ResizeMode="NoResize" Height="412" Width="590" WindowStyle="None" Topmost="True"
+        AllowsTransparency="True" MouseLeftButtonDown="ExceptionHandlerWindow_OnMouseLeftButtonDown"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <materialDesign:Transitioner SelectedIndex="0">
+        <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
+
+            <materialDesign:Card Margin="8" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+                <materialDesign:DialogHost Identifier="ErrorRootDialog">
+                    <Grid>
+
+
+                        <DockPanel Background="{DynamicResource MaterialDesignPaper}" Height="380" Width="558">
+                            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                                      Mode="PrimaryMid" DockPanel.Dock="Top">
+                                <DockPanel>
+
+                                    <TextBlock VerticalAlignment="Center" FontSize="18" Margin="4 2 0 0">Origind Launcher Error</TextBlock>
+                                </DockPanel>
+                            </materialDesign:ColorZone>
+
+
+                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top">
+                                <materialDesign:Card Margin="8">
+                                    <StackPanel Margin="16" Height="110" Orientation="Horizontal">
+                                        <Viewbox Height="50" Margin="0 0 10 40">
+                                            <Path Fill="#FF464646"
+                                                  Data="M11,16L11,18 13,18 13,16 11,16z M11,10L11,14 13,14 13,10 11,10z M12,2L23,21 1.00000011920929,21 12,2z" />
+                                        </Viewbox>
+                                        <StackPanel>
+                                            <TextBlock FontSize="15" Margin="4 4 0 0">很抱歉, Origind Launcher 发生了错误.</TextBlock>
+                                            <TextBlock FontSize="13" Margin="8 18 0 0">Origind Launcher 目前还不太稳定.</TextBlock>
+                                            <TextBlock FontSize="13" Margin="8 2 0 0">你可以提交错误报告来改进 Origind Launcher.</TextBlock>
+                                            <TextBlock x:Name="ExcetionMessage" FontSize="13" Margin="8 2 0 0">No more info.</TextBlock>
+
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </materialDesign:Card>
+
+                            </StackPanel>
+
+                            <Line HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 -2 0 0"
+                                  DockPanel.Dock="Top" X1="0" X2="450" Y1="2" Y2="0" Stroke="#FF646464" />
+
+                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                        DockPanel.Dock="Bottom">
+                                <materialDesign:Card Margin="8">
+                                    <StackPanel>
+
+
+                                        <StackPanel Margin="16" Orientation="Horizontal">
+                                            <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                          x:Name="AutoRestartButton" />
+                                            <TextBlock FontSize="13" Margin="8">关闭后自动重启 Origind Launcher</TextBlock>
+
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Button x:Name="GithubButton"
+                                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                                    Margin="8" Width="110">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="GithubCircle" />
+                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">GitHub</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Button x:Name="SubmitButton" Margin="0 0 0 0" Width="120"
+                                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                                    HorizontalAlignment="Left" Click="SubmitButton_OnClick">
+                                                提交错误报告
+                                            </Button>
+                                            <Button x:Name="ShowMoreButton" Margin="12 12 48 12" Width="120"
+                                                    Style="{StaticResource MaterialDesignRaisedButton}"
+
+                                                    HorizontalAlignment="Left" Click="ShowMoreButton_OnClick">
+                                                查看错误报告
+                                            </Button>
+
+                                            <Button x:Name="ContinueButton" Margin="0 0 0 0" Width="80"
+                                                    HorizontalAlignment="Right"
+                                                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                    Click="ContinueButton_OnClick">
+                                                继续..
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                </materialDesign:Card>
+
+
+                            </StackPanel>
+
+
+                        </DockPanel>
+                        <materialDesign:Snackbar x:Name="MessageSnackbar" MessageQueue="{materialDesign:MessageQueue}" />
+
+                    </Grid>
+                </materialDesign:DialogHost>
+            </materialDesign:Card>
+        </materialDesign:TransitionerSlide>
+    </materialDesign:Transitioner>
+</Window>

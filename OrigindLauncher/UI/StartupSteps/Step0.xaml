@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="OrigindLauncher.UI.StartupSteps.Step0"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             FontFamily="Microsoft YaHei UI"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Height="500" Width="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+
+        <DockPanel Background="{DynamicResource MaterialDesignPaper}" Height="500" Width="800">
+            <materialDesign:ColorZone Height="290" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                      Mode="PrimaryMid" DockPanel.Dock="Top" Background="#FF03A9F4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Image Source="/OrigindLauncher;component/Images/LOGO-WoHenFang2 .png" Height="100" Width="100"
+                           Grid.Row="0" Margin="350,74,350,66" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="3" ScaleY="3" />
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <StackPanel Grid.Row="1" Margin="64 0 64 16">
+                        <TextBlock FontSize="18">欢迎来到 Origind.</TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+            </materialDesign:ColorZone>
+            <Grid>
+                <StackPanel>
+
+                    <materialDesign:Card Margin="16 8 16 0" Height="80" Width="300" Cursor="Hand">
+                        <Button Height="80" Width="300" Click="Register"
+                                Style="{StaticResource MaterialDesignRaisedButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Margin="-32 8 16 16" Kind="Account" Height="32" Width="32" />
+                                <StackPanel>
+                                    <TextBlock Margin="16 4 16 8" FontSize="14">注册</TextBlock>
+                                    <TextBlock Margin="16 0 0 0" FontSize="14">没有 Origind 账户？</TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+
+
+                    <materialDesign:Card Height="80" Width="300" Margin="16 8 16 0" Cursor="Hand">
+                        <Button Height="80" Width="300" Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                Click="Login">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Margin="-48 16 16 16" Kind="LoginVariant" Height="32"
+                                                         Width="32" />
+                                <StackPanel>
+                                    <TextBlock Margin="16 8 16 8" FontSize="14">登录</TextBlock>
+                                    <TextBlock Margin="16 0 0 0" FontSize="14">已有 Origind 账户</TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Button>
+
+                    </materialDesign:Card>
+
+
+                </StackPanel>
+                <materialDesign:Snackbar Margin="8" x:Name="Snackbar" MessageQueue="{materialDesign:MessageQueue}" />
+
+            </Grid>
+
+
+        </DockPanel>
+
+    </Grid>
+
+
+</UserControl>
