@@ -24,13 +24,20 @@ namespace OrigindLauncher.Resources.Client
                 IsRunning = false;
             };
 
-            var result = launchercore.Launch(new LaunchOptions
+            var launchOptions = new LaunchOptions
             {
                 Version = launchercore.GetVersion(Definitions.ClientName),
                 Authenticator = new OfflineAuthenticator(Config.Instance.PlayerAccount.Username),
                 Mode = LaunchMode.BmclMode,
                 MaxMemory = Config.Instance.MaxMemory
-            }, x => x.AdvencedArguments.Add(Config.Instance.JavaArguments));
+            };
+            
+            var result = launchercore.Launch(launchOptions, x =>
+            {
+                if (Config.Instance.JavaArguments.Contains("GC"))
+                    x.CGCEnabled = false;
+                x.AdvencedArguments.Add(Config.Instance.JavaArguments);
+            });
             IsRunning = true;
             
             if (!result.Success)

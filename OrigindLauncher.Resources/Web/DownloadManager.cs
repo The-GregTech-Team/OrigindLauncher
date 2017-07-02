@@ -86,6 +86,8 @@ namespace OrigindLauncher.Resources.Web
                     if (completedCount == Infos.Count())
                         AllDone?.Invoke();
                 });
+                if (completedCount == Infos.Count())
+                    AllDone?.Invoke();
             });
         }
     }

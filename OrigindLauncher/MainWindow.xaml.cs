@@ -25,6 +25,10 @@ namespace OrigindLauncher
     /// </summary>
     public partial class MainWindow
     {
+        private double _defaultLeft;
+        private double _defaultTop;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,7 +43,8 @@ namespace OrigindLauncher
             {
                 Console.WriteLine(e);
             }
-            
+            _defaultLeft = Left;
+            _defaultTop = Top;
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
@@ -66,7 +71,7 @@ namespace OrigindLauncher
                         s => { Dispatcher.Invoke(() => dm.downloadProgressChanged(s)); },
                         args =>
                         {
-                            Dispatcher.Invoke(() => dm.onError(args)); 
+                            Dispatcher.Invoke(() => dm.onError(args));
                         }, () =>
                         {
                             Dispatcher.Invoke(() => dm.allDone());
@@ -83,12 +88,26 @@ namespace OrigindLauncher
             }
             var gm = new GameManager();
             gm.OnError += result => { Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception)); };
-            gm.OnGameExit += (handle, i) => { };
+            gm.OnGameExit += (handle, i) =>
+            {
+                Application.Current.Dispatcher.Invoke(delegate
+                {
+                    this.Left = _defaultLeft;
+                    this.Top = _defaultTop;
+                    this.Show();
+
+                });
+            };
             gm.OnGameLog += (handle, s) => { };
 
             gm.Run();
             StartButton.IsEnabled = true;
-
+            this.Flyout(() =>
+            {
+                this.Hide();
+                Environment.Exit(0);
+                //TODO
+            });
         }
 
         private void Close(object sender, RoutedEventArgs e)
@@ -109,7 +128,7 @@ namespace OrigindLauncher
         private void Move(object sender, MouseButtonEventArgs e)
         {
             DragMove();
-            
+
         }
     }
 }

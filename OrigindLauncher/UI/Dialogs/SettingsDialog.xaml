@@ -72,7 +72,7 @@
                     <Button Click="ChooseJava" Style="{StaticResource MaterialDesignFlatButton}">选择Java</Button>
                 </StackPanel>
 
-                <TextBox Margin="8" x:Name="Args" TextChanged="Args_OnTextChanged" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="启动参数"></TextBox>
+                <TextBox TextWrapping="Wrap" Margin="8" x:Name="Args" TextChanged="Args_OnTextChanged" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="启动参数"></TextBox>
 
                 
                 
