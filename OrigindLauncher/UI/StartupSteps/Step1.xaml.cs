@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.String;
+using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI.Code;
 
 namespace OrigindLauncher.UI.StartupSteps
@@ -41,6 +42,7 @@ namespace OrigindLauncher.UI.StartupSteps
                     return;
                 }
                 Config.Instance.PlayerAccount = account;
+                await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard );
                 Config.Save();
             }
             else
@@ -73,6 +75,7 @@ namespace OrigindLauncher.UI.StartupSteps
                     return;
                 }
                 Config.Instance.PlayerAccount = account;
+                await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard );
                 Config.Save();
             }
 

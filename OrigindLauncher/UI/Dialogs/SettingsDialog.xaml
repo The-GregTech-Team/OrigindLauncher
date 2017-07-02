@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="OrigindLauncher.UI.Dialogs.SettingsDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrigindLauncher.UI.Dialogs"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             FontFamily="Microsoft YaHei UI"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextOptions.TextFormattingMode="Ideal"
+             FontSize="16"
+             TextOptions.TextRenderingMode="Auto"
+             Height="400" Width="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <TextBlock Margin="12" FontSize="19">Origind Launcher 设置</TextBlock>
+
+        <ScrollViewer Grid.Row="1" Margin="8">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="8">关闭启动器硬件加速</TextBlock>
+                    <ToggleButton Margin="8" x:Name="DisableHardwareSpeedupToggleButton" Click="DisableHardwareSpeedupToggleButton_OnClick" Style="{StaticResource MaterialDesignSwitchToggleButton}"></ToggleButton>
+                </StackPanel>
+                
+                <TextBlock Margin="8 8 0 0">最大内存</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Slider ValueChanged="MemorySlider_OnValueChanged" x:Name="MemorySlider" Style="{StaticResource MaterialDesignSlider}" IsSelectionRangeEnabled="True" Margin="8" Maximum="4096" Width="476"/>
+                    <TextBlock x:Name="MemoryText" HorizontalAlignment="Center" VerticalAlignment="Center">M</TextBlock>
+                </StackPanel>
+                <TextBlock Margin="8 0 0 0">Java 选择</TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <ComboBox x:Name="ComboBoxChooseJava" Margin="8" Style="{StaticResource MaterialDesignComboBox}" IsEditable="True" MinWidth="460">
+                        
+                    </ComboBox>
+                    <Button Click="ChooseJava" Style="{StaticResource MaterialDesignFlatButton}">选择Java</Button>
+                </StackPanel>
+
+                <TextBox Margin="8" x:Name="Args" TextChanged="Args_OnTextChanged" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="启动参数"></TextBox>
+
+                
+                
+            </StackPanel>
+            
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" >
+            <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" VerticalAlignment="Center" Click="SaveAndClose">保存</Button>
+            <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" VerticalAlignment="Center" Click="Cancal">取消</Button>
+        </StackPanel>
+    </Grid>
+
+
+</UserControl>

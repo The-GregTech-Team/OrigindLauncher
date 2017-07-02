@@ -1,13 +1,22 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Input;
+using GoodTimeStudio.ServerPinger;
+using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.UI;
 using OrigindLauncher.UI.Code;
+using OrigindLauncher.UI.Dialogs;
+using Application = System.Windows.Application;
 
 namespace OrigindLauncher
 {
@@ -19,7 +28,18 @@ namespace OrigindLauncher
         public MainWindow()
         {
             InitializeComponent();
-            WelcomeMessage.Text += Config.Instance.PlayerAccount.Username;
+            WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
+            try
+            {
+                var result = ServerInfoGetter.GetServerInfo();
+                ServerMessage.Text += " " + result.players.online;
+                ServerMessage.ToolTip = string.Join("\r\n", result.players.sample.Select(p => p.name));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
@@ -44,10 +64,12 @@ namespace OrigindLauncher
 
                     var dl = ClientManager.Update(s => { Dispatcher.Invoke(() => dm.downloadFileCompleted(s)); },
                         s => { Dispatcher.Invoke(() => dm.downloadProgressChanged(s)); },
-                        args => { Dispatcher.Invoke(() => dm.onError(args)); }, () =>
+                        args =>
+                        {
+                            Dispatcher.Invoke(() => dm.onError(args)); 
+                        }, () =>
                         {
                             Dispatcher.Invoke(() => dm.allDone());
-
                             ar.Set();
                         });
                     Dispatcher.Invoke(() => dm.allfiles = dl);
@@ -76,7 +98,18 @@ namespace OrigindLauncher
 
         private void OpenDMinecraft(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer", ClientManager.GameStorageDirectory);
+            Process.Start("explorer", Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\" + ClientManager.GameStorageDirectory);
+        }
+
+        private async void Options(object sender, RoutedEventArgs e)
+        {
+            await DialogHost.Show(new SettingsDialog(), "RootDialog");
+        }
+
+        private void Move(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+            
         }
     }
 }

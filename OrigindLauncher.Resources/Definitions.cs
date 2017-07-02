@@ -18,6 +18,9 @@
             public const string Suggests = "api/Upload/Suggests";
 
             public const string ClientJson = "api/Client/ClientJson";
+
+            public const string LauncherVersion = "api/Launcher/Version";
+            public const string LauncherDownload = "api/Launcher/Download";
         }
     }
 }

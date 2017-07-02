@@ -30,6 +30,8 @@
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -48,7 +50,6 @@
                 <StackPanel Grid.Row="1" Margin="64 16 64 16">
                     <TextBlock FontSize="24">请输入你的账户信息</TextBlock>
                     <TextBlock Foreground="#DDCCCCCC" FontSize="18" Margin="0 8 0 0">不然怎么辨别你的身份啊→_→</TextBlock>
-
                 </StackPanel>
 
             </Grid>
@@ -73,6 +74,8 @@
                                  materialDesign:HintAssist.Hint="密码" />
 
                 </StackPanel>
+                
+
             </StackPanel>
 
             <Button Style="{DynamicResource MaterialDesignFloatingActionButton}" Click="Next"

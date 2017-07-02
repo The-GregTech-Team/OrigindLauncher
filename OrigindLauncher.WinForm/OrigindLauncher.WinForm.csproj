@@ -108,7 +108,12 @@
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
-  <Import Project="..\OrigindLauncher.Resources\OrigindLauncher.Resources.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\OrigindLauncher\OrigindLauncher.csproj">
+      <Project>{bf07d113-be87-4ba1-98c2-9fd3db30de27}</Project>
+      <Name>OrigindLauncher</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

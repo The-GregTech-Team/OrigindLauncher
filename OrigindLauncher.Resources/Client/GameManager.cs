@@ -32,7 +32,7 @@ namespace OrigindLauncher.Resources.Client
                 MaxMemory = Config.Instance.MaxMemory
             }, x => x.AdvencedArguments.Add(Config.Instance.JavaArguments));
             IsRunning = true;
-
+            
             if (!result.Success)
             {
                 OnError?.Invoke(result);

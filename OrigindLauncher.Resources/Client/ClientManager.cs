@@ -73,7 +73,7 @@ namespace OrigindLauncher.Resources.Client
             var updateInfo = GetUpdateInfo();
 
             foreach (var deletes in updateInfo.FilsToDelete)
-                File.Delete(deletes.Path);
+                File.Delete(GameStoragePath+deletes.Path);
 
             dsi.FileNameList.AddRange(updateInfo.FilsToDownload.Select(a => a.Path));
 

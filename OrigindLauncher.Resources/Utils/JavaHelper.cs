@@ -35,7 +35,7 @@ namespace OrigindLauncher.Resources.Utils
                     select javaHomes.ToString()
                     into str
                     where !string.IsNullOrWhiteSpace(str)
-                    select str + @"\bin\java.exe";
+                    select str + @"\bin\javaw.exe";
             }
             catch
             {

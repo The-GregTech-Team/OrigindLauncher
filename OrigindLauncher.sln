@@ -5,21 +5,20 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrigindLauncher", "OrigindLauncher\OrigindLauncher.csproj", "{BF07D113-BE87-4BA1-98C2-9FD3DB30DE27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrigindLauncher.WinForm", "OrigindLauncher.WinForm\OrigindLauncher.WinForm.csproj", "{A9F3D258-0807-4B06-877D-889E3E7D336A}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OrigindLauncher.Resources", "OrigindLauncher.Resources\OrigindLauncher.Resources.shproj", "{C07C13A7-F44D-47DC-981F-2878FAC3B1DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientInfoMaker", "ClientInfoMaker\ClientInfoMaker.csproj", "{D8669EB2-9900-4B0C-A453-8140F49E9DF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{8BAB806A-1E8F-4176-807E-7DB322D8ED75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LauncherUpdater", "LauncherUpdater\LauncherUpdater.csproj", "{D3FE6A00-A871-45A0-AABB-9B821BA990AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{679DCC2C-17A8-4429-8DDE-44FB81843922}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		OrigindLauncher.Resources\OrigindLauncher.Resources.projitems*{8bab806a-1e8f-4176-807e-7db322d8ed75}*SharedItemsImports = 4
-		OrigindLauncher.Resources\OrigindLauncher.Resources.projitems*{a9f3d258-0807-4b06-877d-889e3e7d336a}*SharedItemsImports = 4
 		OrigindLauncher.Resources\OrigindLauncher.Resources.projitems*{bf07d113-be87-4ba1-98c2-9fd3db30de27}*SharedItemsImports = 4
 		OrigindLauncher.Resources\OrigindLauncher.Resources.projitems*{c07c13a7-f44d-47dc-981f-2878fac3b1dd}*SharedItemsImports = 13
-		OrigindLauncher.Resources\OrigindLauncher.Resources.projitems*{d8669eb2-9900-4b0c-a453-8140f49e9df5}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,10 +29,6 @@ Global
 		{BF07D113-BE87-4BA1-98C2-9FD3DB30DE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF07D113-BE87-4BA1-98C2-9FD3DB30DE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF07D113-BE87-4BA1-98C2-9FD3DB30DE27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9F3D258-0807-4B06-877D-889E3E7D336A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9F3D258-0807-4B06-877D-889E3E7D336A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9F3D258-0807-4B06-877D-889E3E7D336A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9F3D258-0807-4B06-877D-889E3E7D336A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8669EB2-9900-4B0C-A453-8140F49E9DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8669EB2-9900-4B0C-A453-8140F49E9DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8669EB2-9900-4B0C-A453-8140F49E9DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,6 +37,14 @@ Global
 		{8BAB806A-1E8F-4176-807E-7DB322D8ED75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BAB806A-1E8F-4176-807E-7DB322D8ED75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BAB806A-1E8F-4176-807E-7DB322D8ED75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3FE6A00-A871-45A0-AABB-9B821BA990AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3FE6A00-A871-45A0-AABB-9B821BA990AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3FE6A00-A871-45A0-AABB-9B821BA990AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3FE6A00-A871-45A0-AABB-9B821BA990AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{679DCC2C-17A8-4429-8DDE-44FB81843922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{679DCC2C-17A8-4429-8DDE-44FB81843922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{679DCC2C-17A8-4429-8DDE-44FB81843922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{679DCC2C-17A8-4429-8DDE-44FB81843922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

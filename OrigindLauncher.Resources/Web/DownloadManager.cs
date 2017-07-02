@@ -61,6 +61,10 @@ namespace OrigindLauncher.Resources.Web
                             var directoryName = Path.GetDirectoryName(addDownloadPath + info.Path);
                             if (!string.IsNullOrWhiteSpace(directoryName))
                                 DirectoryHelper.EnsureDirectoryExists(directoryName);
+                            if (File.Exists(addDownloadPath + info.Path))
+                            {
+                                File.Delete(addDownloadPath + info.Path);
+                            }
 
                             wc.DownloadFileTaskAsync(info.Url, addDownloadPath + info.Path).Wait();
 

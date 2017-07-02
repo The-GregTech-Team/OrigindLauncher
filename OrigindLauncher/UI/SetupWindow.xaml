@@ -12,7 +12,7 @@
         Background="Transparent"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        FontSize="13"
+        FontSize="13" MouseLeftButtonDown="Move"
         Title="Setup" ResizeMode="NoResize" Height="532" Width="832" WindowStyle="None"
         AllowsTransparency="True" WindowStartupLocation="CenterScreen">
     <materialDesign:Transitioner SelectedIndex="0">

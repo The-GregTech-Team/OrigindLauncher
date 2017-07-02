@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
@@ -22,6 +22,11 @@ namespace OrigindLauncher.Resources.Configs
         public string JavaArguments { get; set; } = "-XX:+AggressiveOpts -XX:+UseCompressedOops";
         public int MaxMemory { get; set; } = 2048;
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
+        public int LauncherVersion { get; } = 
+            97
+            ;
+
+        public bool DisableHardwareSpeedup { get; set; } = false;
 
         public static void Save()
         {

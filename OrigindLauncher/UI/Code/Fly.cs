@@ -47,7 +47,7 @@ namespace OrigindLauncher.UI.Code
         {
             Fly.FlyOutWindow(window, null, () =>
             {
-                window.Close();
+                window.Dispatcher.Invoke(window.Close);
                 callback?.Invoke();
             });
         }

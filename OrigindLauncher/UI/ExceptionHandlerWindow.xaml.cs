@@ -30,20 +30,28 @@ namespace OrigindLauncher.UI
             DragMove();
         }
 
-        private async void ShowMoreButton_OnClick(object sender, RoutedEventArgs e)
+        private void ShowMoreButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await DialogHost.Show(new MessageDialog {Message = {Text = _exceptionString}}, "ErrorRootDialog");
+            this.Dispatcher.InvokeAsync(() =>
+            {
+                MessageBox.Show(_exceptionString);
+                 DialogHost.Show(new MessageDialog { Message = { Text = _exceptionString } }, "ErrorRootDialog");
+
+             });
         }
 
         private void ContinueButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (AutoRestartButton.IsChecked == true)
-                Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-            this.Flyout(() =>
+            this.Dispatcher.Invoke(() =>
             {
-                Application.Current.Shutdown();
-                Close();
+                if (AutoRestartButton.IsChecked == true)
+                    Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+                this.Flyout(() =>
+                {
+                    Application.Current.Shutdown();
+                });
             });
+            
         }
 
         private void SubmitButton_OnClick(object sender, RoutedEventArgs e)

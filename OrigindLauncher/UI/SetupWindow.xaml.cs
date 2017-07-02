@@ -17,5 +17,10 @@ namespace OrigindLauncher.UI
         {
             DragMove();
         }
+
+        private void Move(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }
