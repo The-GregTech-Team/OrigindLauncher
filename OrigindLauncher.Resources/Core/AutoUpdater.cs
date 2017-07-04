@@ -12,13 +12,12 @@ namespace OrigindLauncher.Resources.Core
 {
     public static class AutoUpdater
     {
-        public static bool HasUpdate => GetVersion() != Config.Instance.LauncherVersion;
+        public static bool HasUpdate => GetVersion() != Config.LauncherVersion;
 
         public static int GetVersion()
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);
             var result = rc.Get(RestRequestFactory.Create(Definitions.Rest.LauncherVersion));
-            
             return int.Parse(result.Content);
         }
 

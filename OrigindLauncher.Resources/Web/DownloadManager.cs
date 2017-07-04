@@ -72,7 +72,7 @@ namespace OrigindLauncher.Resources.Web
                             completedCount++;
                             break;
                         }
-                        catch (WebException e)
+                        catch (Exception e)
                         {
                             OnError?.Invoke(new OnErrorEventArgs
                             {
@@ -80,8 +80,9 @@ namespace OrigindLauncher.Resources.Web
                                 FileLocation = info.Path,
                                 IsFinal = trytimes == 0
                             });
-                            // TODO Logger
+
                         }
+                    
 
                     if (completedCount == Infos.Count())
                         AllDone?.Invoke();
@@ -107,7 +108,7 @@ namespace OrigindLauncher.Resources.Web
 
     public class OnErrorEventArgs
     {
-        public WebException Exception;
+        public Exception Exception;
         public string FileLocation;
         public bool IsFinal;
     }

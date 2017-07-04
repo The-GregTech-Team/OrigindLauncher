@@ -42,7 +42,7 @@ namespace OrigindLauncher.UI.Dialogs
 
             Args.Text = Config.Instance.JavaArguments;
             DisableHardwareSpeedupToggleButton.IsChecked = Config.Instance.DisableHardwareSpeedup;
-
+            EnableLaunchProgress.IsChecked = Config.Instance.LaunchProgress;
         }
 
         private void Cancal(object sender, RoutedEventArgs e) => Save();
@@ -81,6 +81,12 @@ namespace OrigindLauncher.UI.Dialogs
         {
             if (DisableHardwareSpeedupToggleButton.IsChecked != null)
                 Config.Instance.DisableHardwareSpeedup = DisableHardwareSpeedupToggleButton.IsChecked.Value;
+        }
+
+        private void EnableLaunchProgress_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (EnableLaunchProgress.IsChecked != null)
+                Config.Instance.LaunchProgress = EnableLaunchProgress.IsChecked.Value;
         }
     }
 }

@@ -22,11 +22,12 @@ namespace OrigindLauncher.Resources.Configs
         public string JavaArguments { get; set; } = "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+UseG1GC -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:MaxGCPauseMillis=50";
         public int MaxMemory { get; set; } = 2048;
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
-        public int LauncherVersion { get; } = 
-            105
+        public static int LauncherVersion { get; } = 
+            117
             ;
 
         public bool DisableHardwareSpeedup { get; set; } = false;
+        public bool LaunchProgress { get; set; } = true;
 
         public static void Save()
         {

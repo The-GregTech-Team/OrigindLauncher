@@ -16,6 +16,7 @@ namespace OrigindLauncher.UI
         private Dictionary<string, ProgressBar> progressBars;
 
         private Dictionary<string, TextBlock> textBlocks;
+        public bool Result { get; private set; } = false;
 
         public DownloadManager()
         {
@@ -44,17 +45,20 @@ namespace OrigindLauncher.UI
 
         public void allDone()
         {
+            Result = true;
             this.FlyoutAndClose();
         }
 
         public void onError(OnErrorEventArgs onErrorEventArgs)
         {
-            if (textBlocks.ContainsKey(onErrorEventArgs.FileLocation))
-                textBlocks[onErrorEventArgs.FileLocation].Text = $"错误 {onErrorEventArgs.FileLocation}";
+            this.FlyoutAndClose();
+            Result = false;
         }
 
         public void downloadProgressChanged(DownloadProgressChangeEventArgs downloadProgressChangeEventArgs)
         {
+            if (downloadProgressChangeEventArgs.FileLocation == null) return;
+            
             if (progressBars.ContainsKey(downloadProgressChangeEventArgs.FileLocation))
             {
                 var r = downloadProgressChangeEventArgs.BytesReceived /

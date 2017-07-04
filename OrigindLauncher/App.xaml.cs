@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 
 namespace OrigindLauncher
@@ -14,6 +17,8 @@ namespace OrigindLauncher
     {
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            File.AppendAllText("crashreport.txt", e.Exception.SerializeException());
+
             this.Dispatcher.Invoke(() =>
             {
                 new ExceptionHandlerWindow(e.Exception).Show();
@@ -30,14 +35,18 @@ namespace OrigindLauncher
 
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
-            this.Dispatcher.Invoke(() => { 
-            new ExceptionHandlerWindow(unobservedTaskExceptionEventArgs.Exception.InnerException).Show();
+            File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.SerializeException());
+            File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.InnerExceptions.FirstOrDefault().SerializeException());
+
+            this.Dispatcher.Invoke(() => {
+                new ExceptionHandlerWindow(unobservedTaskExceptionEventArgs.Exception.InnerException).Show();
             });
             unobservedTaskExceptionEventArgs.SetObserved();
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            File.WriteAllText("crashreport.txt", ((Exception)e.ExceptionObject).SerializeException());
 
             this.Dispatcher.Invoke(() => {
             new ExceptionHandlerWindow((Exception)e.ExceptionObject).Show();

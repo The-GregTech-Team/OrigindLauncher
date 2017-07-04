@@ -132,6 +132,9 @@
     <Compile Include="UI\ExceptionHandlerWindow.xaml.cs">
       <DependentUpon>ExceptionHandlerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\LaunchProgressWindow.xaml.cs">
+      <DependentUpon>LaunchProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\ExceptionHandlerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\LaunchProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

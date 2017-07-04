@@ -15,8 +15,7 @@ namespace OrigindLauncher.Resources.Client
     {
         public const string GameStorageDirectory = @".minecraft";
         private const string GameStoragePath = @".minecraft\";
-
-        public const string AssetsDownloadPath = "assets.zip";
+        
         private static ClientInfo _currentInfo;
 
         static ClientManager()
@@ -25,7 +24,7 @@ namespace OrigindLauncher.Resources.Client
                 _currentInfo = File.ReadAllText(Definitions.ClientJsonPath).JsonCast<ClientInfo>();
         }
 
-        private static string GetGameStorageDirectory(string name)
+        public static string GetGameStorageDirectory(string name)
         {
             return $@"{GameStoragePath}\{name}";
         }
@@ -36,26 +35,6 @@ namespace OrigindLauncher.Resources.Client
             return ClientInfoGetter.Get().Version != _currentInfo.Version;
         }
 
-        private static void DownloadAssetsFileAndPut(DownloadManager.CompletedEventHandler downloadFileCompleted,
-            DownloadManager.ProgressChangedEventHandler downloadProgressChanged,
-            DownloadManager.OnErrorEventHandler onError)
-        {
-            var clientInfo = ClientInfoGetter.Get();
-
-            var downloadman = new DownloadManager(new[]
-                {new DownloadInfo($"{clientInfo.BaseUrl}{AssetsDownloadPath}", AssetsDownloadPath)});
-            downloadman.DownloadFileCompleted += downloadFileCompleted;
-            downloadman.DownloadProgressChanged += downloadProgressChanged;
-            downloadman.OnError += onError;
-            downloadman.DownloadFileCompleted += args =>
-            {
-                ZipFile.ExtractToDirectory(AssetsDownloadPath, GameStoragePath);
-                File.Delete(AssetsDownloadPath);
-            };
-
-            downloadman.Start();
-        }
-
         public static DownloadStatusInfo Update(DownloadManager.CompletedEventHandler downloadFileCompleted,
             DownloadManager.ProgressChangedEventHandler downloadProgressChanged,
             DownloadManager.OnErrorEventHandler onError, Action allDone)
@@ -63,11 +42,6 @@ namespace OrigindLauncher.Resources.Client
             DirectoryHelper.EnsureDirectoryExists(GameStorageDirectory);
 
             var dsi = new DownloadStatusInfo();
-            if (!Directory.Exists(GetGameStorageDirectory("assets")))
-            {
-                DownloadAssetsFileAndPut(downloadFileCompleted, downloadProgressChanged, onError);
-                dsi.FileNameList.Add(AssetsDownloadPath);
-            }
 
             var onlineInfo = ClientInfoGetter.Get();
             var updateInfo = GetUpdateInfo();

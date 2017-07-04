@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using GoodTimeStudio.ServerPinger;
 using MaterialDesignThemes.Wpf;
@@ -51,6 +52,7 @@ namespace OrigindLauncher
         {
             StartButton.IsEnabled = false;
 
+            // 刷新登录状态
             var status = await Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
             if (status != LoginStatus.Successful)
             {
@@ -58,56 +60,99 @@ namespace OrigindLauncher
                 StartButton.IsEnabled = true;
                 return;
             }
-            if (ClientManager.CheckUpdate())
+
+            // 检测更新状态
+            bool updateStatus;
+            try
             {
-                MainSnackbar.MessageQueue.Enqueue("正在更新客户端");
-                var dm = new DownloadManager();
-
-                await Task.Run(() =>
-                {
-                    var ar = new AutoResetEvent(false);
-
-                    var dl = ClientManager.Update(s => { Dispatcher.Invoke(() => dm.downloadFileCompleted(s)); },
-                        s => { Dispatcher.Invoke(() => dm.downloadProgressChanged(s)); },
-                        args =>
-                        {
-                            Dispatcher.Invoke(() => dm.onError(args));
-                        }, () =>
-                        {
-                            Dispatcher.Invoke(() => dm.allDone());
-                            ar.Set();
-                        });
-                    Dispatcher.Invoke(() => dm.allfiles = dl);
-                    Dispatcher.Invoke(() => dm.Init());
-                    Dispatcher.Invoke(() => dm.Show());
-
-                    ar.WaitOne();
-                    while (File.Exists(ClientManager.AssetsDownloadPath))
-                        Thread.Sleep(100);
-                });
+                updateStatus = ClientManager.CheckUpdate();
             }
+            catch (Exception exception)
+            {
+                MainSnackbar.MessageQueue.Enqueue("更新检测失败." + exception);
+                StartButton.IsEnabled = true;
+                return;
+            }
+
+            // 等待更新
+            if (updateStatus)
+            {
+                await UpdateClient();
+            }
+
+            // 启动游戏
             var gm = new GameManager();
             gm.OnError += result => { Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception)); };
             gm.OnGameExit += (handle, i) =>
             {
-                Application.Current.Dispatcher.Invoke(delegate
-                {
-                    this.Left = _defaultLeft;
-                    this.Top = _defaultTop;
-                    this.Show();
-
-                });
+                Environment.Exit(0);
             };
-            gm.OnGameLog += (handle, s) => { };
+            gm.OnGameLog += (handle, s) =>
+            {
+
+            };
+
+            // 
+            if (File.Exists(ClientManager.GetGameStorageDirectory("mods") + @"\OrigindLauncherHelper.jar"))
+            {
+                if (Config.Instance.LaunchProgress)
+                {
+                    gm.OnGameLog += (lh, log) =>
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            LaunchProgress.OnGameLog(log);
+                        });
+                    };
+                    LaunchProgress.Begin();
+                }
+            }
+            else
+            {
+                await DialogHost.Show(new MessageDialog { Message = { Text = "你的客户端没有安装 OrigindLauncherHelper." } }, "RootDialog");
+            }
 
             gm.Run();
+
+            // 退出
             StartButton.IsEnabled = true;
             this.Flyout(() =>
             {
                 this.Hide();
-                Environment.Exit(0);
                 //TODO
             });
+        }
+
+        private async Task<bool> UpdateClient()
+        {
+            MainSnackbar.MessageQueue.Enqueue("正在更新客户端");
+            var dm = new DownloadManager();
+
+            await Task.Run(() =>
+            {
+                var ar = new AutoResetEvent(false);
+
+                var dl = ClientManager.Update(s => { Dispatcher.Invoke(() => dm.downloadFileCompleted(s)); },
+                    s =>
+                    {
+                        Dispatcher.Invoke(() =>
+                    {
+                            dm.downloadProgressChanged(s);
+                    });
+                    },
+                    args => { Dispatcher.Invoke(() => dm.onError(args)); }, () =>
+                    {
+                        Dispatcher.Invoke(() => dm.allDone());
+                        ar.Set();
+                    });
+                Dispatcher.Invoke(() => dm.allfiles = dl);
+                Dispatcher.Invoke(() => dm.Init());
+                Dispatcher.Invoke(() => dm.Show());
+
+                ar.WaitOne();
+            });
+
+            return dm.Result;
         }
 
         private void Close(object sender, RoutedEventArgs e)
