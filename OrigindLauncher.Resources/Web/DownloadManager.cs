@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using OrigindLauncher.Resources.FileSystem;
+using RestSharp;
 
 namespace OrigindLauncher.Resources.Web
 {
@@ -28,7 +29,7 @@ namespace OrigindLauncher.Resources.Web
         }
 
         public int RetryTimes { get; set; } = 5;
-        public string addDownloadPath { get; set; } = "";
+        public string AddDownloadPath { get; set; } = "";
 
         public event CompletedEventHandler DownloadFileCompleted;
         public event ProgressChangedEventHandler DownloadProgressChanged;
@@ -37,6 +38,7 @@ namespace OrigindLauncher.Resources.Web
 
         public void Start()
         {
+            
             Task.Run(() =>
             {
                 Parallel.ForEach(Infos, new ParallelOptions {MaxDegreeOfParallelism = MaxThread}, info =>
@@ -52,21 +54,21 @@ namespace OrigindLauncher.Resources.Web
                         });
                     };
 
-
+                    
                     var trytimes = RetryTimes;
 
-                    while (trytimes-- != 0)
+                    while (trytimes-- != 0 && Downloading)
                         try
                         {
-                            var directoryName = Path.GetDirectoryName(addDownloadPath + info.Path);
+                            var directoryName = Path.GetDirectoryName(AddDownloadPath + info.Path);
                             if (!string.IsNullOrWhiteSpace(directoryName))
                                 DirectoryHelper.EnsureDirectoryExists(directoryName);
-                            if (File.Exists(addDownloadPath + info.Path))
+                            if (File.Exists(AddDownloadPath + info.Path))
                             {
-                                File.Delete(addDownloadPath + info.Path);
+                                File.Delete(AddDownloadPath + info.Path);
                             }
 
-                            wc.DownloadFileTaskAsync(info.Url, addDownloadPath + info.Path).Wait();
+                            wc.DownloadFileTaskAsync(info.Url, AddDownloadPath + info.Path).Wait();
 
                             DownloadFileCompleted?.Invoke(new CompletedEventArgs {FileLocation = info.Path});
                             completedCount++;
@@ -91,6 +93,8 @@ namespace OrigindLauncher.Resources.Web
                     AllDone?.Invoke();
             });
         }
+
+        public bool Downloading { get; set; }
     }
 
 

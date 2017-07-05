@@ -51,13 +51,15 @@ namespace OrigindLauncher.UI
 
         public void onError(OnErrorEventArgs onErrorEventArgs)
         {
+            progressBars.Clear();
+            textBlocks.Clear();
+
             this.FlyoutAndClose();
             Result = false;
         }
 
         public void downloadProgressChanged(DownloadProgressChangeEventArgs downloadProgressChangeEventArgs)
         {
-            if (downloadProgressChangeEventArgs.FileLocation == null) return;
             
             if (progressBars.ContainsKey(downloadProgressChangeEventArgs.FileLocation))
             {

@@ -23,7 +23,7 @@ namespace OrigindLauncher.Resources.Configs
         public int MaxMemory { get; set; } = 2048;
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
         public static int LauncherVersion { get; } = 
-            117
+            121
             ;
 
         public bool DisableHardwareSpeedup { get; set; } = false;

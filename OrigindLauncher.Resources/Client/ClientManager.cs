@@ -56,10 +56,14 @@ namespace OrigindLauncher.Resources.Client
 
             var downloadman = new DownloadManager(updateInfo.FilsToDownload);
 
-            downloadman.addDownloadPath = GameStoragePath;
+            downloadman.AddDownloadPath = GameStoragePath;
             downloadman.DownloadFileCompleted += downloadFileCompleted;
             downloadman.DownloadProgressChanged += downloadProgressChanged;
             downloadman.OnError += onError;
+            downloadman.OnError += args =>
+            {
+                downloadman.Downloading = false;
+            };
             downloadman.AllDone += allDone;
             downloadman.Start();
             //TODO

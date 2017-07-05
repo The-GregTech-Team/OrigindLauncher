@@ -21,8 +21,7 @@ namespace OrigindLauncher
 
             this.Dispatcher.Invoke(() =>
             {
-                new ExceptionHandlerWindow(e.Exception).Show();
-
+                new ExceptionHandlerWindow(e.Exception).ShowDialog();
             });
             e.Handled = true;
         }
@@ -36,10 +35,10 @@ namespace OrigindLauncher
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
             File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.SerializeException());
-            File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.InnerExceptions.FirstOrDefault().SerializeException());
-
+            //File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.InnerExceptions.FirstOrDefault().SerializeException());
+            
             this.Dispatcher.Invoke(() => {
-                new ExceptionHandlerWindow(unobservedTaskExceptionEventArgs.Exception.InnerException).Show();
+                new ExceptionHandlerWindow(unobservedTaskExceptionEventArgs.Exception.InnerException).ShowDialog();
             });
             unobservedTaskExceptionEventArgs.SetObserved();
         }
@@ -49,7 +48,7 @@ namespace OrigindLauncher
             File.WriteAllText("crashreport.txt", ((Exception)e.ExceptionObject).SerializeException());
 
             this.Dispatcher.Invoke(() => {
-            new ExceptionHandlerWindow((Exception)e.ExceptionObject).Show();
+            new ExceptionHandlerWindow((Exception)e.ExceptionObject).ShowDialog();
 });
 
         }

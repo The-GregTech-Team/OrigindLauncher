@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -18,6 +19,8 @@ namespace OrigindLauncher
         {
             if (Config.Instance.DisableHardwareSpeedup)
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
 
             if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath))
             {

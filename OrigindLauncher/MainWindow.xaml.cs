@@ -26,14 +26,11 @@ namespace OrigindLauncher
     /// </summary>
     public partial class MainWindow
     {
-        private double _defaultLeft;
-        private double _defaultTop;
-
-
         public MainWindow()
         {
             InitializeComponent();
             WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
+
             try
             {
                 var result = ServerInfoGetter.GetServerInfo();
@@ -44,8 +41,6 @@ namespace OrigindLauncher
             {
                 Console.WriteLine(e);
             }
-            _defaultLeft = Left;
-            _defaultTop = Top;
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
@@ -77,7 +72,13 @@ namespace OrigindLauncher
             // 等待更新
             if (updateStatus)
             {
-                await UpdateClient();
+               var result = await UpdateClient();
+                if (!result)
+                {
+                    MainSnackbar.MessageQueue.Enqueue("更新失败.");
+                    StartButton.IsEnabled = true;
+                    return;
+                }
             }
 
             // 启动游戏
@@ -87,12 +88,8 @@ namespace OrigindLauncher
             {
                 Environment.Exit(0);
             };
-            gm.OnGameLog += (handle, s) =>
-            {
-
-            };
-
-            // 
+           
+            // 游戏状态
             if (File.Exists(ClientManager.GetGameStorageDirectory("mods") + @"\OrigindLauncherHelper.jar"))
             {
                 if (Config.Instance.LaunchProgress)
@@ -140,7 +137,11 @@ namespace OrigindLauncher
                             dm.downloadProgressChanged(s);
                     });
                     },
-                    args => { Dispatcher.Invoke(() => dm.onError(args)); }, () =>
+                    args =>
+                    {
+                        Dispatcher.Invoke(() => dm.onError(args));
+                        ar.Set();
+                    }, () =>
                     {
                         Dispatcher.Invoke(() => dm.allDone());
                         ar.Set();
