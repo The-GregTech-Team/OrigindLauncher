@@ -14,7 +14,7 @@ namespace OrigindLauncher.Resources.Core
     {
         public static bool HasUpdate => GetVersion() != Config.LauncherVersion;
 
-        public static int GetVersion()
+        private static int GetVersion()
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);
             var result = rc.Get(RestRequestFactory.Create(Definitions.Rest.LauncherVersion));
@@ -26,7 +26,6 @@ namespace OrigindLauncher.Resources.Core
             var temppath = $"{Path.GetTempPath()}{Guid.NewGuid():D}.exe";
             var currentLauncherPath = Process.GetCurrentProcess().MainModule.FileName;
             File.Copy(currentLauncherPath, temppath);
-            Thread.Sleep(10);
             Process.Start(temppath, $"Update \"{currentLauncherPath}\" {Process.GetCurrentProcess().Id}");
             Environment.Exit(0);
         }
@@ -45,9 +44,8 @@ namespace OrigindLauncher.Resources.Core
             if (File.Exists(currentLauncherPath))
             {
                 File.Delete(currentLauncherPath);
-                while (File.Exists(currentLauncherPath)) Thread.Sleep(100);
-
             }
+
             app.Run(new AutoUpdaterWindow(currentLauncherPath));
             
             

@@ -34,6 +34,7 @@ namespace OrigindLauncher
                 AutoUpdater.UpdateInternal(args[1], args[2], app);
                 return;
             }
+
             using (Mutex mutex = new Mutex(false,
                 $"Global\\OrigindLauncher_{Process.GetCurrentProcess().MainModule.FileName.GetHashCode()}"))
             {

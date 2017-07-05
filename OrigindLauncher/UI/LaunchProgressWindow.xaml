@@ -95,7 +95,7 @@
             
             <materialDesign:Card Grid.Column="1" Margin="8">
                 <StackPanel Margin="16">
-                    <TextBlock Margin="8 0 8 8" TextAlignment="Center" FontSize="16">游戏 Log</TextBlock>
+                    <TextBlock Margin="8 0 8 8" TextAlignment="Center" FontSize="16">游戏日志</TextBlock>
                     <ScrollViewer Height="250" Style="{StaticResource MaterialDesignScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <ListBox x:Name="LogList" Style="{StaticResource MaterialDesignListBox}">
                         </ListBox>
