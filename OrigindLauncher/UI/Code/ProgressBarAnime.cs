@@ -15,7 +15,7 @@ namespace OrigindLauncher.UI.Code
 
             var anime = new DoubleAnimation
             {
-                Duration = TimeSpan.FromSeconds(1),
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new SineEase {EasingMode = EasingMode.EaseInOut},
                 From = progressBar.Value,
                 To = toValue
@@ -38,7 +38,7 @@ namespace OrigindLauncher.UI.Code
 
             var anime = new DoubleAnimation
             {
-                Duration = TimeSpan.FromSeconds(1),
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new SineEase {EasingMode = EasingMode.EaseInOut},
                 From = progressBar.Value,
                 To = toValue

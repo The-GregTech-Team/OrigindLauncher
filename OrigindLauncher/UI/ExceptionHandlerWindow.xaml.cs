@@ -32,26 +32,21 @@ namespace OrigindLauncher.UI
 
         private void ShowMoreButton_OnClick(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.InvokeAsync(() =>
+            Dispatcher.InvokeAsync(() =>
             {
                 MessageBox.Show(_exceptionString);
-                 DialogHost.Show(new MessageDialog { Message = { Text = _exceptionString } }, "ErrorRootDialog");
-
-             });
+                DialogHost.Show(new MessageDialog {Message = {Text = _exceptionString}}, "ErrorRootDialog");
+            });
         }
 
         private void ContinueButton_OnClick(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(() =>
+            Dispatcher.Invoke(() =>
             {
                 if (AutoRestartButton.IsChecked == true)
                     Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-                this.Flyout(() =>
-                {
-                    Application.Current.Shutdown();
-                });
+                this.Flyout(() => { Application.Current.Shutdown(); });
             });
-            
         }
 
         private void SubmitButton_OnClick(object sender, RoutedEventArgs e)

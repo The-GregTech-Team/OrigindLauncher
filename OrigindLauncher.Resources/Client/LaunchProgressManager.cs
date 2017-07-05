@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using KMCCC.Launcher;
+﻿using KMCCC.Launcher;
 using OrigindLauncher.UI;
 
 namespace OrigindLauncher.Resources.Client
@@ -70,6 +67,5 @@ namespace OrigindLauncher.Resources.Client
             _launchProgressWindow.Begin();
             _launchProgressWindow.Show();
         }
-
     }
 }

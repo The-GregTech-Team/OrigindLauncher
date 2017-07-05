@@ -1,13 +1,6 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
-using OrigindLauncher.Resources;
-using OrigindLauncher.Resources.Client;
-using OrigindLauncher.UI.Code;
-using OrigindLauncher.UI.Dialogs;
 
 namespace OrigindLauncher.UI.StartupSteps
 {

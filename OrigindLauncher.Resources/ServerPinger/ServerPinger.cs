@@ -24,26 +24,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Net;
 using Newtonsoft.Json;
 
 namespace GoodTimeStudio.ServerPinger
 {
-
     public class ServerPinger
     {
-        public int timeout = 8000;
+        public string ServerAddress;
 
         public string ServerName;
-        public string ServerAddress;
         public int ServerPort;
         public PingVersion ServerVersion;
+        public int timeout = 8000;
 
         public ServerPinger(string ServerName, string ServerAddress,
             int ServerPort, PingVersion ServerVersion)
@@ -59,9 +57,7 @@ namespace GoodTimeStudio.ServerPinger
             try
             {
                 if (ServerVersion == PingVersion.MC_Current)
-                {
                     return await GetStatusCurrent();
-                }
                 return null;
             }
             catch
@@ -74,42 +70,44 @@ namespace GoodTimeStudio.ServerPinger
         {
             try
             {
-                using (var socket = new System.Net.Sockets.TcpClient())
+                using (var socket = new TcpClient())
                 {
                     await socket.ConnectAsync(ServerAddress, ServerPort);
                     BinaryWriter writer;
 
                     #region handshake
-                    MemoryStream handshakeStream = new MemoryStream();
-                    BinaryWriter handshakewriter = new BinaryWriter(handshakeStream);
 
-                    handshakewriter.Write((byte)0x00);  // Packet ID
+                    var handshakeStream = new MemoryStream();
+                    var handshakewriter = new BinaryWriter(handshakeStream);
+
+                    handshakewriter.Write((byte) 0x00); // Packet ID
                     // Protocol version, http://wiki.vg/Protocol_version_numbers
                     handshakewriter.Write(VarintHelper.IntToVarint(210));
                     handshakewriter.Write(GetByteFromString(ServerAddress)); // hostname or IP
-                    handshakewriter.Write((short)ServerPort); // Port
+                    handshakewriter.Write((short) ServerPort); // Port
                     handshakewriter.Write(VarintHelper.IntToVarint(0x01)); // Next state, 1 for `status'
                     handshakewriter.Flush();
 
                     writer = new BinaryWriter(socket.GetStream());
-                    writer.Write(VarintHelper.IntToVarint((int)handshakeStream.Length));
+                    writer.Write(VarintHelper.IntToVarint((int) handshakeStream.Length));
                     writer.Write(handshakeStream.ToArray());
                     writer.Flush();
+
                     #endregion
 
                     writer = new BinaryWriter(socket.GetStream());
                     /* BE: 0x0100, Length and writer.Write((byte)0x00);
                      * ID for `Request'
                      */
-                    writer.Write((short)0x0001);
+                    writer.Write((short) 0x0001);
                     writer.Flush();
                     var streamIn = socket.GetStream();
-                    BinaryReader reader = new BinaryReader(streamIn);
+                    var reader = new BinaryReader(streamIn);
                     var packetLen = VarintHelper.ReadVarInt(reader);
                     var packetId = VarintHelper.ReadVarInt(reader);
                     var packetJsonLen = VarintHelper.ReadVarInt(reader);
                     var response = reader.ReadBytes(packetJsonLen);
-                    string json = Encoding.UTF8.GetString(response);
+                    var json = Encoding.UTF8.GetString(response);
                     Debug.WriteLine(json);
                     return JsonConvert.DeserializeObject<ServerStatus>(json);
                 }
@@ -118,12 +116,11 @@ namespace GoodTimeStudio.ServerPinger
             {
                 return null;
             }
-
         }
 
         private byte[] GetByteFromString(string content)
         {
-            List<byte> output = new List<byte>();
+            var output = new List<byte>();
 
             output.AddRange(VarintHelper.IntToVarint(content.Length));
             output.AddRange(Encoding.UTF8.GetBytes(content));

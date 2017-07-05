@@ -47,13 +47,15 @@
             <materialDesign:Card Margin="8" Height="65" Width="300" materialDesign:ShadowAssist.ShadowDepth="Depth4">
                 <materialDesign:DialogHost Identifier="SetupWindowDialogHost">
                     <Grid>
-                        <materialDesign:Transitioner SelectedIndex="0" >
+                        <materialDesign:Transitioner SelectedIndex="0">
                             <materialDesign:ColorZone Mode="PrimaryMid" Height="50">
-                                
+
                                 <Grid>
                                     <StackPanel>
                                         <TextBlock Margin="12 8 8 8">Origind Launcher 正在更新..</TextBlock>
-                                        <ProgressBar IsIndeterminate="True" Margin="8 2 8 8" Height="4" Style="{StaticResource MaterialDesignLinearProgressBar}"></ProgressBar>
+                                        <ProgressBar x:Name="MainProgressBar" IsIndeterminate="True" Margin="8 2 8 8"
+                                                     Height="4"
+                                                     Style="{StaticResource MaterialDesignLinearProgressBar}" />
                                     </StackPanel>
                                 </Grid>
 

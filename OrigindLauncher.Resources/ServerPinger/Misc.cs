@@ -32,7 +32,7 @@ namespace GoodTimeStudio.ServerPinger
 
     public class ModInfo
     {
-        public string type;
         public List<Mod> modlist;
+        public string type;
     }
 }

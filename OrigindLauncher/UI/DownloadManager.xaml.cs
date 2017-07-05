@@ -16,12 +16,13 @@ namespace OrigindLauncher.UI
         private Dictionary<string, ProgressBar> progressBars;
 
         private Dictionary<string, TextBlock> textBlocks;
-        public bool Result { get; private set; } = false;
 
         public DownloadManager()
         {
             InitializeComponent();
         }
+
+        public bool Result { get; private set; }
 
         public void Init()
         {
@@ -60,7 +61,6 @@ namespace OrigindLauncher.UI
 
         public void downloadProgressChanged(DownloadProgressChangeEventArgs downloadProgressChangeEventArgs)
         {
-            
             if (progressBars.ContainsKey(downloadProgressChangeEventArgs.FileLocation))
             {
                 var r = downloadProgressChangeEventArgs.BytesReceived /

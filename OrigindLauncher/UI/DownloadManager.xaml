@@ -52,7 +52,7 @@
 
             </Grid>
         </materialDesign:ColorZone>
-        <ScrollViewer Margin="16" >
+        <ScrollViewer Margin="16">
             <StackPanel x:Name="MainPanel" />
 
         </ScrollViewer>

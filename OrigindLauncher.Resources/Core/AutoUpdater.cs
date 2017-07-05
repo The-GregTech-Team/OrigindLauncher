@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
@@ -42,14 +41,9 @@ namespace OrigindLauncher.Resources.Core
             }
 
             if (File.Exists(currentLauncherPath))
-            {
                 File.Delete(currentLauncherPath);
-            }
 
             app.Run(new AutoUpdaterWindow(currentLauncherPath));
-            
-            
         }
-
     }
 }

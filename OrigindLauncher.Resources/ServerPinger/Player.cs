@@ -4,8 +4,8 @@ namespace GoodTimeStudio.ServerPinger
 {
     public class Player
     {
-        public string name;
         public string id;
+        public string name;
 
         public Player(string name, string id)
         {

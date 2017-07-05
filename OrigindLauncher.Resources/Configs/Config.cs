@@ -18,12 +18,15 @@ namespace OrigindLauncher.Resources.Configs
         }
 
         public string JavaPath { get; set; } = JavaHelper.FindJava().FirstOrDefault();
-        public string JavaArguments { get; set; } = "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:MaxGCPauseMillis=40";
+
+        public string JavaArguments { get; set; } =
+            "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:MaxGCPauseMillis=40";
+
         public int MaxMemory { get; set; } = 2048;
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
-        public static int LauncherVersion { get; } = 
-            157
-            ;
+
+        public static int LauncherVersion { get; } =
+            169;
 
         public bool DisableHardwareSpeedup { get; set; } = false;
         public bool LaunchProgress { get; set; } = true;

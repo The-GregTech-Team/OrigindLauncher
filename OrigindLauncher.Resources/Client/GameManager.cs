@@ -23,7 +23,7 @@ namespace OrigindLauncher.Resources.Client
                 OnGameExit?.Invoke(handle, i);
                 IsRunning = false;
             };
-            
+
             var launchOptions = new LaunchOptions
             {
                 Version = launchercore.GetVersion(Definitions.ClientName),
@@ -31,7 +31,7 @@ namespace OrigindLauncher.Resources.Client
                 Mode = LaunchMode.BmclMode,
                 MaxMemory = Config.Instance.MaxMemory
             };
-            
+
             var result = launchercore.Launch(launchOptions, x =>
             {
                 if (Config.Instance.JavaArguments.Contains("GC"))
@@ -39,7 +39,7 @@ namespace OrigindLauncher.Resources.Client
                 x.AdvencedArguments.Add(Config.Instance.JavaArguments);
             });
             IsRunning = true;
-            
+
             if (!result.Success)
             {
                 OnError?.Invoke(result);

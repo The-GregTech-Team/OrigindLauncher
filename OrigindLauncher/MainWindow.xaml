@@ -56,10 +56,12 @@
                             <materialDesign:PackIcon Kind="Close" Height="32" Width="32" />
                         </Button>
                         <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Height="48" Width="48"
-                                Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White" Click="Options">
+                                Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
+                                Click="Options">
                             <materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
                         </Button>
-                        <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16 0 0 0"
+                        <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Margin="16 0 0 0"
                                    FontSize="26">
                             Origind Launcher Alpha
                         </TextBlock>
@@ -86,7 +88,11 @@
                             <StackPanel Grid.Row="1" Margin="8 24 8 0" MinHeight="220">
                                 <TextBlock FontWeight="Bold" Margin="8 0 8 8" FontSize="18">启动客户端</TextBlock>
                                 <TextBlock x:Name="WelcomeMessage" Margin="6 4 8 8" FontSize="14">欢迎, </TextBlock>
-                                <TextBlock x:Name="ServerMessage" MouseLeftButtonDown="ServerMessage_OnMouseLeftButtonDown" Margin="6 4 8 8" FontSize="14">服务器在线人数: </TextBlock>
+                                <TextBlock x:Name="ServerMessage"
+                                           MouseLeftButtonDown="ServerMessage_OnMouseLeftButtonDown" Margin="6 4 8 8"
+                                           FontSize="14">
+                                    服务器在线人数:
+                                </TextBlock>
 
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">

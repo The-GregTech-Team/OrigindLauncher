@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using OrigindLauncher.Resources.FileSystem;
@@ -18,13 +17,13 @@ namespace OrigindLauncher.Resources.Client
         public const string GameStorageDirectory = @".minecraft";
         private const string GameStoragePath = @".minecraft\";
 
-        public static ClientInfo CurrentInfo { get; set; }
-
         static ClientManager()
         {
             if (File.Exists(Definitions.ClientJsonPath))
                 CurrentInfo = File.ReadAllText(Definitions.ClientJsonPath).JsonCast<ClientInfo>();
         }
+
+        public static ClientInfo CurrentInfo { get; set; }
 
         public static string GetGameStorageDirectory(string name)
         {
@@ -42,8 +41,8 @@ namespace OrigindLauncher.Resources.Client
             var basePath = Directory.GetFiles(GameStoragePath, "*", SearchOption.AllDirectories);
             var clientInfo = new ClientInfo();
             var files = new List<FileEntry>();
-            
-            Parallel.ForEach(basePath, new ParallelOptions { MaxDegreeOfParallelism = 16 }, (file, state) =>
+
+            Parallel.ForEach(basePath, new ParallelOptions {MaxDegreeOfParallelism = 16}, (file, state) =>
             {
                 var path = file.Substring(GameStoragePath.Length);
                 // var fileData = File.ReadAllText(file);
@@ -56,7 +55,6 @@ namespace OrigindLauncher.Resources.Client
 
                 Console.WriteLine($"计算哈希完成: {path}.");
                 files.Add(new FileEntry(path, hash));
-                
             });
 
             clientInfo.Files = files.ToArray();
@@ -76,7 +74,7 @@ namespace OrigindLauncher.Resources.Client
             var updateInfo = GetUpdateInfo();
 
             foreach (var deletes in updateInfo.FilsToDelete)
-                File.Delete(GameStoragePath+deletes.Path);
+                File.Delete(GameStoragePath + deletes.Path);
 
             dsi.FileNameList.AddRange(updateInfo.FilsToDownload.Select(a => a.Path));
 
@@ -89,10 +87,7 @@ namespace OrigindLauncher.Resources.Client
             downloadman.DownloadFileCompleted += downloadFileCompleted;
             downloadman.DownloadProgressChanged += downloadProgressChanged;
             downloadman.OnError += onError;
-            downloadman.OnError += args =>
-            {
-                downloadman.Downloading = false;
-            };
+            downloadman.OnError += args => { downloadman.Downloading = false; };
             downloadman.AllDone += allDone;
             downloadman.Start();
             //TODO

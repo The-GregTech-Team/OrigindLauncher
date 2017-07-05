@@ -5,7 +5,7 @@ namespace OrigindLauncher.Resources.Json
     public static class JsonHelper
     {
         private static readonly SerializeSettings SerializeSettings = new SerializeSettings();
-        
+
         public static string ToJsonString(this object source)
         {
             return JsonConvert.SerializeObject(source, SerializeSettings);

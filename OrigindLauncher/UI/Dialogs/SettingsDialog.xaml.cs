@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
@@ -23,7 +12,7 @@ using UserControl = System.Windows.Controls.UserControl;
 namespace OrigindLauncher.UI.Dialogs
 {
     /// <summary>
-    /// Interaction logic for SettingsDialog.xaml
+    ///     Interaction logic for SettingsDialog.xaml
     /// </summary>
     public partial class SettingsDialog : UserControl
     {
@@ -32,24 +21,26 @@ namespace OrigindLauncher.UI.Dialogs
             InitializeComponent();
             MemorySlider.Maximum = 8192;
             MemorySlider.Value = Config.Instance.MaxMemory;
-            
+
             foreach (var javapath in JavaHelper.FindJava())
-            {
                 ComboBoxChooseJava.Items.Add(javapath);
-            }
             if (Config.Instance.JavaPath != null)
-            {
                 ComboBoxChooseJava.Text = Config.Instance.JavaPath;
-            }
 
             Args.Text = Config.Instance.JavaArguments;
             DisableHardwareSpeedupToggleButton.IsChecked = Config.Instance.DisableHardwareSpeedup;
             EnableLaunchProgress.IsChecked = Config.Instance.LaunchProgress;
         }
 
-        private void Cancal(object sender, RoutedEventArgs e) => Save();
+        private void Cancal(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
 
-        private void SaveAndClose(object sender, RoutedEventArgs e) => Save();
+        private void SaveAndClose(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
 
         private void Save()
         {
@@ -60,8 +51,8 @@ namespace OrigindLauncher.UI.Dialogs
 
         private void MemorySlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            MemoryText.Text = (int)e.NewValue + "M";
-            Config.Instance.MaxMemory = (int)MemorySlider.Value;
+            MemoryText.Text = (int) e.NewValue + "M";
+            Config.Instance.MaxMemory = (int) MemorySlider.Value;
         }
 
         private void ChooseJava(object sender, RoutedEventArgs e)
@@ -69,9 +60,7 @@ namespace OrigindLauncher.UI.Dialogs
             var selecter = new OpenFileDialog {Filter = @"javaw.exe|javaw.exe"};
             selecter.ShowDialog();
             if (File.Exists(selecter.FileName))
-            {
                 Config.Instance.JavaPath = selecter.FileName;
-            }
         }
 
         private void Args_OnTextChanged(object sender, TextChangedEventArgs e)

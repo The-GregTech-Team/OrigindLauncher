@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Configs;
@@ -20,15 +10,25 @@ using OrigindLauncher.UI.Code;
 namespace OrigindLauncher.UI
 {
     /// <summary>
-    /// Interaction logic for LaunchProgressWindow.xaml
+    ///     Interaction logic for LaunchProgressWindow.xaml
     /// </summary>
     public partial class LaunchProgressWindow : Window
     {
-        public LaunchHandle LaunchHandle { get; set; }
         private static LaunchProgressWindow _instance;
 
-        private readonly DispatcherTimer _animeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, UpdateAnime, Dispatcher.CurrentDispatcher);
+        private readonly DispatcherTimer _animeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1),
+            DispatcherPriority.Normal, UpdateAnime, Dispatcher.CurrentDispatcher);
+
         public DateTime StartTime;
+
+        public LaunchProgressWindow()
+        {
+            InitializeComponent();
+            _animeTimer.Stop();
+            _instance = this;
+        }
+
+        public LaunchHandle LaunchHandle { get; set; }
 
         private static void UpdateAnime(object sender, EventArgs e)
         {
@@ -47,22 +47,12 @@ namespace OrigindLauncher.UI
             _animeTimer.Start();
             GameMem.Text = Config.Instance.MaxMemory + "M";
             StartTime = DateTime.Now;
-
-        }
-
-        public LaunchProgressWindow()
-        {
-            InitializeComponent();
-            _animeTimer.Stop();
-            _instance = this;
         }
 
         public void AddLog(string log)
         {
             if (LogList.Items.Count > 200)
-            {
                 LogList.Items.RemoveAt(0);
-            }
             LogList.Items.Add(log);
             LogList.SelectedIndex = LogList.Items.Count - 1;
         }
@@ -98,10 +88,7 @@ namespace OrigindLauncher.UI
 
         private void Min(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
-
-
-
     }
 }

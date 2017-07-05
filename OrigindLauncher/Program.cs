@@ -6,7 +6,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using KMCCC.Launcher;
 using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Core;
@@ -35,10 +34,9 @@ namespace OrigindLauncher
                 return;
             }
 
-            using (Mutex mutex = new Mutex(false,
+            using (var mutex = new Mutex(false,
                 $"Global\\OrigindLauncher_{Process.GetCurrentProcess().MainModule.FileName.GetHashCode()}"))
             {
-
                 if (!mutex.WaitOne(4000, false))
                 {
                     MessageBox.Show("有一个 Origind Launcher 进程正在运行. 这个进程将会退出.");
@@ -48,7 +46,6 @@ namespace OrigindLauncher
                 try
                 {
                     if (AutoUpdater.HasUpdate) AutoUpdater.Update();
-
                 }
                 catch (Exception e)
                 {
@@ -62,7 +59,6 @@ namespace OrigindLauncher
                     var app1 = new App();
                     app1.InitializeComponent();
                     app1.Run(new SetupWindow());
-                    return;
                 }
                 else
                 {
@@ -71,7 +67,6 @@ namespace OrigindLauncher
                     app.Run(new MainWindow());
                 }
             }
-
         }
     }
 }

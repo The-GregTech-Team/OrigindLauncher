@@ -5,11 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
-using GoodTimeStudio.ServerPinger;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
@@ -17,7 +13,6 @@ using OrigindLauncher.Resources.Server;
 using OrigindLauncher.UI;
 using OrigindLauncher.UI.Code;
 using OrigindLauncher.UI.Dialogs;
-using Application = System.Windows.Application;
 
 namespace OrigindLauncher
 {
@@ -72,7 +67,7 @@ namespace OrigindLauncher
             // 等待更新
             if (updateStatus)
             {
-               var result = await UpdateClient();
+                var result = await UpdateClient();
                 if (!result)
                 {
                     MainSnackbar.MessageQueue.Enqueue("更新失败.");
@@ -84,16 +79,10 @@ namespace OrigindLauncher
             // 启动游戏
             var gm = new GameManager();
             gm.OnError += result => { Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception)); };
-            gm.OnGameExit += (handle, i) =>
-            {
-                Environment.Exit(0);
-            };
+            gm.OnGameExit += (handle, i) => { Environment.Exit(0); };
 
             var lpm = new LaunchProgressManager();
-            gm.OnGameLog += (lh, log) =>
-            {
-                lpm.OnGameLog(log);
-            };
+            gm.OnGameLog += (lh, log) => { lpm.OnGameLog(log); };
 
             // 游戏状态
             var lh1 = gm.Run();
@@ -101,13 +90,12 @@ namespace OrigindLauncher
             if (File.Exists(ClientManager.GetGameStorageDirectory("mods") + @"\OrigindLauncherHelper.jar"))
             {
                 if (Config.Instance.LaunchProgress)
-                {
                     lpm.Begin(lh1);
-                }
             }
             else
             {
-                await DialogHost.Show(new MessageDialog { Message = { Text = "你的客户端没有安装 OrigindLauncherHelper." } }, "RootDialog");
+                await DialogHost.Show(new MessageDialog {Message = {Text = "你的客户端没有安装 OrigindLauncherHelper."}},
+                    "RootDialog");
             }
 
 
@@ -115,7 +103,7 @@ namespace OrigindLauncher
             StartButton.IsEnabled = true;
             this.Flyout(() =>
             {
-                this.Hide();
+                Hide();
                 //TODO
             });
         }
@@ -130,13 +118,7 @@ namespace OrigindLauncher
                 var ar = new AutoResetEvent(false);
 
                 var dl = ClientManager.Update(s => { Dispatcher.Invoke(() => dm.downloadFileCompleted(s)); },
-                    s =>
-                    {
-                        Dispatcher.Invoke(() =>
-                    {
-                            dm.downloadProgressChanged(s);
-                    });
-                    },
+                    s => { Dispatcher.Invoke(() => { dm.downloadProgressChanged(s); }); },
                     args =>
                     {
                         Dispatcher.Invoke(() => dm.onError(args));
@@ -163,7 +145,9 @@ namespace OrigindLauncher
 
         private void OpenDMinecraft(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer", Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\" + ClientManager.GameStorageDirectory);
+            Process.Start("explorer",
+                Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\" +
+                ClientManager.GameStorageDirectory);
         }
 
         private async void Options(object sender, RoutedEventArgs e)
@@ -174,7 +158,6 @@ namespace OrigindLauncher
         private void Move(object sender, MouseButtonEventArgs e)
         {
             DragMove();
-
         }
 
         private void ServerMessage_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -189,7 +172,6 @@ namespace OrigindLauncher
             {
                 Console.WriteLine(e1);
             }
-
         }
     }
 }

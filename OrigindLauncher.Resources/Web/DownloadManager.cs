@@ -6,7 +6,6 @@ using System.Net;
 using System.Threading.Tasks;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.String;
-using RestSharp;
 
 namespace OrigindLauncher.Resources.Web
 {
@@ -20,9 +19,9 @@ namespace OrigindLauncher.Resources.Web
             DownloadProgressChangeEventArgs downloadProgressChangeEventArgs);
 
         private const int MaxThread = 8;
-        private int _completedCount;
 
         private readonly IEnumerable<DownloadInfo> _infos;
+        private int _completedCount;
 
         public DownloadManager(IEnumerable<DownloadInfo> infos)
         {
@@ -32,6 +31,8 @@ namespace OrigindLauncher.Resources.Web
         public int RetryTimes { get; set; } = 5;
         public string AddDownloadPath { get; set; } = "";
 
+        public bool Downloading { get; set; } = true;
+
         public event CompletedEventHandler DownloadFileCompleted;
         public event ProgressChangedEventHandler DownloadProgressChanged;
         public event OnErrorEventHandler OnError;
@@ -39,78 +40,75 @@ namespace OrigindLauncher.Resources.Web
 
         public void Start()
         {
-
             Task.Run(() =>
             {
-                Parallel.ForEach(_infos, new ParallelOptions { MaxDegreeOfParallelism = MaxThread }, info =>
-                  {
-                      var wc = new WebClient();
-                      wc.DownloadProgressChanged += (sender, args) =>
-                      {
-                          DownloadProgressChanged?.Invoke(new DownloadProgressChangeEventArgs
-                          {
-                              BytesReceived = args.BytesReceived,
-                              TotalBytesToReceive = args.TotalBytesToReceive,
-                              FileLocation = info.Path
-                          });
-                      };
+                Parallel.ForEach(_infos, new ParallelOptions {MaxDegreeOfParallelism = MaxThread}, info =>
+                {
+                    var wc = new WebClient();
+                    wc.DownloadProgressChanged += (sender, args) =>
+                    {
+                        DownloadProgressChanged?.Invoke(new DownloadProgressChangeEventArgs
+                        {
+                            BytesReceived = args.BytesReceived,
+                            TotalBytesToReceive = args.TotalBytesToReceive,
+                            FileLocation = info.Path
+                        });
+                    };
 
 
-                      var trytimes = RetryTimes;
+                    var trytimes = RetryTimes;
 
-                      while (trytimes-- != 0 && Downloading)
-                          try
-                          {
-                              var downloadPath = AddDownloadPath + info.Path;
-                              var directoryName = Path.GetDirectoryName(downloadPath);
+                    while (trytimes-- != 0 && Downloading)
+                        try
+                        {
+                            var downloadPath = AddDownloadPath + info.Path;
+                            var directoryName = Path.GetDirectoryName(downloadPath);
 
-                              if (!string.IsNullOrWhiteSpace(directoryName))
-                                  DirectoryHelper.EnsureDirectoryExists(directoryName);
+                            if (!string.IsNullOrWhiteSpace(directoryName))
+                                DirectoryHelper.EnsureDirectoryExists(directoryName);
 
-                              if (File.Exists(downloadPath))
-                              {
-                                  string hash;
-                                  using (var sfile = File.Open(downloadPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                                  {
-                                      hash = SHA128Helper.Compute(sfile);
-                                  }
-                                  if (hash == info.Hash)
-                                  {
-                                      _completedCount++;
-                              DownloadFileCompleted?.Invoke(new CompletedEventArgs { FileLocation = info.Path });
-                                      if (_completedCount == _infos.Count())
-                                          AllDone?.Invoke();
-                                      break;
-                                  }
-                              }
+                            if (File.Exists(downloadPath))
+                            {
+                                string hash;
+                                using (var sfile =
+                                    File.Open(downloadPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                {
+                                    hash = SHA128Helper.Compute(sfile);
+                                }
+                                if (hash == info.Hash)
+                                {
+                                    _completedCount++;
+                                    DownloadFileCompleted?.Invoke(new CompletedEventArgs {FileLocation = info.Path});
+                                    if (_completedCount == _infos.Count())
+                                        AllDone?.Invoke();
+                                    break;
+                                }
+                            }
 
-                              wc.DownloadFileTaskAsync(info.Url, downloadPath).Wait();
+                            wc.DownloadFileTaskAsync(info.Url, downloadPath).Wait();
 
-                              DownloadFileCompleted?.Invoke(new CompletedEventArgs { FileLocation = info.Path });
-                              _completedCount++;
-                              break;
-                          }
-                          catch (Exception e)
-                          {
-                              OnError?.Invoke(new OnErrorEventArgs
-                              {
-                                  Exception = e,
-                                  FileLocation = info.Path,
-                                  IsFinal = trytimes == 0
-                              });
+                            DownloadFileCompleted?.Invoke(new CompletedEventArgs {FileLocation = info.Path});
+                            _completedCount++;
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            OnError?.Invoke(new OnErrorEventArgs
+                            {
+                                Exception = e,
+                                FileLocation = info.Path,
+                                IsFinal = trytimes == 0
+                            });
+                        }
 
-                          }
 
-
-                      if (_completedCount == _infos.Count())
-                          AllDone?.Invoke();
-                  });
+                    if (_completedCount == _infos.Count())
+                        AllDone?.Invoke();
+                });
                 if (_completedCount == _infos.Count())
                     AllDone?.Invoke();
             });
         }
-
-        public bool Downloading { get; set; } = true;
     }
 
 
@@ -135,11 +133,10 @@ namespace OrigindLauncher.Resources.Web
 
     public class DownloadInfo
     {
+        public string Hash;
         public string Path;
 
         public string Url;
-
-        public string Hash;
 
         public DownloadInfo(string url, string path, string hash)
         {

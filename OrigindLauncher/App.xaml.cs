@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -19,10 +17,7 @@ namespace OrigindLauncher
         {
             File.AppendAllText("crashreport.txt", e.Exception.SerializeException());
 
-            this.Dispatcher.Invoke(() =>
-            {
-                new ExceptionHandlerWindow(e.Exception).ShowDialog();
-            });
+            Dispatcher.Invoke(() => { new ExceptionHandlerWindow(e.Exception).ShowDialog(); });
             e.Handled = true;
         }
 
@@ -32,12 +27,14 @@ namespace OrigindLauncher
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
         }
 
-        private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
+        private void TaskSchedulerOnUnobservedTaskException(object sender,
+            UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
             File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.SerializeException());
             //File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.InnerExceptions.FirstOrDefault().SerializeException());
-            
-            this.Dispatcher.Invoke(() => {
+
+            Dispatcher.Invoke(() =>
+            {
                 new ExceptionHandlerWindow(unobservedTaskExceptionEventArgs.Exception.InnerException).ShowDialog();
             });
             unobservedTaskExceptionEventArgs.SetObserved();
@@ -45,12 +42,9 @@ namespace OrigindLauncher
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            File.WriteAllText("crashreport.txt", ((Exception)e.ExceptionObject).SerializeException());
+            File.WriteAllText("crashreport.txt", ((Exception) e.ExceptionObject).SerializeException());
 
-            this.Dispatcher.Invoke(() => {
-            new ExceptionHandlerWindow((Exception)e.ExceptionObject).ShowDialog();
-});
-
+            Dispatcher.Invoke(() => { new ExceptionHandlerWindow((Exception) e.ExceptionObject).ShowDialog(); });
         }
     }
 }
