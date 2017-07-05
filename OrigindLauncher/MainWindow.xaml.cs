@@ -176,5 +176,20 @@ namespace OrigindLauncher
             DragMove();
 
         }
+
+        private void ServerMessage_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var result = ServerInfoGetter.GetServerInfo();
+                ServerMessage.Text = "服务器在线人数: " + result.players.online;
+                ServerMessage.ToolTip = string.Join("\r\n", result.players.sample.Select(p => p.name));
+            }
+            catch (Exception e1)
+            {
+                Console.WriteLine(e1);
+            }
+
+        }
     }
 }

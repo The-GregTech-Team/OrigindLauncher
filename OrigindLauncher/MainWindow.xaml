@@ -46,7 +46,7 @@
                 <DockPanel.Background>
                     <ImageBrush ImageSource="Images/Background1.png" />
                 </DockPanel.Background>
-                <materialDesign:ColorZone Opacity="0.8" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                <materialDesign:ColorZone Opacity="0.85" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
                     <DockPanel Margin="16 8 16 8">
 
@@ -86,7 +86,7 @@
                             <StackPanel Grid.Row="1" Margin="8 24 8 0" MinHeight="220">
                                 <TextBlock FontWeight="Bold" Margin="8 0 8 8" FontSize="18">启动客户端</TextBlock>
                                 <TextBlock x:Name="WelcomeMessage" Margin="6 4 8 8" FontSize="14">欢迎, </TextBlock>
-                                <TextBlock x:Name="ServerMessage" Margin="6 4 8 8" FontSize="14">服务器在线人数: </TextBlock>
+                                <TextBlock x:Name="ServerMessage" MouseLeftButtonDown="ServerMessage_OnMouseLeftButtonDown" Margin="6 4 8 8" FontSize="14">服务器在线人数: </TextBlock>
 
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
