@@ -30,7 +30,7 @@ namespace OrigindLauncher
         {
             InitializeComponent();
             WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
-
+            TitleTextBlock.Text += " " + Config.LauncherVersion;
             try
             {
                 var result = ServerInfoGetter.GetServerInfo();
@@ -88,20 +88,21 @@ namespace OrigindLauncher
             {
                 Environment.Exit(0);
             };
-           
+
+            var lpm = new LaunchProgressManager();
+            gm.OnGameLog += (lh, log) =>
+            {
+                lpm.OnGameLog(log);
+            };
+
             // 游戏状态
+            var lh1 = gm.Run();
+
             if (File.Exists(ClientManager.GetGameStorageDirectory("mods") + @"\OrigindLauncherHelper.jar"))
             {
                 if (Config.Instance.LaunchProgress)
                 {
-                    gm.OnGameLog += (lh, log) =>
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            LaunchProgress.OnGameLog(log);
-                        });
-                    };
-                    LaunchProgress.Begin();
+                    lpm.Begin(lh1);
                 }
             }
             else
@@ -109,7 +110,6 @@ namespace OrigindLauncher
                 await DialogHost.Show(new MessageDialog { Message = { Text = "你的客户端没有安装 OrigindLauncherHelper." } }, "RootDialog");
             }
 
-            gm.Run();
 
             // 退出
             StartButton.IsEnabled = true;

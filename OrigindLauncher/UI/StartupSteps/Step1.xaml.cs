@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.String;
@@ -81,6 +83,12 @@ namespace OrigindLauncher.UI.StartupSteps
 
             Window.GetWindow(this).FlyoutAndClose(() =>
             {
+                if (Directory.Exists(ClientManager.GameStorageDirectory))
+                {
+                    ClientManager.CurrentInfo = ClientManager.MakeClientInfo();
+                    ClientManager.Save();
+                }
+
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName);
                 Application.Current.Shutdown();
             });

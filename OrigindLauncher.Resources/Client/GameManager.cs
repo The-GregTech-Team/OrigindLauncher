@@ -13,7 +13,7 @@ namespace OrigindLauncher.Resources.Client
         public event Action<LaunchResult> OnError;
 
 
-        public void Run()
+        public LaunchHandle Run()
         {
             var launchercore =
                 KMCCC.Launcher.LauncherCore.Create(new LauncherCoreCreationOption(javaPath: Config.Instance.JavaPath));
@@ -23,7 +23,7 @@ namespace OrigindLauncher.Resources.Client
                 OnGameExit?.Invoke(handle, i);
                 IsRunning = false;
             };
-
+            
             var launchOptions = new LaunchOptions
             {
                 Version = launchercore.GetVersion(Definitions.ClientName),
@@ -45,6 +45,8 @@ namespace OrigindLauncher.Resources.Client
                 OnError?.Invoke(result);
                 IsRunning = false;
             }
+
+            return result.Handle;
             /*
             result.Handle.GetPrivateField<Process>(nameof(Process)).Exited += (sender, args) =>
             {

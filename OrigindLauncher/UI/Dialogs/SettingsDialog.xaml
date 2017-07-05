@@ -79,8 +79,9 @@
 
                 <TextBox TextWrapping="Wrap" Margin="8" x:Name="Args" TextChanged="Args_OnTextChanged" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="启动参数"></TextBox>
 
-                
-                
+                <Button Margin="8" Click="ForceUpdate" Style="{StaticResource MaterialDesignRaisedButton}">比较当前客户端与服务器的差异</Button>
+
+
             </StackPanel>
             
         </ScrollViewer>

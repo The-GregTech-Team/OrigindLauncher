@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
+using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Utils;
 using UserControl = System.Windows.Controls.UserControl;
@@ -29,8 +30,9 @@ namespace OrigindLauncher.UI.Dialogs
         public SettingsDialog()
         {
             InitializeComponent();
-            MemorySlider.Maximum = GC.GetTotalMemory(false) / 1024;
+            MemorySlider.Maximum = 8192;
             MemorySlider.Value = Config.Instance.MaxMemory;
+            
             foreach (var javapath in JavaHelper.FindJava())
             {
                 ComboBoxChooseJava.Items.Add(javapath);
@@ -87,6 +89,11 @@ namespace OrigindLauncher.UI.Dialogs
         {
             if (EnableLaunchProgress.IsChecked != null)
                 Config.Instance.LaunchProgress = EnableLaunchProgress.IsChecked.Value;
+        }
+
+        private void ForceUpdate(object sender, RoutedEventArgs e)
+        {
+            ClientManager.CurrentInfo = ClientManager.MakeClientInfo();
         }
     }
 }

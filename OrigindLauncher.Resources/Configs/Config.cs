@@ -8,8 +8,7 @@ namespace OrigindLauncher.Resources.Configs
 {
     public class Config
     {
-        public static Config Instance;
-
+        public static readonly Config Instance;
 
         static Config()
         {
@@ -19,11 +18,11 @@ namespace OrigindLauncher.Resources.Configs
         }
 
         public string JavaPath { get; set; } = JavaHelper.FindJava().FirstOrDefault();
-        public string JavaArguments { get; set; } = "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+UseG1GC -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:MaxGCPauseMillis=50";
+        public string JavaArguments { get; set; } = "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:MaxGCPauseMillis=40";
         public int MaxMemory { get; set; } = 2048;
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
         public static int LauncherVersion { get; } = 
-            121
+            150
             ;
 
         public bool DisableHardwareSpeedup { get; set; } = false;

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Server.Data;
+using OrigindLauncher.Resources.String;
 using OrigindLauncher.Resources.Web;
 
 namespace OrigindLauncher.Resources.Client
@@ -15,13 +17,13 @@ namespace OrigindLauncher.Resources.Client
     {
         public const string GameStorageDirectory = @".minecraft";
         private const string GameStoragePath = @".minecraft\";
-        
-        private static ClientInfo _currentInfo;
+
+        public static ClientInfo CurrentInfo { get; set; }
 
         static ClientManager()
         {
             if (File.Exists(Definitions.ClientJsonPath))
-                _currentInfo = File.ReadAllText(Definitions.ClientJsonPath).JsonCast<ClientInfo>();
+                CurrentInfo = File.ReadAllText(Definitions.ClientJsonPath).JsonCast<ClientInfo>();
         }
 
         public static string GetGameStorageDirectory(string name)
@@ -31,8 +33,35 @@ namespace OrigindLauncher.Resources.Client
 
         public static bool CheckUpdate()
         {
-            if (_currentInfo == null) return true;
-            return ClientInfoGetter.Get().Version != _currentInfo.Version;
+            if (CurrentInfo == null) return true;
+            return ClientInfoGetter.Get().Version != CurrentInfo.Version;
+        }
+
+        public static ClientInfo MakeClientInfo()
+        {
+            var basePath = Directory.GetFiles(GameStoragePath, "*", SearchOption.AllDirectories);
+            var clientInfo = new ClientInfo();
+            var files = new List<FileEntry>();
+            
+            Parallel.ForEach(basePath, new ParallelOptions { MaxDegreeOfParallelism = 16 }, (file, state) =>
+            {
+                var path = file.Substring(GameStoragePath.Length);
+                // var fileData = File.ReadAllText(file);
+
+                string hash;
+                using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    hash = SHA128Helper.Compute(sfile);
+                }
+
+                Console.WriteLine($"计算哈希完成: {path}.");
+                files.Add(new FileEntry(path, hash));
+                
+            });
+
+            clientInfo.Files = files.ToArray();
+
+            return clientInfo;
         }
 
         public static DownloadStatusInfo Update(DownloadManager.CompletedEventHandler downloadFileCompleted,
@@ -51,8 +80,8 @@ namespace OrigindLauncher.Resources.Client
 
             dsi.FileNameList.AddRange(updateInfo.FilsToDownload.Select(a => a.Path));
 
-            _currentInfo = onlineInfo;
-            File.WriteAllText(Definitions.ClientJsonPath, _currentInfo.ToJsonString());
+            CurrentInfo = onlineInfo;
+            Save();
 
             var downloadman = new DownloadManager(updateInfo.FilsToDownload);
 
@@ -72,15 +101,20 @@ namespace OrigindLauncher.Resources.Client
             return dsi;
         }
 
+        public static void Save()
+        {
+            File.WriteAllText(Definitions.ClientJsonPath, CurrentInfo.ToJsonString());
+        }
+
         private static UpdateInfo GetUpdateInfo()
         {
-            if (_currentInfo == null) _currentInfo = new ClientInfo();
+            if (CurrentInfo == null) CurrentInfo = new ClientInfo();
             var onlineInfo = ClientInfoGetter.Get();
 
             var updateInfo = new UpdateInfo();
 
             var filesInOnlineInfo = onlineInfo.Files;
-            var filesInCurrentInfoDictionary = _currentInfo.Files.ToDictionary(e => e.Path);
+            var filesInCurrentInfoDictionary = CurrentInfo.Files.ToDictionary(e => e.Path);
             var filesInOnlineInfoDictionary = filesInOnlineInfo.ToDictionary(e => e.Path);
 
             foreach (var onlineInfoFile in filesInOnlineInfo)
@@ -91,17 +125,17 @@ namespace OrigindLauncher.Resources.Client
 
                     updateInfo.FilsToDelete.Add(onlineInfoFile);
                     updateInfo.FilsToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
-                        onlineInfoFile.Path));
+                        onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
                 else
                 {
                     // 要添加的文件
                     updateInfo.FilsToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
-                        onlineInfoFile.Path));
+                        onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
 
             // 要删除的文件
-            foreach (var localInfoFile in _currentInfo.Files)
+            foreach (var localInfoFile in CurrentInfo.Files)
                 if (!filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path))
                     updateInfo.FilsToDelete.Add(localInfoFile);
 

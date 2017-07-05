@@ -30,11 +30,15 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ScrollViewer.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -45,14 +49,72 @@
                                   Mode="PrimaryMid" DockPanel.Dock="Top">
             <Grid>
 
-                <StackPanel Margin="64 16 64 16">
-                    <TextBlock FontSize="24">Origind Launcher 游戏管理</TextBlock>
+                <Grid Margin="16 16 16 16" >
+                    <TextBlock Margin="48 0 0 0" FontSize="24" Width="300" HorizontalAlignment="Left">Origind Launcher 游戏管理</TextBlock>
+
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="0 0 64 0"
+                            Height="32" Width="32" Background="{x:Null}" Click="Min"
+                            BorderBrush="{x:Null}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Minus" Height="32" Width="32" />
+                    </Button>
                     
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="0 0 8 0"
+                            Height="32" Width="32" Background="{x:Null}" Click="CloseWindow"
+                            BorderBrush="{x:Null}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="WindowClose" Height="32" Width="32" />
+                    </Button>
 
-                </StackPanel>
+                </Grid>
 
+                
             </Grid>
         </materialDesign:ColorZone>
+        
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            
+            <materialDesign:Card Grid.Column="0" Margin="8">
+                <StackPanel>
+                    <TextBlock Margin="16" TextAlignment="Center" FontSize="14">启动状态信息</TextBlock>
+                    <TextBlock Margin="8" TextAlignment="Center" FontSize="14">启动时间</TextBlock>
+                    <TextBlock x:Name="LoadTime" Margin="8" TextAlignment="Center" FontSize="14">0:0:0</TextBlock>
+                    <TextBlock x:Name="Add1sAnimeText" Margin="8 0 8 8" TextAlignment="Center" FontSize="12" Foreground="#DD11D411" >+1s</TextBlock>
+
+                    <TextBlock Margin="8" TextAlignment="Center" FontSize="14">游戏内存</TextBlock>
+                    <TextBlock x:Name="GameMem" Margin="8" TextAlignment="Center" FontSize="14">2048M</TextBlock>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8 160 8 8" Click="CloseGame">结束游戏</Button>
+                </StackPanel>
+                
+                
+            </materialDesign:Card>
+            
+            <materialDesign:Card Grid.Column="1" Margin="8">
+                <StackPanel Margin="16">
+                    <TextBlock Margin="8 0 8 8" TextAlignment="Center" FontSize="16">游戏 Log</TextBlock>
+                    <ScrollViewer Height="250" Style="{StaticResource MaterialDesignScrollViewer}">
+                        <ListBox x:Name="LogList" Style="{StaticResource MaterialDesignListBox}">
+                        </ListBox>
+                    </ScrollViewer>
+                    
+                </StackPanel>
+                
+            </materialDesign:Card>
+            
+            <materialDesign:Card Grid.Column="1" Margin="8" VerticalAlignment="Bottom">
+                <StackPanel Margin="16">
+                    <TextBlock x:Name="LoadingText" FontSize="16" TextAlignment="Center">正在加载:</TextBlock>
+                    <ProgressBar x:Name="StatusProgressBar" IsIndeterminate="True" Style="{StaticResource MaterialDesignLinearProgressBar}" Maximum="1" Margin="8"></ProgressBar>
+
+                </StackPanel>
+                    
+            </materialDesign:Card>
+        </Grid>
+        
     </DockPanel>
 
 </Window>

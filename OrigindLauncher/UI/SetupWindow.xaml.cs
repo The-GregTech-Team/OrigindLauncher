@@ -13,11 +13,6 @@ namespace OrigindLauncher.UI
             InitializeComponent();
         }
 
-        private void SetupWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
         private void Move(object sender, MouseButtonEventArgs e)
         {
             DragMove();

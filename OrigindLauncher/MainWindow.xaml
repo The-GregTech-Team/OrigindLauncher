@@ -59,9 +59,9 @@
                                 Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White" Click="Options">
                             <materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
                         </Button>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16 0 0 0"
+                        <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16 0 0 0"
                                    FontSize="26">
-                            Origind Launcher
+                            Origind Launcher Alpha
                         </TextBlock>
                     </DockPanel>
                 </materialDesign:ColorZone>

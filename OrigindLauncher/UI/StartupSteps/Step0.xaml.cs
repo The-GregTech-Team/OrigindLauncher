@@ -23,6 +23,7 @@ namespace OrigindLauncher.UI.StartupSteps
 
         private async void Register(object sender, RoutedEventArgs e)
         {
+            /*
             if (Directory.Exists(ClientManager.GameStorageDirectory) && !File.Exists("client.json"))
             {
                 var choose = new ChooseDialog("要删除当前客户端吗?", "Origind Launcher检测到当前存在一个客户端.\r\n" +
@@ -43,7 +44,7 @@ namespace OrigindLauncher.UI.StartupSteps
                     Window.GetWindow(this).FlyoutAndClose(() => { Application.Current.Shutdown(); });
                 }
             }
-
+            */
             Transitioner.MoveNextCommand.Execute(this, this);
         }
 
