@@ -34,7 +34,7 @@ namespace OrigindLauncher.Resources.Client
 
             var result = launchercore.Launch(launchOptions, x =>
             {
-                if (Config.Instance.JavaArguments.Contains("GC"))
+                if (Config.Instance.JavaArguments.Contains("G1GC"))
                     x.CGCEnabled = false;
                 x.AdvencedArguments.Add(Config.Instance.JavaArguments);
             });
