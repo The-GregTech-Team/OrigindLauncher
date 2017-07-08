@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Utils;
 using UserControl = System.Windows.Controls.UserControl;
 
@@ -82,7 +83,15 @@ namespace OrigindLauncher.UI.Dialogs
 
         private void ForceUpdate(object sender, RoutedEventArgs e)
         {
+            System.Windows.MessageBox.Show("Origind Launcher检测到当前存在一个客户端.\r\n" +
+                                           "如果你想继续, 这个客户端会的一些内容, 比如截图, 小地图可能会被删除, 请先备份.");
             ClientManager.CurrentInfo = ClientManager.MakeClientInfo();
+        }
+
+        private void Submit(object sender, RoutedEventArgs e)
+        {
+            var text = OpinionTextBox.Text;
+            Task.Run(() => MessageUploadManager.Suggests($"{Config.Instance.PlayerAccount.Username}:{text}"));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -44,7 +45,14 @@ namespace OrigindLauncher.UI.StartupSteps
                     return;
                 }
                 Config.Instance.PlayerAccount = account;
-                await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard);
+                try
+                {
+                    await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
                 Config.Save();
             }
             else
@@ -77,7 +85,14 @@ namespace OrigindLauncher.UI.StartupSteps
                     return;
                 }
                 Config.Instance.PlayerAccount = account;
-                await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard);
+                try
+                {
+                    await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
                 Config.Save();
             }
 

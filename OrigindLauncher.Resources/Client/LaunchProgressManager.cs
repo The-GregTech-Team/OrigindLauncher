@@ -41,7 +41,7 @@ namespace OrigindLauncher.Resources.Client
             }
         }
 
-        private string Translate(string progressname)
+        private static string Translate(string progressname)
         {
             switch (progressname)
             {
@@ -57,8 +57,9 @@ namespace OrigindLauncher.Resources.Client
                     return "完成";
                 case "reloading_resource_packs":
                     return "加载资源包";
+                default:
+                    return progressname;
             }
-            return progressname;
         }
 
         public void Begin(LaunchHandle lh)

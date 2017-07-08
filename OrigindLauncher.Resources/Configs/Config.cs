@@ -26,7 +26,7 @@ namespace OrigindLauncher.Resources.Configs
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
 
         public static int LauncherVersion { get; } =
-            173
+            182
             ;
 
         public bool DisableHardwareSpeedup { get; set; } = false;

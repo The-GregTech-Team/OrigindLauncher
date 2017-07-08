@@ -12,8 +12,8 @@ namespace OrigindLauncher.UI.Code
             {
                 Duration = duration,
                 EasingFunction = new CircleEase {EasingMode = EasingMode.EaseIn},
-                From = window.Top,
-                To = window.Top + SystemParameters.PrimaryScreenHeight
+                From = double.IsNaN(window.Top) ? 0 : window.Top,
+                To = double.IsNaN(window.Top + SystemParameters.PrimaryScreenHeight) ? 2000 : window.Top + SystemParameters.PrimaryScreenHeight
             };
 
             var sb = new Storyboard
