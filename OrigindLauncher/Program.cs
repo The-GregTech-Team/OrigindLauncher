@@ -45,7 +45,7 @@ namespace OrigindLauncher
 #if !DEBUG
                 try
                 {
-                    //if (AutoUpdater.HasUpdate) AutoUpdater.Update();
+                    if (AutoUpdater.HasUpdate) AutoUpdater.Update();
                 }
                 catch (Exception e)
                 {

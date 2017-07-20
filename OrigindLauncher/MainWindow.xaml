@@ -61,7 +61,7 @@
                         <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Margin="16 0 0 0"
                                    FontSize="26">
-                            Origind Launcher Alpha Final
+                            Origind Launcher Beta
                         </TextBlock>
                     </DockPanel>
                 </materialDesign:ColorZone>

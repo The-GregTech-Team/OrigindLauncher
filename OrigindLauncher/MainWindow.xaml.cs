@@ -27,7 +27,7 @@ namespace OrigindLauncher
         {
             InitializeComponent();
             WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
-            //TitleTextBlock.Text += " " + Config.LauncherVersion + (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username) ? " Admin" : "");
+            TitleTextBlock.Text += " " + Config.LauncherVersion + (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username) ? " Admin" : "");
             try
             {
                 var result = ServerInfoGetter.GetServerInfo();
