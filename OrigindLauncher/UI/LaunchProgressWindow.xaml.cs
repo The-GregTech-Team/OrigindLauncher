@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.Server;
 using OrigindLauncher.UI.Code;
 
 namespace OrigindLauncher.UI
@@ -29,17 +32,31 @@ namespace OrigindLauncher.UI
         }
 
         public LaunchHandle LaunchHandle { get; set; }
+        public Process ProcessHandle { get; set; }
 
+        public TimeSpan PrevCpuTime = TimeSpan.Zero;
         private static void UpdateAnime(object sender, EventArgs e)
         {
             var ts = DateTime.Now - _instance.StartTime;
+            var pt = GetProcessTime();
+
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
                 var da = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(300)));
-
+                _instance.ProcessHandle.Refresh();
                 _instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
+                _instance.GameUseCpu.Text = $"{pt:F2} %";
+                _instance.GameUseMem.Text = $"{_instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0:F2} M";
             });
             _instance.LoadTime.Text = $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
+        }
+
+        private static double GetProcessTime()
+        {
+            var curTime = _instance.ProcessHandle.TotalProcessorTime;
+            var value = (curTime - _instance.PrevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
+            _instance.PrevCpuTime = curTime;
+            return value;
         }
 
         public void Begin()
@@ -89,6 +106,11 @@ namespace OrigindLauncher.UI
         private void Min(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void Ref(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
         }
     }
 }

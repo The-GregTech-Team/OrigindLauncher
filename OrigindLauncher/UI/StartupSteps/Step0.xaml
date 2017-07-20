@@ -26,8 +26,6 @@
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -91,9 +89,10 @@
 
                 </StackPanel>
                 <materialDesign:Snackbar Margin="8" x:Name="Snackbar" MessageQueue="{materialDesign:MessageQueue}" />
-
+                <Button Click="CloseIt" Style="{StaticResource MaterialDesignFlatButton}" VerticalAlignment="Bottom" Margin="24" Width="60" HorizontalAlignment="Right">关闭</Button>
             </Grid>
 
+            
 
         </DockPanel>
 

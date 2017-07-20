@@ -3,17 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
+        mc:Ignorable="d" BorderBrush="Transparent"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="Transparent"
+        Background="Transparent" AllowsTransparency="True"
         FontFamily="Microsoft YaHei UI"
-        Title="MainWindow" Height="720" Width="1150" MouseLeftButtonDown="Move"
-        WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="720" Width="1150" MouseLeftButtonDown="Move" WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,22 +28,21 @@
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
 
-    <materialDesign:Card Margin="8" Width="1134" Height="714" Background="{x:Null}"
-                         materialDesign:ShadowAssist.ShadowDepth="Depth4">
+    <materialDesign:Card MinHeight="730" Background="{x:Null}"
+                         materialDesign:ShadowAssist.ShadowDepth="Depth5">
 
         <materialDesign:DialogHost Identifier="RootDialog"
                                    SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
 
             <DockPanel>
                 <DockPanel.Background>
-                    <ImageBrush ImageSource="Images/Background1.png" />
+                    <ImageBrush ImageSource="Images/Background2.png" />
                 </DockPanel.Background>
                 <materialDesign:ColorZone Opacity="0.85" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
@@ -63,14 +61,12 @@
                         <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Margin="16 0 0 0"
                                    FontSize="26">
-                            Origind Launcher Alpha
+                            Origind Launcher Alpha Final
                         </TextBlock>
                     </DockPanel>
                 </materialDesign:ColorZone>
 
-                <Grid HorizontalAlignment="Left">
-
-
+                <Grid DockPanel.Dock="Left" HorizontalAlignment="Left">
                     <materialDesign:Card Margin="24 32 0 0" Width="260" Opacity="0.95">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -78,7 +74,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Image Source="Images/flat.png" Height="140" Width="246" Stretch="Fill" />
+                            <Image Source="Images/flat2.png" Height="140" Width="246" Stretch="Fill" />
                             <Button x:Name="StartButton" Click="StartButton_OnClick" Grid.Row="0"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
@@ -96,12 +92,14 @@
 
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
-
+                                <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0" materialDesign:RippleAssist.IsCentered="True" Click="SwitchUser">
+                                    <materialDesign:PackIcon Kind="Account" />
+                                </Button>
                                 <materialDesign:PopupBox Style="{StaticResource MaterialDesignToolPopupBox}"
                                                          Padding="2 0 2 0">
                                     <StackPanel>
                                         <Button Content="打开.Minecraft" Click="OpenDMinecraft" />
-                                        <Button Content="Options" />
+                                        <Button Content="初始化环境" Click="InitEnvironment"/>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
                             </StackPanel>
@@ -109,7 +107,6 @@
                     </materialDesign:Card>
 
 
-                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" />
                 </Grid>
 
 
@@ -119,6 +116,8 @@
                 <materialDesign:PackIcon Kind="Play" Height="32" Width="32"  />
             </Button>
             -->
+                <materialDesign:Snackbar DockPanel.Dock="Bottom" Margin="0 0 0 12" MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" />
+
             </DockPanel>
 
         </materialDesign:DialogHost>

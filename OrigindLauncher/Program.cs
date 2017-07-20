@@ -45,7 +45,7 @@ namespace OrigindLauncher
 #if !DEBUG
                 try
                 {
-                    if (AutoUpdater.HasUpdate) AutoUpdater.Update();
+                    //if (AutoUpdater.HasUpdate) AutoUpdater.Update();
                 }
                 catch (Exception e)
                 {
@@ -54,7 +54,7 @@ namespace OrigindLauncher
 #endif
 
 
-                if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath))
+                if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath) || Config.Instance.PlayerAccount == null)
                 {
                     var app1 = new App();
                     app1.InitializeComponent();

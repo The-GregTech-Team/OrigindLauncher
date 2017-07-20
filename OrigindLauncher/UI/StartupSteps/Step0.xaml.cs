@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,6 +43,11 @@ namespace OrigindLauncher.UI.StartupSteps
         {
             Step1.IsLogin = true;
             Transitioner.MoveNextCommand.Execute(this, this);
+        }
+
+        private void CloseIt(object sender, RoutedEventArgs e)
+        {
+            Window.GetWindow(this).Flyout(() => Environment.Exit(0));
         }
     }
 }

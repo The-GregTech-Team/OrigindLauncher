@@ -32,8 +32,6 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -42,7 +40,7 @@
 
     <DockPanel Background="{DynamicResource MaterialDesignPaper}" Height="500" Width="800">
         <materialDesign:ColorZone Height="62" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                  Mode="PrimaryMid" DockPanel.Dock="Top" Background="#FF7B1FA2">
+                                  Mode="Accent" DockPanel.Dock="Top">
             <Grid>
 
                 <StackPanel Margin="64 16 64 16">

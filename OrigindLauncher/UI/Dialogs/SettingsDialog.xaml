@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:OrigindLauncher.UI.Dialogs"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              FontFamily="Microsoft YaHei UI"
-             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.Foreground="{StaticResource MaterialDesignBody}"
              TextOptions.TextFormattingMode="Ideal"
              FontSize="16"
              TextOptions.TextRenderingMode="Auto"
@@ -29,8 +29,6 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
@@ -41,7 +39,7 @@
     </UserControl.Resources>
 
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
+    <Grid Background="{StaticResource MaterialDesignPaper}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />

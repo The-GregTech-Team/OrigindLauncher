@@ -23,7 +23,6 @@ namespace OrigindLauncher.Resources.Client
                 OnGameExit?.Invoke(handle, i);
                 IsRunning = false;
             };
-
             var launchOptions = new LaunchOptions
             {
                 Version = launchercore.GetVersion(Definitions.ClientName),

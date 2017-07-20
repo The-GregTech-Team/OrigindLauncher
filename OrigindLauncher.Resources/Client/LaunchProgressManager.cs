@@ -1,4 +1,6 @@
-﻿using KMCCC.Launcher;
+﻿using System.Diagnostics;
+using KMCCC.Launcher;
+using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 
 namespace OrigindLauncher.Resources.Client
@@ -28,7 +30,7 @@ namespace OrigindLauncher.Resources.Client
                 }
 
                 progressname = Translate(progressname);
-                var progresstext = $"{progressname} {modname}";
+                var progresstext = $"{progressname} {modname} 完成";
                 _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Process(progresstext, progress));
             }
             else if (log.EndsWith("GuiMainMenu Loaded"))
@@ -65,6 +67,7 @@ namespace OrigindLauncher.Resources.Client
         public void Begin(LaunchHandle lh)
         {
             _launchProgressWindow.LaunchHandle = lh;
+            _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process");
             _launchProgressWindow.Begin();
             _launchProgressWindow.Show();
         }

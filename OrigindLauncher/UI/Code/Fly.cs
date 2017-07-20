@@ -20,7 +20,7 @@ namespace OrigindLauncher.UI.Code
             {
                 Children = {anime}
             };
-
+            
             Storyboard.SetTargetProperty(anime, new PropertyPath(Window.TopProperty));
 
             return sb;
@@ -29,7 +29,7 @@ namespace OrigindLauncher.UI.Code
 
         public static void FlyOutWindow(Window window, TimeSpan? aDuration = null, Action callback = null)
         {
-            var duration = aDuration ?? TimeSpan.FromMilliseconds(600);
+            var duration = aDuration ?? TimeSpan.FromMilliseconds(400);
             var sb = CreateFlyOutStoryboard(window, duration);
             sb.Completed += (sender, args) => { callback?.Invoke(); };
             sb.Begin(window);

@@ -1,4 +1,6 @@
-﻿using OrigindLauncher.Resources.Json;
+﻿using System.Net;
+using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server.Data;
 using RestSharp;
 
@@ -8,10 +10,9 @@ namespace OrigindLauncher.Resources.Server
     {
         public static ClientInfo Get()
         {
-            var rc = new RestClient(Definitions.OrigindServerUrl);
-            var result = rc.Get(RestRequestFactory.Create(Definitions.Rest.ClientJson));
+            var wc = new WebClient();
 
-            return result.Content.JsonCast<ClientInfo>();
+            return wc.DownloadString(Config.Instance.UpdatePath).JsonCast<ClientInfo>();
         }
     }
 }

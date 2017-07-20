@@ -42,20 +42,20 @@ namespace OrigindLauncher.Resources.Client
             var clientInfo = new ClientInfo();
             var files = new List<FileEntry>();
 
-            Parallel.ForEach(basePath, new ParallelOptions {MaxDegreeOfParallelism = 16}, (file, state) =>
-            {
-                var path = file.Substring(GameStoragePath.Length);
-                // var fileData = File.ReadAllText(file);
+            Parallel.ForEach(basePath, new ParallelOptions { MaxDegreeOfParallelism = 16 }, (file, state) =>
+              {
+                  var path = file.Substring(GameStoragePath.Length);
+                  // var fileData = File.ReadAllText(file);
 
-                string hash;
-                using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    hash = SHA128Helper.Compute(sfile);
-                }
+                  string hash;
+                  using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                  {
+                      hash = SHA128Helper.Compute(sfile);
+                  }
 
-                Console.WriteLine($"计算哈希完成: {path}.");
-                files.Add(new FileEntry(path, hash));
-            });
+                  Console.WriteLine($"计算哈希完成: {path}.");
+                  files.Add(new FileEntry(path, hash));
+              });
 
             clientInfo.Files = files.ToArray();
 
@@ -74,7 +74,11 @@ namespace OrigindLauncher.Resources.Client
             var updateInfo = GetUpdateInfo();
 
             foreach (var deletes in updateInfo.FilsToDelete)
-                File.Delete(GameStoragePath + deletes.Path);
+            {
+                var path = GameStoragePath + deletes.Path;
+                if (File.Exists(path))
+                    File.Delete(path);
+            }
 
             dsi.FileNameList.AddRange(updateInfo.FilsToDownload.Select(a => a.Path));
 
@@ -140,12 +144,12 @@ namespace OrigindLauncher.Resources.Client
 
     public class UpdateInfo
     {
-        public List<FileEntry> FilsToDelete = new List<FileEntry>();
-        public List<DownloadInfo> FilsToDownload = new List<DownloadInfo>();
+        public List<FileEntry> FilsToDelete { get; } = new List<FileEntry>();
+        public List<DownloadInfo> FilsToDownload { get; } = new List<DownloadInfo>();
     }
 
     public class DownloadStatusInfo
     {
-        public List<string> FileNameList = new List<string>();
+        public List<string> FileNameList { get; } = new List<string>();
     }
 }

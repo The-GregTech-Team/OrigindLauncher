@@ -12,7 +12,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="Transparent" MouseLeftButtonDown="LaunchProgressWindow_OnMouseLeftButtonDown"
         FontFamily="Microsoft YaHei UI"
-        Title="MainWindow" Height="500" Width="800"
+        Title="MainWindow" Height="600" Width="900"
         WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
@@ -44,7 +44,7 @@
     </Window.Resources>
 
 
-    <DockPanel Background="{DynamicResource MaterialDesignPaper}" Height="500" Width="800">
+    <DockPanel Background="{DynamicResource MaterialDesignPaper}" Height="600" Width="900">
         <materialDesign:ColorZone Height="62" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                   Mode="PrimaryMid" DockPanel.Dock="Top">
             <Grid>
@@ -83,7 +83,7 @@
                 <StackPanel>
                     <TextBlock Margin="16" TextAlignment="Center" FontSize="14">启动状态信息</TextBlock>
                     <TextBlock Margin="8" TextAlignment="Center" FontSize="14">启动时间</TextBlock>
-                    <TextBlock x:Name="LoadTime" Margin="8" TextAlignment="Center" FontSize="14">0:0:0</TextBlock>
+                    <TextBlock x:Name="LoadTime" Margin="8" TextAlignment="Center" FontSize="14">00:00:00</TextBlock>
                     <TextBlock x:Name="Add1sAnimeText" Margin="8 0 8 8" TextAlignment="Center" FontSize="12"
                                Foreground="#DD11D411">
                         +1s
@@ -92,7 +92,14 @@
                     <TextBlock Margin="8" TextAlignment="Center" FontSize="14">游戏内存</TextBlock>
                     <TextBlock x:Name="GameMem" Margin="8" TextAlignment="Center" FontSize="14">2048M</TextBlock>
 
-                    <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8 160 8 8" Click="CloseGame">结束游戏</Button>
+                    <TextBlock Margin="8 12 8 8" TextAlignment="Center" FontSize="14">使用内存</TextBlock>
+                    <TextBlock x:Name="GameUseMem" Margin="8" TextAlignment="Center" FontSize="14">2048M</TextBlock>
+
+                    <TextBlock Margin="8 12 8 8" TextAlignment="Center" FontSize="14">使用CPU</TextBlock>
+                    <TextBlock x:Name="GameUseCpu" Margin="8" TextAlignment="Center" FontSize="14">2048M</TextBlock>
+                    
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="4 64 8 4" Click="Ref">刷新登录状态</Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" Click="CloseGame">结束游戏</Button>
                 </StackPanel>
 
 
@@ -101,7 +108,7 @@
             <materialDesign:Card Grid.Column="1" Margin="8">
                 <StackPanel Margin="16">
                     <TextBlock Margin="8 0 8 8" TextAlignment="Center" FontSize="16">游戏日志</TextBlock>
-                    <ScrollViewer Height="250" Style="{StaticResource MaterialDesignScrollViewer}"
+                    <ScrollViewer Height="350" Style="{StaticResource MaterialDesignScrollViewer}"
                                   HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <ListBox x:Name="LogList" Style="{StaticResource MaterialDesignListBox}" />
                     </ScrollViewer>

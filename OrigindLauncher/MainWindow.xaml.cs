@@ -2,11 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
+using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
@@ -25,7 +27,7 @@ namespace OrigindLauncher
         {
             InitializeComponent();
             WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
-            TitleTextBlock.Text += " " + Config.LauncherVersion;
+            //TitleTextBlock.Text += " " + Config.LauncherVersion + (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username) ? " Admin" : "");
             try
             {
                 var result = ServerInfoGetter.GetServerInfo();
@@ -41,6 +43,10 @@ namespace OrigindLauncher
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
         {
             StartButton.IsEnabled = false;
+            if (CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
+            {
+                await UpdateUpdatePath();
+            }
 
             // 刷新登录状态
             var status = await Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
@@ -87,14 +93,14 @@ namespace OrigindLauncher
             // 游戏状态
             var lh1 = gm.Run();
 
-            if (File.Exists(ClientManager.GetGameStorageDirectory("mods") + @"\OrigindLauncherHelper.jar"))
+            if (File.Exists(ClientManager.GetGameStorageDirectory(@"mods\OrigindLauncherHelper.jar")))
             {
                 if (Config.Instance.LaunchProgress)
                     lpm.Begin(lh1);
             }
             else
             {
-                await DialogHost.Show(new MessageDialog {Message = {Text = "你的客户端没有安装 OrigindLauncherHelper."}},
+                await DialogHost.Show(new MessageDialog { Message = { Text = "你的客户端没有安装 OrigindLauncherHelper." } },
                     "RootDialog");
             }
 
@@ -106,6 +112,24 @@ namespace OrigindLauncher
                 Hide();
                 //TODO
             });
+        }
+
+        private static readonly Regex CheckUrlRegex = new Regex("((http|ftp|https):\\/\\/)?[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?", RegexOptions.Compiled);
+
+        private async Task UpdateUpdatePath()
+        {
+            while (!CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
+            {
+                var input = new InputDialog { Title = { Text = "输入客户端更新地址." } };
+                await DialogHost.Show(input, "RootDialog");
+                var text = input.InputBox.Text;
+                if (CheckUrlRegex.IsMatch(text))
+                {
+                    Config.Instance.UpdatePath = text;
+                }
+                Config.Save();
+            }
+            
         }
 
         private async Task<bool> UpdateClient()
@@ -172,6 +196,18 @@ namespace OrigindLauncher
             {
                 Console.WriteLine(e1);
             }
+        }
+
+        private async void InitEnvironment(object sender, RoutedEventArgs e)
+        {
+            await UpdateUpdatePath();
+
+        }
+
+        private void SwitchUser(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Setup");
+            this.Flyout(() => Environment.Exit(0));
         }
     }
 }

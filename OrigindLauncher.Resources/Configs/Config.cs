@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OrigindLauncher.Resources.Json;
@@ -17,20 +18,28 @@ namespace OrigindLauncher.Resources.Configs
                 : new Config();
         }
 
+        #region GameLauncher
         public string JavaPath { get; set; } = JavaHelper.FindJava().FirstOrDefault();
 
         public string JavaArguments { get; set; } =
-            "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:MaxGCPauseMillis=40 -XX:+UseG1GC";
+            "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m";
 
         public int MaxMemory { get; set; } = 2048;
+
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
 
-        public static int LauncherVersion { get; } =
-            182
-            ;
+        public bool LaunchProgress { get; set; } = true;
+        #endregion
+
+        public string UpdatePath { get; set; } = null;
 
         public bool DisableHardwareSpeedup { get; set; } = false;
-        public bool LaunchProgress { get; set; } = true;
+
+        public static int LauncherVersion { get; } =
+            216
+            ;
+
+        public static string[] Admins { get; } = {"Cyl18", "EMROF"};
 
         public static void Save()
         {
