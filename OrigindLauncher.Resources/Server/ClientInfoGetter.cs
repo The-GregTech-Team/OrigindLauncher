@@ -6,7 +6,7 @@ using RestSharp;
 
 namespace OrigindLauncher.Resources.Server
 {
-    public class ClientInfoGetter
+    public static class ClientInfoGetter
     {
         public static ClientInfo Get()
         {
