@@ -43,9 +43,9 @@ namespace OrigindLauncher
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
         {
             StartButton.IsEnabled = false;
-            if (CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
+            if (string.IsNullOrWhiteSpace(Config.Instance.UpdatePath))
             {
-                await UpdateUpdatePath();
+                Config.Instance.UpdatePath = $"{Definitions.OrigindServerUrl}/{Definitions.Rest.ClientJson}";
             }
 
             // 刷新登录状态
