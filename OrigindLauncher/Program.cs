@@ -54,7 +54,8 @@ namespace OrigindLauncher
 #endif
 
 
-                if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath) || Config.Instance.PlayerAccount == null)
+                if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath) ||
+                    Config.Instance.PlayerAccount == null)
                 {
                     var app1 = new App();
                     app1.InitializeComponent();

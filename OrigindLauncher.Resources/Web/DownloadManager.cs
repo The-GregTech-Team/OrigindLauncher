@@ -45,15 +45,13 @@ namespace OrigindLauncher.Resources.Web
                 Parallel.ForEach(_infos, new ParallelOptions {MaxDegreeOfParallelism = MaxThread}, info =>
                 {
                     var wc = new WebClient();
-                    wc.DownloadProgressChanged += (sender, args) =>
-                    {
-                        DownloadProgressChanged?.Invoke(new DownloadProgressChangeEventArgs
+                    wc.DownloadProgressChanged += (sender, args) => DownloadProgressChanged?.Invoke(
+                        new DownloadProgressChangeEventArgs
                         {
                             BytesReceived = args.BytesReceived,
                             TotalBytesToReceive = args.TotalBytesToReceive,
                             FileLocation = info.Path
                         });
-                    };
 
 
                     var trytimes = RetryTimes;
@@ -70,10 +68,10 @@ namespace OrigindLauncher.Resources.Web
                             if (File.Exists(downloadPath))
                             {
                                 string hash;
-                                using (var sfile =
+                                using (var file =
                                     File.Open(downloadPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                                 {
-                                    hash = SHA128Helper.Compute(sfile);
+                                    hash = SHA128Helper.Compute(file);
                                 }
                                 if (hash == info.Hash)
                                 {
@@ -133,10 +131,9 @@ namespace OrigindLauncher.Resources.Web
 
     public class DownloadInfo
     {
-        public string Hash;
-        public string Path;
-
-        public string Url;
+        public readonly string Hash;
+        public readonly string Path;
+        public readonly string Url;
 
         public DownloadInfo(string url, string path, string hash)
         {

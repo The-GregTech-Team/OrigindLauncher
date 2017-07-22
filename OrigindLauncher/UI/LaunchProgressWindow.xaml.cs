@@ -22,6 +22,8 @@ namespace OrigindLauncher.UI
         private readonly DispatcherTimer _animeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1),
             DispatcherPriority.Normal, UpdateAnime, Dispatcher.CurrentDispatcher);
 
+        public TimeSpan PrevCpuTime = TimeSpan.Zero;
+
         public DateTime StartTime;
 
         public LaunchProgressWindow()
@@ -34,7 +36,6 @@ namespace OrigindLauncher.UI
         public LaunchHandle LaunchHandle { get; set; }
         public Process ProcessHandle { get; set; }
 
-        public TimeSpan PrevCpuTime = TimeSpan.Zero;
         private static void UpdateAnime(object sender, EventArgs e)
         {
             var ts = DateTime.Now - _instance.StartTime;

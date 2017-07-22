@@ -85,10 +85,11 @@
 
                 <TextBox x:Name="OpinionTextBox" TextWrapping="Wrap" Margin="8"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         materialDesign:HintAssist.Hint="意见反馈"></TextBox>
+                         materialDesign:HintAssist.Hint="意见反馈" />
                 <Button Click="Submit" Margin="8" Style="{StaticResource MaterialDesignRaisedButton}">提交</Button>
-                
-                <Button Margin="8" Click="ForceUpdate" Style="{StaticResource MaterialDesignRaisedButton}">将当前客户端与服务器内容同步
+
+                <Button Margin="8" Click="ForceUpdate" Style="{StaticResource MaterialDesignRaisedButton}">
+                    将当前客户端与服务器内容同步
                 </Button>
 
 

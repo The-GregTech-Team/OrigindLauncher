@@ -17,7 +17,7 @@ namespace OrigindLauncher.Resources.Client
                 var statusp = message.Split('&');
                 var statusw = statusp[0];
                 var progress = double.Parse(statusp[1]);
-                string modname = string.Empty, progressname = string.Empty;
+                string modname = string.Empty, progressname;
                 if (statusw == "reloading_resource_packs")
                 {
                     progressname = statusw;
@@ -30,8 +30,8 @@ namespace OrigindLauncher.Resources.Client
                 }
 
                 progressname = Translate(progressname);
-                var progresstext = $"{progressname} {modname} 完成";
-                _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Process(progresstext, progress));
+                var progressText = $"{progressname} {modname} 完成";
+                _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Process(progressText, progress));
             }
             else if (log.EndsWith("GuiMainMenu Loaded"))
             {
@@ -43,31 +43,31 @@ namespace OrigindLauncher.Resources.Client
             }
         }
 
-        private static string Translate(string progressname)
+        private static string Translate(string progressName)
         {
-            switch (progressname)
+            switch (progressName)
             {
-                case "construction":
+                case @"construction":
                     return "构建";
-                case "pre_initialization":
+                case @"pre_initialization":
                     return "预初始化";
-                case "initialization":
+                case @"initialization":
                     return "初始化";
-                case "post_initialization":
+                case @"post_initialization":
                     return "后初始化";
-                case "completed":
+                case @"completed":
                     return "完成";
-                case "reloading_resource_packs":
+                case @"reloading_resource_packs":
                     return "加载资源包";
                 default:
-                    return progressname;
+                    return progressName;
             }
         }
 
         public void Begin(LaunchHandle lh)
         {
             _launchProgressWindow.LaunchHandle = lh;
-            _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process");
+            _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process"); //TODO: May bug
             _launchProgressWindow.Begin();
             _launchProgressWindow.Show();
         }

@@ -11,6 +11,5 @@ namespace OrigindLauncher.Resources.Utils
                 .Any(obj => obj.Properties.Cast<PropertyData>()
                     .Where(property => property.Name == "AdapterCompatibility")
                     .Any(property => property.Value.ToString().Contains("Intel")));
-
     }
 }

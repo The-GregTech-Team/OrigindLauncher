@@ -97,7 +97,7 @@
 
                     <TextBlock Margin="8 12 8 8" TextAlignment="Center" FontSize="14">使用CPU</TextBlock>
                     <TextBlock x:Name="GameUseCpu" Margin="8" TextAlignment="Center" FontSize="14">2048M</TextBlock>
-                    
+
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="4 64 8 4" Click="Ref">刷新登录状态</Button>
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" Click="CloseGame">结束游戏</Button>
                 </StackPanel>

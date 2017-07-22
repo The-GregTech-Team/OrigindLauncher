@@ -12,7 +12,8 @@
         TextOptions.TextRenderingMode="Auto"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Microsoft YaHei UI"
-        Title="MainWindow" Height="720" Width="1150" MouseLeftButtonDown="Move" WindowStartupLocation="CenterScreen" WindowStyle="None" >
+        Title="MainWindow" Height="720" Width="1150" MouseLeftButtonDown="Move" WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,7 +29,8 @@
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -92,14 +94,15 @@
 
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
-                                <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0" materialDesign:RippleAssist.IsCentered="True" Click="SwitchUser">
+                                <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0"
+                                        materialDesign:RippleAssist.IsCentered="True" Click="SwitchUser">
                                     <materialDesign:PackIcon Kind="Account" />
                                 </Button>
                                 <materialDesign:PopupBox Style="{StaticResource MaterialDesignToolPopupBox}"
                                                          Padding="2 0 2 0">
                                     <StackPanel>
                                         <Button Content="打开.Minecraft" Click="OpenDMinecraft" />
-                                        <Button Content="初始化环境" Click="InitEnvironment"/>
+                                        <Button Content="初始化环境" Click="InitEnvironment" />
                                     </StackPanel>
                                 </materialDesign:PopupBox>
                             </StackPanel>
@@ -116,7 +119,8 @@
                 <materialDesign:PackIcon Kind="Play" Height="32" Width="32"  />
             </Button>
             -->
-                <materialDesign:Snackbar DockPanel.Dock="Bottom" Margin="0 0 0 12" MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" />
+                <materialDesign:Snackbar DockPanel.Dock="Bottom" Margin="0 0 0 12"
+                                         MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" />
 
             </DockPanel>
 

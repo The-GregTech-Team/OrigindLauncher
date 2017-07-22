@@ -89,10 +89,12 @@
 
                 </StackPanel>
                 <materialDesign:Snackbar Margin="8" x:Name="Snackbar" MessageQueue="{materialDesign:MessageQueue}" />
-                <Button Click="CloseIt" Style="{StaticResource MaterialDesignFlatButton}" VerticalAlignment="Bottom" Margin="24" Width="60" HorizontalAlignment="Right">关闭</Button>
+                <Button Click="CloseIt" Style="{StaticResource MaterialDesignFlatButton}" VerticalAlignment="Bottom"
+                        Margin="24" Width="60" HorizontalAlignment="Right">
+                    关闭
+                </Button>
             </Grid>
 
-            
 
         </DockPanel>
 

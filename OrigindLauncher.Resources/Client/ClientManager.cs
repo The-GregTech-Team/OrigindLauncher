@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MaterialDesignColors;
+using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
@@ -42,20 +44,20 @@ namespace OrigindLauncher.Resources.Client
             var clientInfo = new ClientInfo();
             var files = new List<FileEntry>();
 
-            Parallel.ForEach(basePath, new ParallelOptions { MaxDegreeOfParallelism = 16 }, (file, state) =>
-              {
-                  var path = file.Substring(GameStoragePath.Length);
-                  // var fileData = File.ReadAllText(file);
+            Parallel.ForEach(basePath, new ParallelOptions {MaxDegreeOfParallelism = 16}, (file, state) =>
+            {
+                var path = file.Substring(GameStoragePath.Length);
+                // var fileData = File.ReadAllText(file);
 
-                  string hash;
-                  using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                  {
-                      hash = SHA128Helper.Compute(sfile);
-                  }
+                string hash;
+                using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    hash = SHA128Helper.Compute(sfile);
+                }
 
-                  Console.WriteLine($"计算哈希完成: {path}.");
-                  files.Add(new FileEntry(path, hash));
-              });
+                Console.WriteLine($"计算哈希完成: {path}.");
+                files.Add(new FileEntry(path, hash));
+            });
 
             clientInfo.Files = files.ToArray();
 
@@ -73,19 +75,19 @@ namespace OrigindLauncher.Resources.Client
             var onlineInfo = ClientInfoGetter.Get();
             var updateInfo = GetUpdateInfo();
 
-            foreach (var deletes in updateInfo.FilsToDelete)
+            foreach (var deletes in updateInfo.FilesToDelete)
             {
                 var path = GameStoragePath + deletes.Path;
                 if (File.Exists(path))
                     File.Delete(path);
             }
 
-            dsi.FileNameList.AddRange(updateInfo.FilsToDownload.Select(a => a.Path));
+            dsi.FileNameList.AddRange(updateInfo.FilesToDownload.Select(a => a.Path));
 
             CurrentInfo = onlineInfo;
             Save();
 
-            var downloadman = new DownloadManager(updateInfo.FilsToDownload);
+            var downloadman = new DownloadManager(updateInfo.FilesToDownload);
 
             downloadman.AddDownloadPath = GameStoragePath;
             downloadman.DownloadFileCompleted += downloadFileCompleted;
@@ -95,7 +97,7 @@ namespace OrigindLauncher.Resources.Client
             downloadman.AllDone += allDone;
             downloadman.Start();
             //TODO
-
+            
 
             return dsi;
         }
@@ -122,21 +124,21 @@ namespace OrigindLauncher.Resources.Client
                     // 要更新的文件
                     if (filesInCurrentInfoDictionary[onlineInfoFile.Path].Hash == onlineInfoFile.Hash) continue;
 
-                    updateInfo.FilsToDelete.Add(onlineInfoFile);
-                    updateInfo.FilsToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
+                    updateInfo.FilesToDelete.Add(onlineInfoFile);
+                    updateInfo.FilesToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
                         onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
                 else
                 {
                     // 要添加的文件
-                    updateInfo.FilsToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
+                    updateInfo.FilesToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
                         onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
 
             // 要删除的文件
             foreach (var localInfoFile in CurrentInfo.Files)
                 if (!filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path))
-                    updateInfo.FilsToDelete.Add(localInfoFile);
+                    updateInfo.FilesToDelete.Add(localInfoFile);
 
             return updateInfo;
         }
@@ -144,8 +146,8 @@ namespace OrigindLauncher.Resources.Client
 
     public class UpdateInfo
     {
-        public List<FileEntry> FilsToDelete { get; } = new List<FileEntry>();
-        public List<DownloadInfo> FilsToDownload { get; } = new List<DownloadInfo>();
+        public List<FileEntry> FilesToDelete { get; } = new List<FileEntry>();
+        public List<DownloadInfo> FilesToDownload { get; } = new List<DownloadInfo>();
     }
 
     public class DownloadStatusInfo

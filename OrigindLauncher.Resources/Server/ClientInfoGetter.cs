@@ -2,7 +2,6 @@
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server.Data;
-using RestSharp;
 
 namespace OrigindLauncher.Resources.Server
 {

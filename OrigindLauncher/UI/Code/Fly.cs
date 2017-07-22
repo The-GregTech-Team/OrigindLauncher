@@ -13,14 +13,16 @@ namespace OrigindLauncher.UI.Code
                 Duration = duration,
                 EasingFunction = new CircleEase {EasingMode = EasingMode.EaseIn},
                 From = double.IsNaN(window.Top) ? 0 : window.Top,
-                To = double.IsNaN(window.Top + SystemParameters.PrimaryScreenHeight) ? 2000 : window.Top + SystemParameters.PrimaryScreenHeight
+                To = double.IsNaN(window.Top + SystemParameters.PrimaryScreenHeight)
+                    ? 2000
+                    : window.Top + SystemParameters.PrimaryScreenHeight
             };
 
             var sb = new Storyboard
             {
                 Children = {anime}
             };
-            
+
             Storyboard.SetTargetProperty(anime, new PropertyPath(Window.TopProperty));
 
             return sb;

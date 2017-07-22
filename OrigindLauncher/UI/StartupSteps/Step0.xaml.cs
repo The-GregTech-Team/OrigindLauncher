@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
-using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.UI.Code;
 using OrigindLauncher.UI.Dialogs;
@@ -24,13 +22,15 @@ namespace OrigindLauncher.UI.StartupSteps
 
         private async void Register(object sender, RoutedEventArgs e)
         {
-
             if (Directory.Exists(ClientManager.GameStorageDirectory) && !File.Exists("client.json"))
             {
                 var messageDialog = new MessageDialog
                 {
-                    Message = {Text = "Origind Launcher检测到当前存在一个客户端.\r\n" +
-                                                                         "如果你想继续, 这个客户端会的一些内容, 比如截图, 小地图可能会被删除, 请先备份."}
+                    Message =
+                    {
+                        Text = "Origind Launcher 检测到当前存在一个客户端.\r\n" +
+                               "如果你想继续, 这个客户端会的一些内容, 比如截图, 小地图可能会被删除, 请先备份."
+                    }
                 };
 
                 await DialogHost.Show(messageDialog, "SetupWindowDialogHost");
