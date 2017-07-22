@@ -1,4 +1,4 @@
-﻿<Window x:Class="OrigindLauncher.MainWindow"
+﻿<Window x:Class="OrigindLauncher.LauncherWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Microsoft YaHei UI"
-        Title="MainWindow" Height="720" Width="1150" MouseLeftButtonDown="Move" WindowStartupLocation="CenterScreen"
+        Title="LauncherWindow" Height="720" Width="1150" MouseLeftButtonDown="Move" WindowStartupLocation="CenterScreen"
         WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>

@@ -12,7 +12,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="Transparent" MouseLeftButtonDown="LaunchProgressWindow_OnMouseLeftButtonDown"
         FontFamily="Microsoft YaHei UI"
-        Title="MainWindow" Height="600" Width="900"
+        Title="LauncherWindow" Height="600" Width="900"
         WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>

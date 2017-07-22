@@ -65,7 +65,7 @@ namespace OrigindLauncher
                 {
                     var app = new App();
                     app.InitializeComponent();
-                    app.Run(new MainWindow());
+                    app.Run(new LauncherWindow());
                 }
             }
         }

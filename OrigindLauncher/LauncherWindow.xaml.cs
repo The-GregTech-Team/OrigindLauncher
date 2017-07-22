@@ -18,15 +18,15 @@ using OrigindLauncher.UI.Dialogs;
 namespace OrigindLauncher
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    ///     Interaction logic for LauncherWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class LauncherWindow
     {
         private static readonly Regex CheckUrlRegex =
             new Regex(
                 "((http|ftp|https):\\/\\/)?[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?");
 
-        public MainWindow()
+        public LauncherWindow()
         {
             InitializeComponent();
             WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
