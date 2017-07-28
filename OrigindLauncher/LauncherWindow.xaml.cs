@@ -49,7 +49,7 @@ namespace OrigindLauncher
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
-        {
+        {//TODO: Check for Java and Install r
             StartButton.IsEnabled = false;
             if (CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
                 await UpdateUpdatePathAsync();
@@ -136,31 +136,15 @@ namespace OrigindLauncher
         private async Task<bool> UpdateClientAsync()
         {
             MainSnackbar.MessageQueue.Enqueue("正在更新客户端");
-            var dm = new DownloadManager();
 
+            //TODO: Update Client
             await Task.Run(() =>
             {
-                var ar = new AutoResetEvent(false);
 
-                var dl = ClientManager.Update(s => Dispatcher.Invoke(() => dm.downloadFileCompleted(s)),
-                    s => Dispatcher.Invoke(() => dm.downloadProgressChanged(s)),
-                    args =>
-                    {
-                        Dispatcher.Invoke(() => dm.onError(args));
-                        ar.Set();
-                    }, () =>
-                    {
-                        Dispatcher.Invoke(() => dm.allDone());
-                        ar.Set();
-                    });
-                Dispatcher.Invoke(() => dm.allfiles = dl);
-                Dispatcher.Invoke(() => dm.Init());
-                Dispatcher.Invoke(() => dm.Show());
+                var dl = ClientManager.Update();
 
-                ar.WaitOne();
             });
-
-            return dm.Result;
+            return true;
         }
 
         private void Close(object sender, RoutedEventArgs e)

@@ -39,7 +39,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\JavaHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\PrivateHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RenderHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\DownloadManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RestRequestFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\Data\UploadData.cs" />
   </ItemGroup>

@@ -8,12 +8,7 @@ namespace Test
     {
         private static void Main(string[] args)
         {
-            var stat = ClientManager.Update(e => { Console.WriteLine($"Done: {e.FileLocation}"); },
-                e =>
-                {
-                    Console.WriteLine(
-                        $"Running: {e.FileLocation}: {e.BytesReceived / (double) e.TotalBytesToReceive:P}");
-                }, e => { Console.WriteLine($"Error: {e.FileLocation}, {e.Exception}"); }, () => { });
+            var stat = ClientManager.Update();
 
 
             Console.WriteLine("done");

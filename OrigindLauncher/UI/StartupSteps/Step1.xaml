@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:startupSteps="clr-namespace:OrigindLauncher.UI.StartupSteps"
              FontFamily="Microsoft YaHei UI"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextOptions.TextFormattingMode="Ideal"
+             mc:Ignorable="d"
              TextOptions.TextRenderingMode="Auto"
              Height="500" Width="800">
     <UserControl.Resources>
@@ -26,8 +28,6 @@
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
                 <ResourceDictionary
@@ -49,7 +49,7 @@
                                          HorizontalAlignment="Center" Margin="16 32 16 16" />
                 <StackPanel Grid.Row="1" Margin="64 16 64 16">
                     <TextBlock FontSize="24">请输入你的账户信息</TextBlock>
-                    <TextBlock Foreground="#DDCCCCCC" FontSize="18" Margin="0 8 0 0">不然怎么辨别你的身份啊→_→</TextBlock>
+                    <TextBlock Foreground="#DDCCCCCC" FontSize="18" Margin="0 8 0 0">→_→</TextBlock>
                 </StackPanel>
 
             </Grid>
@@ -62,7 +62,9 @@
                                              Kind="Account" />
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" x:Name="Username"
                              HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="200" FontSize="16"
-                             materialDesign:HintAssist.Hint="用户名" />
+                             materialDesign:HintAssist.Hint="用户名" >
+                        
+                    </TextBox>
 
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 8 0 0">

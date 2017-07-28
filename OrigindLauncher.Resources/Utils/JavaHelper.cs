@@ -37,7 +37,7 @@ namespace OrigindLauncher.Resources.Utils
                     where !string.IsNullOrWhiteSpace(str)
                     select str + @"\bin\javaw.exe";
             }
-            catch
+            catch (Exception)
             {
                 return new string[0];
             }

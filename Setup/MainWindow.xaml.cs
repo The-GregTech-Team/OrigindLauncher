@@ -52,7 +52,7 @@ namespace Setup
                 {
                     Console.WriteLine(exception);
                 }
-
+                
                 if (!Directory.Exists(clientLocationText))
                 {
                     MainSnackbar.MessageQueue.Enqueue("选择的文件夹不存在.");

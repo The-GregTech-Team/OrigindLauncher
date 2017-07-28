@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using JetBrains.Annotations;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
@@ -29,7 +34,7 @@ namespace OrigindLauncher.UI.StartupSteps
         private async void Next(object sender, RoutedEventArgs e)
         {
             var username = Username.Text;
-            if (string.IsNullOrWhiteSpace(username) || !new Regex(@"^[a-zA-Z0-9_]+$").Match(Username.Text).Success)
+            if (string.IsNullOrWhiteSpace(username) || !new Regex(@"^[a-zA-Z0-9_]+$").Match(username).Success)
             {
                 Snackbar.MessageQueue.Enqueue("用户名只能包含字母,数字,以及下划线.");
                 return;
@@ -109,4 +114,5 @@ namespace OrigindLauncher.UI.StartupSteps
             });
         }
     }
+
 }

@@ -56,7 +56,7 @@ namespace OrigindLauncher.Resources.Client
                 case @"post_initialization":
                     return "后初始化";
                 case @"completed":
-                    return "完成";
+                    return "加载";
                 case @"reloading_resource_packs":
                     return "加载资源包";
                 default:

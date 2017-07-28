@@ -10,7 +10,6 @@ using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Server.Data;
 using OrigindLauncher.Resources.String;
-using OrigindLauncher.Resources.Web;
 
 namespace OrigindLauncher.Resources.Client
 {
@@ -64,9 +63,7 @@ namespace OrigindLauncher.Resources.Client
             return clientInfo;
         }
 
-        public static DownloadStatusInfo Update(DownloadManager.CompletedEventHandler downloadFileCompleted,
-            DownloadManager.ProgressChangedEventHandler downloadProgressChanged,
-            DownloadManager.OnErrorEventHandler onError, Action allDone)
+        public static DownloadStatusInfo Update()
         {
             DirectoryHelper.EnsureDirectoryExists(GameStorageDirectory);
 
@@ -75,27 +72,16 @@ namespace OrigindLauncher.Resources.Client
             var onlineInfo = ClientInfoGetter.Get();
             var updateInfo = GetUpdateInfo();
 
-            foreach (var deletes in updateInfo.FilesToDelete)
+            foreach (var path in updateInfo.FilesToDelete.Select(deletes => GameStoragePath + deletes.Path).Where(File.Exists))
             {
-                var path = GameStoragePath + deletes.Path;
-                if (File.Exists(path))
-                    File.Delete(path);
+                File.Delete(path);
             }
 
-            dsi.FileNameList.AddRange(updateInfo.FilesToDownload.Select(a => a.Path));
+            dsi.FileNameList.AddRange(updateInfo.FilesToDownload.Select(a=>a.Path));
 
             CurrentInfo = onlineInfo;
             Save();
-
-            var downloadman = new DownloadManager(updateInfo.FilesToDownload);
-
-            downloadman.AddDownloadPath = GameStoragePath;
-            downloadman.DownloadFileCompleted += downloadFileCompleted;
-            downloadman.DownloadProgressChanged += downloadProgressChanged;
-            downloadman.OnError += onError;
-            downloadman.OnError += args => { downloadman.Downloading = false; };
-            downloadman.AllDone += allDone;
-            downloadman.Start();
+            
             //TODO
             
 
@@ -153,5 +139,18 @@ namespace OrigindLauncher.Resources.Client
     public class DownloadStatusInfo
     {
         public List<string> FileNameList { get; } = new List<string>();
+    }
+    public class DownloadInfo
+    {
+        public readonly string Hash;
+        public readonly string Path;
+        public readonly string Url;
+
+        public DownloadInfo(string url, string path, string hash)
+        {
+            Url = url;
+            Path = path;
+            Hash = hash;
+        }
     }
 }
