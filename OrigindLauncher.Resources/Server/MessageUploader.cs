@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using OrigindLauncher.Resources.Configs;
 using RestSharp;
 
 namespace OrigindLauncher.Resources.Server
@@ -8,7 +9,7 @@ namespace OrigindLauncher.Resources.Server
         public static bool CrashReport(UploadData data)
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);
-            var req = RestRequestFactory.Create(Definitions.Rest.CrashReport).AddBody(data);
+            var req = RestRequestFactory.Create(Definitions.Rest.CrashReport).AddBody($"{Config.Instance.PlayerAccount.Username}: {data}");
             var result = rc.Post(req);
 
             switch (result.StatusCode)

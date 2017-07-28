@@ -55,10 +55,15 @@
                                 BorderBrush="{x:Null}" Foreground="White" Click="Close">
                             <materialDesign:PackIcon Kind="Close" Height="32" Width="32" />
                         </Button>
-                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Height="48" Width="48"
+                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0" Height="48" Width="48"
                                 Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
                                 Click="Options">
-                            <materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
+                            <materialDesign:PackIcon Kind="Memory" Height="32" Width="32" />
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0" Height="48" Width="48"
+                                Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
+                                Click="Theme">
+                            <materialDesign:PackIcon Kind="Marker" Height="28" Width="28" />
                         </Button>
                         <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Margin="16 0 0 0"

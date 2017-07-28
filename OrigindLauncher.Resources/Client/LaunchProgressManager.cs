@@ -2,6 +2,7 @@
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
+using OrigindLauncher.UI.Code;
 
 namespace OrigindLauncher.Resources.Client
 {
@@ -67,9 +68,15 @@ namespace OrigindLauncher.Resources.Client
         public void Begin(LaunchHandle lh)
         {
             _launchProgressWindow.LaunchHandle = lh;
-            _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process"); //TODO: May bug
+            _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process"); 
             _launchProgressWindow.Begin();
             _launchProgressWindow.Show();
+        }
+
+        public void Close()
+        {
+            _launchProgressWindow.FlyoutAndClose();
+            
         }
     }
 }

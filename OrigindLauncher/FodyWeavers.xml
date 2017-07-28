@@ -2,5 +2,4 @@
 <Weavers>
   <Costura />
   <AsyncErrorHandler />
-  <ConfigureAwait />
 </Weavers>

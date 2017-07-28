@@ -28,7 +28,7 @@ namespace OrigindLauncher.Resources.Client
 
         public static string GetGameStorageDirectory(string name)
         {
-            return $@"{GameStoragePath}\{name}";
+            return $@"{GameStoragePath}{name}";
         }
 
         public static bool CheckUpdate()
@@ -63,11 +63,10 @@ namespace OrigindLauncher.Resources.Client
             return clientInfo;
         }
 
-        public static DownloadStatusInfo Update()
+        public static void Update()
         {
             DirectoryHelper.EnsureDirectoryExists(GameStorageDirectory);
-
-            var dsi = new DownloadStatusInfo();
+            
 
             var onlineInfo = ClientInfoGetter.Get();
             var updateInfo = GetUpdateInfo();
@@ -76,16 +75,11 @@ namespace OrigindLauncher.Resources.Client
             {
                 File.Delete(path);
             }
-
-            dsi.FileNameList.AddRange(updateInfo.FilesToDownload.Select(a=>a.Path));
-
+            
             CurrentInfo = onlineInfo;
             Save();
             
-            //TODO
             
-
-            return dsi;
         }
 
         public static void Save()
@@ -135,11 +129,7 @@ namespace OrigindLauncher.Resources.Client
         public List<FileEntry> FilesToDelete { get; } = new List<FileEntry>();
         public List<DownloadInfo> FilesToDownload { get; } = new List<DownloadInfo>();
     }
-
-    public class DownloadStatusInfo
-    {
-        public List<string> FileNameList { get; } = new List<string>();
-    }
+    
     public class DownloadInfo
     {
         public readonly string Hash;

@@ -38,16 +38,24 @@ namespace OrigindLauncher.UI
 
         private static void UpdateAnime(object sender, EventArgs e)
         {
+
             var ts = DateTime.Now - _instance.StartTime;
             var pt = GetProcessTime();
 
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                var da = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(300)));
-                _instance.ProcessHandle.Refresh();
-                _instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
-                _instance.GameUseCpu.Text = $"{pt:F2} %";
-                _instance.GameUseMem.Text = $"{_instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0:F2} M";
+                try
+                {
+                    var da = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(300)));
+                    _instance.ProcessHandle.Refresh();
+                    _instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
+                    _instance.GameUseCpu.Text = $"{pt:F2} %";
+                    _instance.GameUseMem.Text = $"{_instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0:F2} M";
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
             });
             _instance.LoadTime.Text = $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
         }

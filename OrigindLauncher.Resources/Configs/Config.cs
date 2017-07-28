@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using KMCCC.Launcher;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Utils;
@@ -15,6 +16,7 @@ namespace OrigindLauncher.Resources.Configs
             Instance = File.Exists(Definitions.ConfigJsonPath)
                 ? File.ReadAllText(Definitions.ConfigJsonPath).JsonCast<Config>()
                 : new Config();
+            Reporter.SetReportLevel(Reporter.ReportLevel.None);
         }
 
         public string UpdatePath { get; set; } = null;

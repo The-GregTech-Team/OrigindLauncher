@@ -9,6 +9,7 @@ using System.Windows.Media;
 using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Core;
+using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.UI;
 
 namespace OrigindLauncher
@@ -25,6 +26,12 @@ namespace OrigindLauncher
         {
             if (Config.Instance.DisableHardwareSpeedup)
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+
+            if (args.Any(s => s == "AddPermissions"))
+            {
+                DirectoryHelper.AddCurrentDirectoryWritePermissionInternal();
+                return;
+            }
 
             if (args.Length == 3 && args.Any(s => s == "Update"))
             {
@@ -52,7 +59,6 @@ namespace OrigindLauncher
                     Console.WriteLine(e);
                 }
 #endif
-
 
                 if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath) ||
                     Config.Instance.PlayerAccount == null)

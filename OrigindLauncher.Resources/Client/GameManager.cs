@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using KMCCC.Authentication;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Configs;
@@ -13,13 +14,14 @@ namespace OrigindLauncher.Resources.Client
         public event Action<LaunchResult> OnError;
 
 
-        public LaunchHandle Run()
+        public LaunchResult Run()
         {
             var launchercore =
                 KMCCC.Launcher.LauncherCore.Create(new LauncherCoreCreationOption(javaPath: Config.Instance.JavaPath));
             launchercore.GameLog += OnGameLog;
             launchercore.GameExit += (handle, i) =>
             {
+                
                 OnGameExit?.Invoke(handle, i);
                 IsRunning = false;
             };
@@ -30,7 +32,7 @@ namespace OrigindLauncher.Resources.Client
                 Mode = LaunchMode.BmclMode,
                 MaxMemory = Config.Instance.MaxMemory
             };
-
+            
             var result = launchercore.Launch(launchOptions, x =>
             {
                 if (Config.Instance.JavaArguments.Contains("G1GC"))
@@ -38,14 +40,14 @@ namespace OrigindLauncher.Resources.Client
                 x.AdvencedArguments.Add(Config.Instance.JavaArguments);
             });
             IsRunning = true;
-
+            
             if (!result.Success)
             {
                 OnError?.Invoke(result);
                 IsRunning = false;
             }
 
-            return result.Handle;
+            return result;
             /*
             result.Handle.GetPrivateField<Process>(nameof(Process)).Exited += (sender, args) =>
             {

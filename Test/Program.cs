@@ -8,7 +8,7 @@ namespace Test
     {
         private static void Main(string[] args)
         {
-            var stat = ClientManager.Update();
+            //var stat = ClientManager.Update();
 
 
             Console.WriteLine("done");

@@ -7,16 +7,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using KMCCC.Launcher;
 using MaterialDesignThemes.Wpf;
+using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
+using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 using OrigindLauncher.UI.Code;
 using OrigindLauncher.UI.Dialogs;
 
 namespace OrigindLauncher
-{
+{//TODO: Skin
     /// <summary>
     ///     Interaction logic for LauncherWindow.xaml
     /// </summary>
@@ -25,6 +29,7 @@ namespace OrigindLauncher
         private static readonly Regex CheckUrlRegex =
             new Regex(
                 "((http|ftp|https):\\/\\/)?[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?");
+
 
         public LauncherWindow()
         {
@@ -49,10 +54,14 @@ namespace OrigindLauncher
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
-        {//TODO: Check for Java and Install r
+        {
             StartButton.IsEnabled = false;
-            if (CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
-                await UpdateUpdatePathAsync();
+            if (string.IsNullOrWhiteSpace(Config.Instance.UpdatePath) ||
+                CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
+            {
+                Config.Instance.UpdatePath = $"{Definitions.OrigindServerUrl}/{Definitions.Rest.ClientJson}";
+            }
+            //await UpdateUpdatePathAsync();
 
             // 刷新登录状态
             var status = await Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
@@ -87,44 +96,78 @@ namespace OrigindLauncher
                     return;
                 }
             }
-
+            BeginCrashReportDetector();
             // 启动游戏
             var gm = new GameManager();
             gm.OnError += result => Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception));
-            gm.OnGameExit += (handle, i) => Environment.Exit(0);
-
             var lpm = new LaunchProgressManager();
+
+            gm.OnGameExit += (handle, i) => this.Dispatcher.Invoke(() =>
+            {
+                Show();
+                lpm.Close();
+                var after = GetReportFiles().Except(Before).ToList();
+                if (after.Count != 0)
+                {
+                                        this.Dispatcher.Invoke(async () =>
+                    {
+                        var chooseDialog = new ChooseDialog("要上传崩溃报告喵?", "Origind Launcher 检测到了一个 Minecraft 崩溃报告.", "上传");
+                        await DialogHost.Show(chooseDialog, "RootDialog");
+                        if (chooseDialog.Result)
+                        {
+                            MessageUploadManager.CrashReport(new UploadData(
+                                $"游戏运行时异常: {File.ReadAllText(after.FirstOrDefault())}"));
+                        }
+                    });
+                    
+                   
+
+                }
+            });
+
             gm.OnGameLog += (lh, log) => lpm.OnGameLog(log);
 
             // 游戏状态
             var lh1 = gm.Run();
 
-            if (File.Exists(ClientManager.GetGameStorageDirectory(@"mods\OrigindLauncherHelper.jar")))
+            if (!lh1.Success)
             {
-                if (Config.Instance.LaunchProgress)
-                    lpm.Begin(lh1);
-            }
-            else
-            {
-                await DialogHost.Show(new MessageDialog {Message = {Text = "你的客户端没有安装 OrigindLauncherHelper."}},
-                    "RootDialog");
+                MessageUploadManager.CrashReport(new UploadData($"游戏启动时异常: {lh1.ErrorMessage} {lh1.Exception?.SerializeException()}"));
+                MainSnackbar.MessageQueue.Enqueue($"游戏启动时异常: {lh1.ErrorMessage}");
+                StartButton.IsEnabled = true;
+                return;
             }
 
+            if (Config.Instance.LaunchProgress)
+                lpm.Begin(lh1.Handle);
 
             // 退出
             StartButton.IsEnabled = true;
-            this.Flyout(() =>
-            {
-                Hide();
-                //TODO
-            });
+
+            Hide();
+
         }
+        private static string[] Before { get; set; }
+        
+        private static void BeginCrashReportDetector()
+        {
+            var files = GetReportFiles();
+            Before = files;
+        }
+
+        private static string[] GetReportFiles()
+        {
+            var path = ClientManager.GetGameStorageDirectory("crash-reports");
+            var files = Directory.GetFiles(path);
+            return files;
+        }
+
 
         private static async Task UpdateUpdatePathAsync()
         {
             while (!CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
             {
-                var input = new InputDialog {Title = {Text = "输入客户端更新地址."}};
+                var input = new InputDialog { Title = { Text = "输入客户端更新地址." } };
                 await DialogHost.Show(input, "RootDialog");
                 var text = input.InputBox.Text;
                 if (CheckUrlRegex.IsMatch(text))
@@ -141,7 +184,7 @@ namespace OrigindLauncher
             await Task.Run(() =>
             {
 
-                var dl = ClientManager.Update();
+                //var dl = ClientManager.Update();
 
             });
             return true;
@@ -155,13 +198,13 @@ namespace OrigindLauncher
         private void OpenDMinecraft(object sender, RoutedEventArgs e)
         {
             Process.Start("explorer",
-                Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\" +
+
                 ClientManager.GameStorageDirectory);
         }
 
         private async void Options(object sender, RoutedEventArgs e)
         {
-            await DialogHost.Show(new SettingsDialog(), "RootDialog");
+            await DialogHost.Show(new SettingsDialog(), "RootDialog").ConfigureAwait(false);
         }
 
         private void Move(object sender, MouseButtonEventArgs e)
@@ -183,15 +226,20 @@ namespace OrigindLauncher
             }
         }
 
-        private async void InitEnvironment(object sender, RoutedEventArgs e)
+        private /*async*/ void InitEnvironment(object sender, RoutedEventArgs e)
         {
-            await UpdateUpdatePathAsync();
+            // await UpdateUpdatePathAsync();
         }
 
         private void SwitchUser(object sender, RoutedEventArgs e)
         {
             Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Setup");
             this.Flyout(() => Environment.Exit(0));
+        }
+
+        private void Theme(object sender, RoutedEventArgs e)
+        {
+            //TODO_IMPLEMENT_ME();
         }
     }
 }

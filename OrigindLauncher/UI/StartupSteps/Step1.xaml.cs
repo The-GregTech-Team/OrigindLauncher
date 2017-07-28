@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
+using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.String;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI.Code;
+using OrigindLauncher.UI.Dialogs;
 
 namespace OrigindLauncher.UI.StartupSteps
 {
@@ -58,7 +61,6 @@ namespace OrigindLauncher.UI.StartupSteps
                 {
                     Console.WriteLine(exception);
                 }
-                Config.Save();
             }
             else
             {
@@ -98,10 +100,20 @@ namespace OrigindLauncher.UI.StartupSteps
                 {
                     Console.WriteLine(exception);
                 }
-                Config.Save();
+            }
+            if (!DirectoryHelper.IsCurrentDirectoryWritable)
+            {
+                await this.Dispatcher.Invoke(async () =>
+                {
+                    var chooseDialog = new ChooseDialog("要让这个文件夹有写入权限吗?", "Origind Launcher 可能没有文件夹的写入权限.", "添加写入权限");
+                    await DialogHost.Show(chooseDialog, "SetupWindowDialogHost");
+                    if (chooseDialog.Result) DirectoryHelper.AddCurrentDirectoryWritePermission();
+                    
+                });
             }
 
-            Window.GetWindow(this).FlyoutAndClose(() =>
+            Config.Save();
+            Dispatcher.Invoke(() => Window.GetWindow(this).FlyoutAndClose(() =>
             {
                 if (Directory.Exists(ClientManager.GameStorageDirectory))
                 {
@@ -111,7 +123,8 @@ namespace OrigindLauncher.UI.StartupSteps
 
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName);
                 Application.Current.Shutdown();
-            });
+            }));
+            
         }
     }
 
