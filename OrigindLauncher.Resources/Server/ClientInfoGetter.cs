@@ -10,8 +10,7 @@ namespace OrigindLauncher.Resources.Server
     {
         public static ClientInfo Get()
         {
-            var wc = new WebClient();
-            wc.Encoding = Encoding.UTF8;
+            var wc = new WebClient {Encoding = Encoding.UTF8};
             return wc.DownloadString(Config.Instance.UpdatePath).JsonCast<ClientInfo>();
         }
     }

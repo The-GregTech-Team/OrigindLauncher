@@ -22,12 +22,12 @@ namespace OrigindLauncher.Resources.Configs
 
         public ThemeConfig ThemeConfig { get; set; } = new ThemeConfig();
 
-        public string UpdatePath { get; set; } = null;
+        public string UpdatePath { get; set; } = $"{Definitions.OrigindServerUrl}/{Definitions.Rest.ClientJson}";
 
         public bool DisableHardwareSpeedup { get; set; } = false;
 
         public static int LauncherVersion { get; } =
-            237
+            243
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"};

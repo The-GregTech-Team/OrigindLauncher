@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
+using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Server.Data;
 using OrigindLauncher.Resources.String;
@@ -83,11 +85,11 @@ namespace OrigindLauncher.UI.Dialogs
                     }
                     catch (Exception exception)
                     {
-                        MessageUploadManager.CrashReport(new UploadData($"更新器V2发生异常 {exception.SerializeException()}"));
+                        MessageUploadManager.CrashReport(new UploadData($"更新器V2发生异常 {exception.SerializeException()} {exception.InnerException?.SerializeException()}"));
                         isRunning = false;
                     }
                 });
-
+                
                 Parallel.ForEach(UpdateInfo.FilesToDownload, downloadEntry =>
                 {
                     if (!isRunning) return;
@@ -97,23 +99,22 @@ namespace OrigindLauncher.UI.Dialogs
                         var path = ClientManager.GetGameStorageDirectory(downloadEntry.Path);
                         if (File.Exists(path))
                         {
-                            using (var file = File.Open(path, FileMode.Open))
+                            using (var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                             {
                                 if (SHA128Helper.Compute(file) == downloadEntry.Hash)
                                     goto finish;
                             }
 
-
                             File.Delete(path);
                         }
-
+                        DirectoryHelper.EnsureDirectoryExists(Path.GetDirectoryName(path));
                         wc.DownloadProgressChanged += (o, args) => Dispatcher.Invoke(() =>
                         {
                             var progress = _downloadProgressDictionary[downloadEntry];
                             progress.Value = args.BytesReceived / (double) args.TotalBytesToReceive;
                         });
+                        
                         wc.DownloadFileTaskAsync(downloadEntry.Url, path).Wait();
-
                         ClientManager.CurrentInfo.Files.Add(new FileEntry(downloadEntry.Path, downloadEntry.Hash));
                         finish:
                         Dispatcher.Invoke(() =>
@@ -124,7 +125,7 @@ namespace OrigindLauncher.UI.Dialogs
                     }
                     catch (Exception exception)
                     {
-                        MessageUploadManager.CrashReport(new UploadData($"更新器V2发生异常 {exception.SerializeException()}"));
+                        MessageUploadManager.CrashReport(new UploadData($"更新器V2发生异常 {exception.SerializeException()} {exception.InnerException?.SerializeException()}"));
                         isRunning = false;
                     }
                 });
