@@ -2,7 +2,10 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using KMCCC.Launcher;
@@ -38,7 +41,6 @@ namespace OrigindLauncher.UI
 
         private static void UpdateAnime(object sender, EventArgs e)
         {
-
             var ts = DateTime.Now - _instance.StartTime;
             var pt = GetProcessTime();
 
@@ -79,10 +81,21 @@ namespace OrigindLauncher.UI
         {
             if (LogList.Items.Count > 200)
                 LogList.Items.RemoveAt(0);
-            LogList.Items.Add(log);
+            
+            LogList.Items.Add(new ListBoxItem {Foreground = translateToBrush(log), Content = log});
             LogList.SelectedIndex = LogList.Items.Count - 1;
         }
 
+
+        private Brush translateToBrush(string a)
+        {
+            var sub = a.Length>50 ? a.Substring(0, 50) : a;
+            if (sub.Contains("INFO")) return new SolidColorBrush(Colors.Teal);
+            if (sub.Contains("DEBUG")) return new SolidColorBrush(Colors.DeepSkyBlue);
+            if (sub.Contains("WARN")) return new SolidColorBrush(Colors.Yellow);
+            if (sub.Contains("ERROR")) return new SolidColorBrush(Colors.Red);
+            return new SolidColorBrush(Colors.Teal);
+        }
         public void Done()
         {
             LoadingText.Text = "加载完成.";

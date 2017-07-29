@@ -11,11 +11,11 @@
              Background="{DynamicResource MaterialDesignPaper}"
              TextOptions.TextFormattingMode="Ideal"
              FontSize="16" DataContext="{StaticResource PaletteSelectorViewModel}"
-             TextOptions.TextRenderingMode="Auto" 
+             TextOptions.TextRenderingMode="Auto"
              Height="500" Width="850">
-    
+
     <UserControl.Resources>
-        
+
         <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
             <Setter Property="Margin" Value="0" />
             <Setter Property="CommandParameter" Value="{Binding}" />
@@ -28,7 +28,8 @@
             </Setter>
         </Style>
         <Style x:Key="PalettePath" TargetType="Path">
-            <Setter Property="Data" Value="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" />
+            <Setter Property="Data"
+                    Value="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" />
             <Setter Property="Fill">
                 <Setter.Value>
                     <SolidColorBrush Color="{Binding ExemplarHue.Foreground, Mode=OneTime}" />
@@ -51,8 +52,9 @@
                         <Border.Background>
                             <SolidColorBrush Color="{Binding ExemplarHue.Color, Mode=OneTime}" />
                         </Border.Background>
-                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ThemeDialog}}, Path=DataContext.ApplyPrimaryCommand, Mode=OneTime}"
-                                CommandParameter="{Binding}">
+                        <Button
+                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ThemeDialog}}, Path=DataContext.ApplyPrimaryCommand, Mode=OneTime}"
+                            CommandParameter="{Binding}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="主要色" />
                                 <Viewbox Width="16" Height="16">
@@ -63,14 +65,15 @@
                             </StackPanel>
                         </Button>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="1" 
+                    <Border Grid.Row="1" Grid.Column="1"
                             Visibility="{Binding IsAccented, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneTime}"
                             Width="120">
                         <Border.Background>
                             <SolidColorBrush Color="{Binding AccentExemplarHue.Color, Mode=OneTime}" />
                         </Border.Background>
-                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ThemeDialog}}, Path=DataContext.ApplyAccentCommand, Mode=OneTime}"
-                                CommandParameter="{Binding}">
+                        <Button
+                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ThemeDialog}}, Path=DataContext.ApplyAccentCommand, Mode=OneTime}"
+                            CommandParameter="{Binding}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="强调色" />
                                 <Viewbox Width="16" Height="16">
@@ -78,7 +81,7 @@
                                         <Path Style="{StaticResource PalettePath}" />
                                     </Canvas>
                                 </Viewbox>
-                                
+
                             </StackPanel>
                         </Button>
                     </Border>
@@ -99,7 +102,8 @@
 
         <ScrollViewer Grid.Row="1" Margin="8">
             <StackPanel>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0" Height="48" Width="48"
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0" Height="48"
+                        Width="48"
                         Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}"
                         Click="ChangeLightDark">
                     <materialDesign:PackIcon Kind="ThemeLightDark" Height="28" Width="28" />
@@ -117,14 +121,12 @@
         </ScrollViewer>
 
 
-        <Button Grid.Row="2" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 0 16 0" VerticalAlignment="Center"
-                    Click="SaveAndClose">
-                保存
-            </Button>
-        
-                
-            
-        
+        <Button Grid.Row="2" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
+                Margin="0 0 16 0" VerticalAlignment="Center"
+                Click="SaveAndClose">
+            保存
+        </Button>
+
 
     </Grid>
 

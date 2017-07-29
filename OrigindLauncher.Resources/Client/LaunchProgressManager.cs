@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
@@ -68,7 +69,14 @@ namespace OrigindLauncher.Resources.Client
         public void Begin(LaunchHandle lh)
         {
             _launchProgressWindow.LaunchHandle = lh;
-            _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process"); 
+            try
+            {
+                _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             _launchProgressWindow.Begin();
             _launchProgressWindow.Show();
         }
@@ -76,7 +84,6 @@ namespace OrigindLauncher.Resources.Client
         public void Close()
         {
             _launchProgressWindow.FlyoutAndClose();
-            
         }
     }
 }

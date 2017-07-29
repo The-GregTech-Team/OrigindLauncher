@@ -19,13 +19,16 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <TextBlock Margin="12" FontSize="19">Origind Launcher 游戏更新</TextBlock>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel x:Name="UpdatePanel" Margin="8" >
+        <ScrollViewer Grid.Row="1" Margin="8">
+            <materialDesign:Card Margin="8">
 
-            </StackPanel>
+                <StackPanel x:Name="UpdatePanel" Margin="8" />
+
+            </materialDesign:Card>
         </ScrollViewer>
 
-        <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Right"
+        <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" VerticalAlignment="Center"
+                HorizontalAlignment="Right"
                 Grid.Row="2" Click="Confirm" x:Name="ConfirmBtn">
             确认
         </Button>

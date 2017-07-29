@@ -62,9 +62,7 @@
                                              Kind="Account" />
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" x:Name="Username"
                              HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="200" FontSize="16"
-                             materialDesign:HintAssist.Hint="用户名" >
-                        
-                    </TextBox>
+                             materialDesign:HintAssist.Hint="用户名" />
 
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 8 0 0">

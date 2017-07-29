@@ -6,7 +6,7 @@
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
-            <dialogs:PaletteSelectorViewModel x:Key="PaletteSelectorViewModel"/>
+            <dialogs:PaletteSelectorViewModel x:Key="PaletteSelectorViewModel" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />

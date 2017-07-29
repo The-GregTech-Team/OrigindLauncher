@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using MaterialDesignColors;
+using System.Windows;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Json;
@@ -68,18 +68,23 @@ namespace OrigindLauncher.Resources.Client
         public static async Task<bool> UpdateAsync()
         {
             DirectoryHelper.EnsureDirectoryExists(GameStorageDirectory);
-            
+
             var onlineInfo = ClientInfoGetter.Get();
             var updateInfo = GetUpdateInfo(onlineInfo);
-            
-            var gud = new GameUpdatingDialog(updateInfo);
-            await DialogHost.Show(gud, "RootDialog");
+            var result = false;
 
-            if (gud.Result)
-                CurrentInfo.Version = onlineInfo.Version;
-            Save();
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var gud = new GameUpdatingDialog(updateInfo);
+                await DialogHost.Show(gud, "RootDialog");
 
-            return gud.Result;
+                if (gud.Result)
+                    CurrentInfo.Version = onlineInfo.Version;
+                Save();
+                result = gud.Result;
+            });
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -116,7 +121,8 @@ namespace OrigindLauncher.Resources.Client
                 }
 
             // 要删除的文件
-            foreach (var localInfoFile in CurrentInfo.Files.Where(localInfoFile => !filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path)))
+            foreach (var localInfoFile in CurrentInfo.Files.Where(
+                localInfoFile => !filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path)))
                 updateInfo.FilesToDelete.Add(localInfoFile);
 
             return updateInfo;
@@ -128,7 +134,7 @@ namespace OrigindLauncher.Resources.Client
         public List<FileEntry> FilesToDelete { get; } = new List<FileEntry>();
         public List<DownloadInfo> FilesToDownload { get; } = new List<DownloadInfo>();
     }
-    
+
     public class DownloadInfo
     {
         public readonly string Hash;

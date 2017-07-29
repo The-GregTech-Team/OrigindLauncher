@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OrigindLauncher.Resources.UI
+﻿namespace OrigindLauncher.Resources.UI
 {
     public class ThemeConfig
     {

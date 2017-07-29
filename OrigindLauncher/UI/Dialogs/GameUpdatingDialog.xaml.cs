@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,16 +15,19 @@ using OrigindLauncher.Resources.Utils;
 namespace OrigindLauncher.UI.Dialogs
 {
     /// <summary>
-    /// Interaction logic for GameUpdatingDialog.xaml
+    ///     Interaction logic for GameUpdatingDialog.xaml
     /// </summary>
     public partial class GameUpdatingDialog
     {
-        private UpdateInfo UpdateInfo { get; }
-        private Dictionary<FileEntry, TextBlock> _deleteDictionary = new Dictionary<FileEntry, TextBlock>();
-        private Dictionary<DownloadInfo, TextBlock> _downloadTbDictionary = new Dictionary<DownloadInfo, TextBlock>();
-        private Dictionary<DownloadInfo, ProgressBar> _downloadProgressDictionary = new Dictionary<DownloadInfo, ProgressBar>();
+        private readonly Dictionary<FileEntry, TextBlock> _deleteDictionary = new Dictionary<FileEntry, TextBlock>();
 
-        public bool Result { get; private set; }
+        private readonly Dictionary<DownloadInfo, ProgressBar> _downloadProgressDictionary =
+            new Dictionary<DownloadInfo, ProgressBar>();
+
+        private readonly Dictionary<DownloadInfo, TextBlock> _downloadTbDictionary =
+            new Dictionary<DownloadInfo, TextBlock>();
+
+        private bool isRunning = true;
 
         public GameUpdatingDialog(UpdateInfo updateInfo)
         {
@@ -33,15 +35,15 @@ namespace OrigindLauncher.UI.Dialogs
             InitializeComponent();
             foreach (var deleteEntry in updateInfo.FilesToDelete)
             {
-                var textblock = new TextBlock { Text = $"删除 {deleteEntry.Path}", Margin = new Thickness(4) };
+                var textblock = new TextBlock {Text = $"删除 {deleteEntry.Path}", Margin = new Thickness(4)};
                 UpdatePanel.Children.Add(textblock);
                 _deleteDictionary.Add(deleteEntry, textblock);
             }
 
             foreach (var downloadEntry in updateInfo.FilesToDownload)
             {
-                var textBlock = new TextBlock { Text = $"下载 {downloadEntry.Path}" };
-                var progressBar = new ProgressBar { Maximum = 1 };
+                var textBlock = new TextBlock {Text = $"下载 {downloadEntry.Path}", Margin = new Thickness(4)};
+                var progressBar = new ProgressBar {Maximum = 1, Margin = new Thickness(4, 0, 4, 4)};
                 _downloadTbDictionary.Add(downloadEntry, textBlock);
                 _downloadProgressDictionary.Add(downloadEntry, progressBar);
                 UpdatePanel.Children.Add(textBlock);
@@ -49,7 +51,10 @@ namespace OrigindLauncher.UI.Dialogs
             }
         }
 
-        private bool isRunning = true;
+        private UpdateInfo UpdateInfo { get; }
+
+        public bool Result { get; private set; }
+
         private async void Confirm(object sender, RoutedEventArgs e)
         {
             ConfirmBtn.IsEnabled = false;
@@ -61,12 +66,19 @@ namespace OrigindLauncher.UI.Dialogs
 
                     try
                     {
-                        if (File.Exists(deleteEntry.Path))
-                            File.Delete(deleteEntry.Path);
-
-                        var current =
-                            ClientManager.CurrentInfo.Files.Find(f => f.GetHashCode() == deleteEntry.GetHashCode());
-                        ClientManager.CurrentInfo.Files.Remove(current);
+                        var path = ClientManager.GetGameStorageDirectory(deleteEntry.Path);
+                        if (File.Exists(path))
+                            File.Delete(path);
+                        try
+                        {
+                            var current =
+                                ClientManager.CurrentInfo.Files.Find(f => f.Equals(deleteEntry));
+                            ClientManager.CurrentInfo.Files.Remove(current);
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine(exception);
+                        }
                         Dispatcher.Invoke(() => UpdatePanel.Children.Remove(_deleteDictionary[deleteEntry]));
                     }
                     catch (Exception exception)
@@ -74,7 +86,6 @@ namespace OrigindLauncher.UI.Dialogs
                         MessageUploadManager.CrashReport(new UploadData($"更新器V2发生异常 {exception.SerializeException()}"));
                         isRunning = false;
                     }
-
                 });
 
                 Parallel.ForEach(UpdateInfo.FilesToDownload, downloadEntry =>
@@ -86,8 +97,12 @@ namespace OrigindLauncher.UI.Dialogs
                         var path = ClientManager.GetGameStorageDirectory(downloadEntry.Path);
                         if (File.Exists(path))
                         {
-                            if (SHA128Helper.Compute(File.Open(path, FileMode.Open))== downloadEntry.Hash)
-                                goto finish;
+                            using (var file = File.Open(path, FileMode.Open))
+                            {
+                                if (SHA128Helper.Compute(file) == downloadEntry.Hash)
+                                    goto finish;
+                            }
+
 
                             File.Delete(path);
                         }
@@ -95,7 +110,7 @@ namespace OrigindLauncher.UI.Dialogs
                         wc.DownloadProgressChanged += (o, args) => Dispatcher.Invoke(() =>
                         {
                             var progress = _downloadProgressDictionary[downloadEntry];
-                            progress.Value = args.BytesReceived / (double)args.TotalBytesToReceive;
+                            progress.Value = args.BytesReceived / (double) args.TotalBytesToReceive;
                         });
                         wc.DownloadFileTaskAsync(downloadEntry.Url, path).Wait();
 
@@ -113,16 +128,16 @@ namespace OrigindLauncher.UI.Dialogs
                         isRunning = false;
                     }
                 });
-                ClientManager.Save();
+
                 Result = isRunning;
-                
+
                 Close();
             });
         }
 
         private void Close()
         {
-            DialogHost.CloseDialogCommand.Execute(this, this);
+            Dispatcher.Invoke(() => { DialogHost.CloseDialogCommand.Execute(this, this); });
         }
     }
 }

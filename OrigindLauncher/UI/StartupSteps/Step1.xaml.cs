@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using JetBrains.Annotations;
 using MaterialDesignThemes.Wpf;
-using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
@@ -102,15 +95,12 @@ namespace OrigindLauncher.UI.StartupSteps
                 }
             }
             if (!DirectoryHelper.IsCurrentDirectoryWritable)
-            {
-                await this.Dispatcher.Invoke(async () =>
+                await Dispatcher.Invoke(async () =>
                 {
                     var chooseDialog = new ChooseDialog("要让这个文件夹有写入权限吗?", "Origind Launcher 可能没有文件夹的写入权限.", "添加写入权限");
                     await DialogHost.Show(chooseDialog, "SetupWindowDialogHost");
                     if (chooseDialog.Result) DirectoryHelper.AddCurrentDirectoryWritePermission();
-                    
                 });
-            }
 
             Config.Save();
             Dispatcher.Invoke(() => Window.GetWindow(this).FlyoutAndClose(() =>
@@ -124,8 +114,6 @@ namespace OrigindLauncher.UI.StartupSteps
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName);
                 Application.Current.Shutdown();
             }));
-            
         }
     }
-
 }

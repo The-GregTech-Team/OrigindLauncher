@@ -12,7 +12,8 @@
         TextOptions.TextRenderingMode="Auto"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Microsoft YaHei UI"
-        Title="LauncherWindow" Height="720" Width="1150" MouseLeftButtonDown="Move" WindowStartupLocation="CenterScreen"
+        Title="LauncherWindow" Height="720" Width="1150" MouseLeftButtonDown="Move"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>
@@ -44,7 +45,7 @@
 
             <DockPanel>
                 <DockPanel.Background>
-                    <ImageBrush x:Name="Bg" ImageSource="Images/Background2.png"/>
+                    <ImageBrush x:Name="Bg" ImageSource="Images/Background2.png" />
                 </DockPanel.Background>
                 <materialDesign:ColorZone Opacity="0.85" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
@@ -55,12 +56,14 @@
                                 BorderBrush="{x:Null}" Foreground="White" Click="Close">
                             <materialDesign:PackIcon Kind="Close" Height="32" Width="32" />
                         </Button>
-                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0" Height="48" Width="48"
+                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0"
+                                Height="48" Width="48"
                                 Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
                                 Click="Options">
                             <materialDesign:PackIcon Kind="Memory" Height="32" Width="32" />
                         </Button>
-                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0" Height="48" Width="48"
+                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0"
+                                Height="48" Width="48"
                                 Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
                                 Click="Theme">
                             <materialDesign:PackIcon Kind="Marker" Height="28" Width="28" />
@@ -114,7 +117,7 @@
                         </Grid>
                     </materialDesign:Card>
 
-<Image x:Name="BgCache" Height="0" Width="0"/>
+                    <Image x:Name="BgCache" Height="0" Width="0" />
                 </Grid>
 
 

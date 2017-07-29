@@ -15,20 +15,16 @@ namespace OrigindLauncher
     {
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-
             File.AppendAllText("crashreport.txt", e.Exception.SerializeException());
 
             Dispatcher.Invoke(() => { new ExceptionHandlerWindow(e.Exception).ShowDialog(); });
             e.Handled = true;
-
         }
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
-
         }
 
         private void TaskSchedulerOnUnobservedTaskException(object sender,

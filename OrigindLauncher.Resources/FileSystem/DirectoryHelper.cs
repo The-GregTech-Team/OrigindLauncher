@@ -3,18 +3,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Security;
 using System.Security.AccessControl;
-using System.Security.Permissions;
-using System.Security.Principal;
 
 namespace OrigindLauncher.Resources.FileSystem
 {
     public static class DirectoryHelper
     {
-        public static void EnsureDirectoryExists(string directoryName)
-        {
-            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
-        }
-        
         public static bool IsCurrentDirectoryWritable
         {
             get
@@ -42,6 +35,11 @@ namespace OrigindLauncher.Resources.FileSystem
                     return false;
                 }
             }
+        }
+
+        public static void EnsureDirectoryExists(string directoryName)
+        {
+            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
         }
 
         public static void AddCurrentDirectoryWritePermission()
