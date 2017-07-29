@@ -92,7 +92,7 @@ namespace OrigindLauncher.UI
             var sub = a.Length>50 ? a.Substring(0, 50) : a;
             if (sub.Contains("INFO")) return new SolidColorBrush(Colors.Teal);
             if (sub.Contains("DEBUG")) return new SolidColorBrush(Colors.DeepSkyBlue);
-            if (sub.Contains("WARN")) return new SolidColorBrush(Colors.Yellow);
+            if (sub.Contains("WARN")) return new SolidColorBrush(Colors.GreenYellow);
             if (sub.Contains("ERROR")) return new SolidColorBrush(Colors.Red);
             return new SolidColorBrush(Colors.Teal);
         }

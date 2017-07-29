@@ -81,7 +81,7 @@
 
             <materialDesign:Card Grid.Column="0" Margin="8">
                 <StackPanel>
-                    <TextBlock Margin="16" TextAlignment="Center" FontSize="14">启动状态信息</TextBlock>
+                    <TextBlock Margin="16" TextAlignment="Center" FontSize="16">启动信息</TextBlock>
                     <TextBlock Margin="8" TextAlignment="Center" FontSize="14">启动时间</TextBlock>
                     <TextBlock x:Name="LoadTime" Margin="8" TextAlignment="Center" FontSize="14">00:00:00</TextBlock>
                     <TextBlock x:Name="Add1sAnimeText" Margin="8 0 8 8" TextAlignment="Center" FontSize="12"
