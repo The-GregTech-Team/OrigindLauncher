@@ -14,20 +14,30 @@ namespace OrigindLauncher.Resources.FileSystem
         {
             if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
         }
-
+        
         public static bool IsCurrentDirectoryWritable
         {
             get
             {
                 try
                 {
-                    return new DirectorySecurity(".", AccessControlSections.Access).AreAccessRulesProtected;
+                    File.WriteAllText("test.txt", @"nothing");
+                    File.Delete("test.txt");
+                    return true;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     return false;
                 }
-                catch (SystemException)
+                catch (SecurityException)
+                {
+                    return false;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    return false;
+                }
+                catch (IOException)
                 {
                     return false;
                 }

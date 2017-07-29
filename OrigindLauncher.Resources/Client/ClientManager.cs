@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
@@ -10,6 +11,7 @@ using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Server.Data;
 using OrigindLauncher.Resources.String;
+using OrigindLauncher.UI.Dialogs;
 
 namespace OrigindLauncher.Resources.Client
 {
@@ -58,43 +60,41 @@ namespace OrigindLauncher.Resources.Client
                 files.Add(new FileEntry(path, hash));
             });
 
-            clientInfo.Files = files.ToArray();
+            clientInfo.Files = files;
 
             return clientInfo;
         }
 
-        public static void Update()
+        public static async Task<bool> UpdateAsync()
         {
             DirectoryHelper.EnsureDirectoryExists(GameStorageDirectory);
             
-
             var onlineInfo = ClientInfoGetter.Get();
-            var updateInfo = GetUpdateInfo();
+            var updateInfo = GetUpdateInfo(onlineInfo);
+            
+            var gud = new GameUpdatingDialog(updateInfo);
+            await DialogHost.Show(gud, "RootDialog");
 
-            foreach (var path in updateInfo.FilesToDelete.Select(deletes => GameStoragePath + deletes.Path).Where(File.Exists))
-            {
-                File.Delete(path);
-            }
-            
-            CurrentInfo = onlineInfo;
+            if (gud.Result)
+                CurrentInfo.Version = onlineInfo.Version;
             Save();
-            
-            
+
+            return gud.Result;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static void Save()
         {
             File.WriteAllText(Definitions.ClientJsonPath, CurrentInfo.ToJsonString());
         }
 
-        private static UpdateInfo GetUpdateInfo()
+        private static UpdateInfo GetUpdateInfo(ClientInfo clientInfo)
         {
             if (CurrentInfo == null) CurrentInfo = new ClientInfo();
-            var onlineInfo = ClientInfoGetter.Get();
 
             var updateInfo = new UpdateInfo();
 
-            var filesInOnlineInfo = onlineInfo.Files;
+            var filesInOnlineInfo = clientInfo.Files;
             var filesInCurrentInfoDictionary = CurrentInfo.Files.ToDictionary(e => e.Path);
             var filesInOnlineInfoDictionary = filesInOnlineInfo.ToDictionary(e => e.Path);
 
@@ -105,20 +105,19 @@ namespace OrigindLauncher.Resources.Client
                     if (filesInCurrentInfoDictionary[onlineInfoFile.Path].Hash == onlineInfoFile.Hash) continue;
 
                     updateInfo.FilesToDelete.Add(onlineInfoFile);
-                    updateInfo.FilesToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
+                    updateInfo.FilesToDownload.Add(new DownloadInfo($"{clientInfo.BaseUrl}{onlineInfoFile.Hash}",
                         onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
                 else
                 {
                     // 要添加的文件
-                    updateInfo.FilesToDownload.Add(new DownloadInfo($"{onlineInfo.BaseUrl}{onlineInfoFile.Hash}",
+                    updateInfo.FilesToDownload.Add(new DownloadInfo($"{clientInfo.BaseUrl}{onlineInfoFile.Hash}",
                         onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
 
             // 要删除的文件
-            foreach (var localInfoFile in CurrentInfo.Files)
-                if (!filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path))
-                    updateInfo.FilesToDelete.Add(localInfoFile);
+            foreach (var localInfoFile in CurrentInfo.Files.Where(localInfoFile => !filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path)))
+                updateInfo.FilesToDelete.Add(localInfoFile);
 
             return updateInfo;
         }
@@ -141,6 +140,16 @@ namespace OrigindLauncher.Resources.Client
             Url = url;
             Path = path;
             Hash = hash;
+        }
+
+        public override int GetHashCode()
+        {
+            return Path.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ((DownloadInfo) obj)?.Path == Path;
         }
     }
 }

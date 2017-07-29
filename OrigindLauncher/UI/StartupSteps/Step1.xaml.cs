@@ -115,11 +115,11 @@ namespace OrigindLauncher.UI.StartupSteps
             Config.Save();
             Dispatcher.Invoke(() => Window.GetWindow(this).FlyoutAndClose(() =>
             {
-                if (Directory.Exists(ClientManager.GameStorageDirectory))
-                {
-                    ClientManager.CurrentInfo = ClientManager.MakeClientInfo();
-                    ClientManager.Save();
-                }
+                //if (Directory.Exists(ClientManager.GameStorageDirectory))
+                //{
+                //    ClientManager.CurrentInfo = ClientManager.MakeClientInfo();
+                //    ClientManager.Save();
+                //}
 
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName);
                 Application.Current.Shutdown();

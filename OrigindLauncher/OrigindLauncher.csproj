@@ -129,6 +129,9 @@
     <Compile Include="UI\Dialogs\ChooseDialog.xaml.cs">
       <DependentUpon>ChooseDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\GameUpdatingDialog.xaml.cs">
+      <DependentUpon>GameUpdatingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Dialogs\ChooseDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Dialogs\GameUpdatingDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

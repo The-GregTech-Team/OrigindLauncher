@@ -18,7 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSystem\DirectoryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JsonHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JsonSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LauncherCore\LauncherCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ResourceManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerPinger\Misc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerPinger\Player.cs" />
@@ -35,6 +34,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Server\ServerInfoGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)String\SHA128Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)String\SHA512Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ImageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ThemeConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ThemeManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ExceptionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\JavaHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\PrivateHelper.cs" />

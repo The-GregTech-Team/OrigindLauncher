@@ -10,6 +10,7 @@ using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Core;
 using OrigindLauncher.Resources.FileSystem;
+using OrigindLauncher.Resources.UI;
 using OrigindLauncher.UI;
 
 namespace OrigindLauncher
@@ -71,6 +72,7 @@ namespace OrigindLauncher
                 {
                     var app = new App();
                     app.InitializeComponent();
+                    ThemeManager.Init();
                     app.Run(new LauncherWindow());
                 }
             }

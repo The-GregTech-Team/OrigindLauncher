@@ -44,7 +44,7 @@
 
             <DockPanel>
                 <DockPanel.Background>
-                    <ImageBrush ImageSource="Images/Background2.png" />
+                    <ImageBrush x:Name="Bg" ImageSource="Images/Background2.png"/>
                 </DockPanel.Background>
                 <materialDesign:ColorZone Opacity="0.85" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
@@ -81,7 +81,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Image Source="Images/flat2.png" Height="140" Width="246" Stretch="Fill" />
+                            <Image x:Name="Bg2" Source="Images/flat2.png" Height="140" Width="246" Stretch="Fill" />
                             <Button x:Name="StartButton" Click="StartButton_OnClick" Grid.Row="0"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
@@ -114,7 +114,7 @@
                         </Grid>
                     </materialDesign:Card>
 
-
+<Image x:Name="BgCache" Height="0" Width="0"/>
                 </Grid>
 
 

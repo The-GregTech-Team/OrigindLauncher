@@ -6,7 +6,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using KMCCC.Launcher;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources;
@@ -14,6 +17,7 @@ using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
+using OrigindLauncher.Resources.UI;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 using OrigindLauncher.UI.Code;
@@ -34,11 +38,13 @@ namespace OrigindLauncher
         public LauncherWindow()
         {
             InitializeComponent();
+            InitForTheme();
+
             WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
             TitleTextBlock.Text += " " + Config.LauncherVersion +
                                    (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username)
                                        ? " Admin"
-                                       : "");
+                                       : string.Empty);
             try
             {
                 var result1 = ServerInfoGetter.GetServerInfoAsync();
@@ -51,6 +57,15 @@ namespace OrigindLauncher
             {
                 Console.WriteLine(e);
             }
+        }
+
+        public void InitForTheme()
+        {
+            var num = Config.Instance.ThemeConfig.IsDark ? "2" : "1";
+            var imageSource = ImageHelper.GetImageSource($"/Images/Background{num}.png");
+            BgCache.Source = imageSource;
+            Bg.ImageSource = imageSource;
+            Bg2.Source = ImageHelper.GetImageSource($"/Images/flat{num}.png");
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
@@ -109,18 +124,18 @@ namespace OrigindLauncher
                 var after = GetReportFiles().Except(Before).ToList();
                 if (after.Count != 0)
                 {
-                                        this.Dispatcher.Invoke(async () =>
-                    {
-                        var chooseDialog = new ChooseDialog("要上传崩溃报告喵?", "Origind Launcher 检测到了一个 Minecraft 崩溃报告.", "上传");
-                        await DialogHost.Show(chooseDialog, "RootDialog");
-                        if (chooseDialog.Result)
-                        {
-                            MessageUploadManager.CrashReport(new UploadData(
-                                $"游戏运行时异常: {File.ReadAllText(after.FirstOrDefault())}"));
-                        }
-                    });
-                    
-                   
+                    this.Dispatcher.Invoke(async () =>
+{
+    var chooseDialog = new ChooseDialog("要上传崩溃报告喵?", "Origind Launcher 检测到了一个 Minecraft 崩溃报告.", "上传");
+    await DialogHost.Show(chooseDialog, "RootDialog");
+    if (chooseDialog.Result)
+    {
+        MessageUploadManager.CrashReport(new UploadData(
+            $"游戏运行时异常: {File.ReadAllText(after.FirstOrDefault())}"));
+    }
+});
+
+
 
                 }
             });
@@ -148,7 +163,7 @@ namespace OrigindLauncher
 
         }
         private static string[] Before { get; set; }
-        
+
         private static void BeginCrashReportDetector()
         {
             var files = GetReportFiles();
@@ -181,13 +196,7 @@ namespace OrigindLauncher
             MainSnackbar.MessageQueue.Enqueue("正在更新客户端");
 
             //TODO: Update Client
-            await Task.Run(() =>
-            {
-
-                //var dl = ClientManager.Update();
-
-            });
-            return true;
+            return await Task.Run(() => ClientManager.UpdateAsync().Result);
         }
 
         private void Close(object sender, RoutedEventArgs e)
@@ -237,9 +246,10 @@ namespace OrigindLauncher
             this.Flyout(() => Environment.Exit(0));
         }
 
-        private void Theme(object sender, RoutedEventArgs e)
+        private async void Theme(object sender, RoutedEventArgs e)
         {
-            //TODO_IMPLEMENT_ME();
+            await DialogHost.Show(new ThemeDialog(), "RootDialog").ConfigureAwait(false);
+
         }
     }
 }

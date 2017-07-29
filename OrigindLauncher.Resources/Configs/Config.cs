@@ -3,6 +3,7 @@ using System.Linq;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
+using OrigindLauncher.Resources.UI;
 using OrigindLauncher.Resources.Utils;
 
 namespace OrigindLauncher.Resources.Configs
@@ -18,6 +19,8 @@ namespace OrigindLauncher.Resources.Configs
                 : new Config();
             Reporter.SetReportLevel(Reporter.ReportLevel.None);
         }
+
+        public ThemeConfig ThemeConfig { get; set; } = new ThemeConfig();
 
         public string UpdatePath { get; set; } = null;
 
