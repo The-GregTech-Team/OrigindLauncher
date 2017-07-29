@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using KMCCC.Launcher;
+using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 using OrigindLauncher.UI.Code;
@@ -71,7 +72,17 @@ namespace OrigindLauncher.Resources.Client
             _launchProgressWindow.LaunchHandle = lh;
             try
             {
-                _launchProgressWindow.ProcessHandle = lh.GetPrivateField<Process>("Process");
+                var processHandle = lh.GetPrivateField<Process>("Process");
+                _launchProgressWindow.ProcessHandle = processHandle;
+                if (Config.Instance.UseBoost)
+                {
+                    
+                    processHandle.ProcessorAffinity = (IntPtr)((1 << Environment.ProcessorCount)-2);
+
+                    processHandle.PriorityClass = ProcessPriorityClass.RealTime;
+                }
+
+                //processHandle.PriorityBoostEnabled = true;
             }
             catch (Exception e)
             {
@@ -84,6 +95,7 @@ namespace OrigindLauncher.Resources.Client
         public void Close()
         {
             _launchProgressWindow.FlyoutAndClose();
+            _launchProgressWindow.AnimeTimer.Stop();
         }
     }
 }

@@ -27,10 +27,11 @@ namespace OrigindLauncher.UI.Dialogs
                 ComboBoxChooseJava.Items.Add(javapath);
             if (Config.Instance.JavaPath != null)
                 ComboBoxChooseJava.Text = Config.Instance.JavaPath;
-
             Args.Text = Config.Instance.JavaArguments;
             DisableHardwareSpeedupToggleButton.IsChecked = Config.Instance.DisableHardwareSpeedup;
             EnableLaunchProgress.IsChecked = Config.Instance.LaunchProgress;
+            UseGameBoost.IsChecked = Config.Instance.UseBoost;
+            UseAdmin.IsChecked = Config.Instance.UseAdmin;
         }
 
         private void Cancal(object sender, RoutedEventArgs e)
@@ -90,6 +91,18 @@ namespace OrigindLauncher.UI.Dialogs
         {
             var text = OpinionTextBox.Text;
             Task.Run(() => MessageUploadManager.Suggests($"{Config.Instance.PlayerAccount.Username}:{text}"));
+        }
+
+        private void UseGameBoost_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (UseGameBoost.IsChecked != null)
+                Config.Instance.UseBoost = UseGameBoost.IsChecked.Value;
+        }
+
+        private void UseAdmin_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (UseAdmin.IsChecked != null)
+                Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
         }
     }
 }

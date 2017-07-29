@@ -108,7 +108,7 @@ namespace OrigindLauncher
             BeginCrashReportDetector();
             // 启动游戏
             var gm = new GameManager();
-            gm.OnError += result => Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception));
+            //gm.OnError += result => Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception));
             var lpm = new LaunchProgressManager();
 
             gm.OnGameExit += (handle, i) => Dispatcher.Invoke(() =>

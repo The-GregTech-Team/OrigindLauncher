@@ -63,6 +63,18 @@
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="8">更有效地利用 CPU 资源 (两核以上推荐)</TextBlock>
+                    <ToggleButton Margin="8" x:Name="UseGameBoost" Click="UseGameBoost_OnClick"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="8">以管理员身份开启 (可能有安全风险)</TextBlock>
+                    <ToggleButton Margin="8" x:Name="UseAdmin" Click="UseAdmin_OnClick"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                </StackPanel>
+                
                 <TextBlock Margin="8 8 0 0">最大内存</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Slider ValueChanged="MemorySlider_OnValueChanged" x:Name="MemorySlider"

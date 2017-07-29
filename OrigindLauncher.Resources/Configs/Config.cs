@@ -27,7 +27,7 @@ namespace OrigindLauncher.Resources.Configs
         public bool DisableHardwareSpeedup { get; set; } = false;
 
         public static int LauncherVersion { get; } =
-            226
+            237
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"};
@@ -49,6 +49,8 @@ namespace OrigindLauncher.Resources.Configs
         public Account PlayerAccount { get; set; } = new Account(null, null, null);
 
         public bool LaunchProgress { get; set; } = true;
+        public bool UseBoost { get; set; } = false;
+        public bool UseAdmin { get; set; } = false;
 
         #endregion
     }

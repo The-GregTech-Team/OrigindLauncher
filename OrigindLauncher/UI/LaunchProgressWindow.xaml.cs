@@ -22,7 +22,7 @@ namespace OrigindLauncher.UI
     {
         private static LaunchProgressWindow _instance;
 
-        private readonly DispatcherTimer _animeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1),
+        public readonly DispatcherTimer AnimeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1),
             DispatcherPriority.Normal, UpdateAnime, Dispatcher.CurrentDispatcher);
 
         public TimeSpan PrevCpuTime = TimeSpan.Zero;
@@ -32,7 +32,7 @@ namespace OrigindLauncher.UI
         public LaunchProgressWindow()
         {
             InitializeComponent();
-            _animeTimer.Stop();
+            AnimeTimer.Stop();
             _instance = this;
         }
 
@@ -64,15 +64,25 @@ namespace OrigindLauncher.UI
 
         private static double GetProcessTime()
         {
-            var curTime = _instance.ProcessHandle.TotalProcessorTime;
-            var value = (curTime - _instance.PrevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
-            _instance.PrevCpuTime = curTime;
-            return value;
+            try
+            {
+                var curTime = _instance.ProcessHandle.TotalProcessorTime;
+                var value = (curTime - _instance.PrevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
+                _instance.PrevCpuTime = curTime;
+                return value;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 0;
+            }
+            
         }
 
         public void Begin()
         {
-            _animeTimer.Start();
+            AnimeTimer.Start();
             GameMem.Text = Config.Instance.MaxMemory + "M";
             StartTime = DateTime.Now;
         }
@@ -81,15 +91,15 @@ namespace OrigindLauncher.UI
         {
             if (LogList.Items.Count > 200)
                 LogList.Items.RemoveAt(0);
-            
-            LogList.Items.Add(new ListBoxItem {Foreground = translateToBrush(log), Content = log});
+
+            LogList.Items.Add(new ListBoxItem { Foreground = TranslateToBrush(log), Content = log });
             LogList.SelectedIndex = LogList.Items.Count - 1;
         }
 
 
-        private Brush translateToBrush(string a)
+        private Brush TranslateToBrush(string a)
         {
-            var sub = a.Length>50 ? a.Substring(0, 50) : a;
+            var sub = a.Length > 50 ? a.Substring(0, 50) : a;
             if (sub.Contains("INFO")) return new SolidColorBrush(Colors.Teal);
             if (sub.Contains("DEBUG")) return new SolidColorBrush(Colors.DeepSkyBlue);
             if (sub.Contains("WARN")) return new SolidColorBrush(Colors.GreenYellow);
@@ -117,11 +127,13 @@ namespace OrigindLauncher.UI
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
             this.Flyout(Hide);
+            AnimeTimer.Stop();
         }
 
         private void CloseGame(object sender, RoutedEventArgs e)
         {
             this.Flyout(Hide);
+            AnimeTimer.Stop();
             LaunchHandle?.Kill();
         }
 

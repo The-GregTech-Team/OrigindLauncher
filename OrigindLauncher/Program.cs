@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
@@ -22,6 +23,14 @@ namespace OrigindLauncher
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
         }
 
+        private static bool IsRunAsAdmin()
+        {
+            var id = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(id);
+
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -39,6 +48,14 @@ namespace OrigindLauncher
                 var app = new App();
                 app.InitializeComponent();
                 AutoUpdater.UpdateInternal(args[1], args[2], app);
+                return;
+            }
+
+            if (Config.Instance.UseAdmin && !IsRunAsAdmin())
+            {
+                Process.Start(
+                    new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName)
+                        { Verb = "runas" });
                 return;
             }
 
