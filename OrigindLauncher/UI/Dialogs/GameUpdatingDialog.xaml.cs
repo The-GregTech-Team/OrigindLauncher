@@ -13,6 +13,7 @@ using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Server.Data;
 using OrigindLauncher.Resources.String;
 using OrigindLauncher.Resources.Utils;
+using OrigindLauncher.UI.Code;
 
 namespace OrigindLauncher.UI.Dialogs
 {
@@ -37,15 +38,15 @@ namespace OrigindLauncher.UI.Dialogs
             InitializeComponent();
             foreach (var deleteEntry in updateInfo.FilesToDelete)
             {
-                var textblock = new TextBlock {Text = $"删除 {deleteEntry.Path}", Margin = new Thickness(4)};
+                var textblock = new TextBlock { Text = $"删除 {deleteEntry.Path}", Margin = new Thickness(4) };
                 UpdatePanel.Children.Add(textblock);
                 _deleteDictionary.Add(deleteEntry, textblock);
             }
 
             foreach (var downloadEntry in updateInfo.FilesToDownload)
             {
-                var textBlock = new TextBlock {Text = $"下载 {downloadEntry.Path}", Margin = new Thickness(4)};
-                var progressBar = new ProgressBar {Maximum = 1, Margin = new Thickness(4, 0, 4, 4)};
+                var textBlock = new TextBlock { Text = $"下载 {downloadEntry.Path}", Margin = new Thickness(4) };
+                var progressBar = new ProgressBar { Maximum = 1, Margin = new Thickness(4, 0, 4, 4) };
                 _downloadTbDictionary.Add(downloadEntry, textBlock);
                 _downloadProgressDictionary.Add(downloadEntry, progressBar);
                 UpdatePanel.Children.Add(textBlock);
@@ -89,13 +90,13 @@ namespace OrigindLauncher.UI.Dialogs
                         isRunning = false;
                     }
                 });
-                
+
                 Parallel.ForEach(UpdateInfo.FilesToDownload, downloadEntry =>
                 {
                     if (!isRunning) return;
                     try
                     {
-                        var wc = new WebClient();
+                        var wc = new WebClient { Proxy = null };
                         var path = ClientManager.GetGameStorageDirectory(downloadEntry.Path);
                         if (File.Exists(path))
                         {
@@ -111,9 +112,9 @@ namespace OrigindLauncher.UI.Dialogs
                         wc.DownloadProgressChanged += (o, args) => Dispatcher.Invoke(() =>
                         {
                             var progress = _downloadProgressDictionary[downloadEntry];
-                            progress.Value = args.BytesReceived / (double) args.TotalBytesToReceive;
+                            progress.AnimeToValueAsPercent(args.BytesReceived / (double)args.TotalBytesToReceive);
                         });
-                        
+
                         wc.DownloadFileTaskAsync(downloadEntry.Url, path).Wait();
                         ClientManager.CurrentInfo.Files.Add(new FileEntry(downloadEntry.Path, downloadEntry.Hash));
                         finish:
@@ -138,7 +139,7 @@ namespace OrigindLauncher.UI.Dialogs
 
         private void Close()
         {
-            Dispatcher.Invoke(() => { DialogHost.CloseDialogCommand.Execute(this, this); });
+            Dispatcher.Invoke(() => DialogHost.CloseDialogCommand.Execute(this, this));
         }
     }
 }

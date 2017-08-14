@@ -17,6 +17,7 @@ namespace OrigindLauncher.Resources.Client
         {
             var launchercore =
                 LauncherCore.Create(new LauncherCoreCreationOption(javaPath: Config.Instance.JavaPath));
+
             launchercore.GameLog += OnGameLog;
             launchercore.GameExit += (handle, i) =>
             {

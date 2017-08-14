@@ -10,6 +10,7 @@ using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.UI;
 using OrigindLauncher.Resources.Utils;
@@ -31,21 +32,35 @@ namespace OrigindLauncher
 
         public LauncherWindow()
         {
+            
             InitializeComponent();
-            InitForTheme();
+            try
+            {
+                InitForTheme();
 
-            WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
-            TitleTextBlock.Text += " " + Config.LauncherVersion +
-                                   (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username)
-                                       ? " Admin"
-                                       : string.Empty);
+                WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
+                TitleTextBlock.Text += " " + Config.LauncherVersion +
+                                       (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username)
+                                           ? " Admin"
+                                           : string.Empty);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                //throw;
+            }
+            
             try
             {
                 var result1 = ServerInfoGetter.GetServerInfoAsync();
-                result1.Wait();
-                var result = result1.Result;
-                ServerMessage.Text += " " + result.players.online;
-                ServerMessage.ToolTip = string.Join("\r\n", result.players.sample.Select(p => p.name));
+                result1.Wait(500);
+                if (result1.IsCompleted)
+                {
+                    var result = result1.Result;
+                    ServerMessage.Text += " " + result.players.online;
+                    ServerMessage.ToolTip = string.Join("\r\n", result.players.sample.Select(p => p.name));
+                }
+                
             }
             catch (Exception e)
             {
@@ -77,8 +92,8 @@ namespace OrigindLauncher
             if (status != LoginStatus.Successful)
             {
                 MainSnackbar.MessageQueue.Enqueue("登录状态刷新失败.");
-                StartButton.IsEnabled = true;
-                return;
+                //StartButton.IsEnabled = true;
+                //return;
             }
 
             // 检测更新状态
@@ -130,6 +145,12 @@ namespace OrigindLauncher
 
             gm.OnGameLog += (lh, log) => lpm.OnGameLog(log);
 
+            var dict = ClientManager.GetGameStorageDirectory("$natives");
+            if (Directory.Exists(dict))
+            {
+                Directory.Delete(dict,true);
+            }
+
             // 游戏状态
             var lh1 = gm.Run();
 
@@ -160,6 +181,7 @@ namespace OrigindLauncher
         private static string[] GetReportFiles()
         {
             var path = ClientManager.GetGameStorageDirectory("crash-reports");
+            DirectoryHelper.EnsureDirectoryExists(path);
             var files = Directory.GetFiles(path);
             return files;
         }

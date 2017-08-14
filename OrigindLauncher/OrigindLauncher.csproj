@@ -74,7 +74,7 @@
       <HintPath>..\packages\JetBrains.Annotations.11.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="KMCCC.Basic">
-      <HintPath>bin\Debug\KMCCC.Basic.dll</HintPath>
+      <HintPath>..\..\..\..\..\Source\Repos\KMCCC\bin\Debug\KMCCC.Basic.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>

@@ -27,7 +27,7 @@
             </materialDesign:Card>
         </ScrollViewer>
 
-        <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" VerticalAlignment="Center"
+        <Button Style="{StaticResource MaterialDesignFlatAccentButton}" Margin="8" VerticalAlignment="Center"
                 HorizontalAlignment="Right"
                 Grid.Row="2" Click="Confirm" x:Name="ConfirmBtn">
             确认

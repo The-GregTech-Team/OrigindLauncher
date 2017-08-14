@@ -99,7 +99,7 @@
                                            FontSize="14">
                                     服务器在线人数:
                                 </TextBlock>
-
+                                <TextBlock TextWrapping="Wrap"></TextBlock>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
                                 <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0"
