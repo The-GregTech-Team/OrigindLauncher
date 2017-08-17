@@ -2,6 +2,7 @@
 A Minecraft Launcher for Origind.
 
 一个Origind的启动器！
+代码很渣 见谅（
 
 ## Theme System & Material Design!
 ![1](Images/m1.png)

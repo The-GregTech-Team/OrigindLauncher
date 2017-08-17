@@ -14,7 +14,7 @@ namespace OrigindLauncher.Resources.Client
 
         public void OnGameLog(string log)
         {
-            if (log.Contains("LLHMessage"))
+            if (log.Contains("LLHMessage")) // This for OrigindHelper
             {
                 var message = log.Split('%')[1];
                 var statusp = message.Split('&');

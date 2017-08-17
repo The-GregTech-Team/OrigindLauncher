@@ -53,7 +53,7 @@ namespace OrigindLauncher
             try
             {
                 var result1 = ServerInfoGetter.GetServerInfoAsync();
-                result1.Wait(500);
+                result1.Wait(500); // 避免由服务器错误引起的无限等待
                 if (result1.IsCompleted)
                 {
                     var result = result1.Result;
@@ -91,7 +91,7 @@ namespace OrigindLauncher
             var status = await Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
             if (status != LoginStatus.Successful)
             {
-                MainSnackbar.MessageQueue.Enqueue("登录状态刷新失败.");
+                MainSnackbar.MessageQueue.Enqueue("登录状态刷新失败."); // 登录状态在现在的 Origind 不用刷新
                 //StartButton.IsEnabled = true;
                 //return;
             }
@@ -121,6 +121,7 @@ namespace OrigindLauncher
                 }
             }
             BeginCrashReportDetector();
+
             // 启动游戏
             var gm = new GameManager();
             //gm.OnError += result => Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception));
@@ -145,6 +146,7 @@ namespace OrigindLauncher
 
             gm.OnGameLog += (lh, log) => lpm.OnGameLog(log);
 
+            // Fix KMCCC Bug
             var dict = ClientManager.GetGameStorageDirectory("$natives");
             if (Directory.Exists(dict))
             {
@@ -187,7 +189,7 @@ namespace OrigindLauncher
         }
 
 
-        private static async Task UpdateUpdatePathAsync()
+        private static async Task UpdateUpdatePathAsync() // 兼容其它的服务器
         {
             while (!CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
             {
