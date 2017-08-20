@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OrigindLauncher.Resources.String
 {
-    public class SHA128Helper
+    public static class SHA128Computer
     {
         public static string Compute(string source)
         {

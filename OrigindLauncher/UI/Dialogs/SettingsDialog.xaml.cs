@@ -20,10 +20,15 @@ namespace OrigindLauncher.UI.Dialogs
         public SettingsDialog()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private void Init()
+        {
             MemorySlider.Maximum = 8192;
             MemorySlider.Value = Config.Instance.MaxMemory;
 
-            foreach (var javapath in JavaHelper.FindJava())
+            foreach (var javapath in JavaFinder.FindJava())
                 ComboBoxChooseJava.Items.Add(javapath);
             if (Config.Instance.JavaPath != null)
                 ComboBoxChooseJava.Text = Config.Instance.JavaPath;
@@ -36,50 +41,44 @@ namespace OrigindLauncher.UI.Dialogs
 
         private void Cancal(object sender, RoutedEventArgs e)
         {
-            Save();
+            DialogHost.CloseDialogCommand.Execute(this, this);
         }
 
         private void SaveAndClose(object sender, RoutedEventArgs e)
         {
             Save();
-        }
-
-        private void Save()
-        {
             Config.Instance.JavaPath = ComboBoxChooseJava.Text;
             Task.Run(() => Config.Save());
             DialogHost.CloseDialogCommand.Execute(this, this);
         }
 
+        private void Save()
+        {
+            Config.Instance.MaxMemory = (int)MemorySlider.Value;
+            Config.Instance.JavaArguments = Args.Text;
+            if (DisableHardwareSpeedupToggleButton.IsChecked != null)
+                Config.Instance.DisableHardwareSpeedup = DisableHardwareSpeedupToggleButton.IsChecked.Value;
+            if (EnableLaunchProgress.IsChecked != null)
+                Config.Instance.LaunchProgress = EnableLaunchProgress.IsChecked.Value;
+            if (UseGameBoost.IsChecked != null)
+                Config.Instance.UseBoost = UseGameBoost.IsChecked.Value;
+            if (UseAdmin.IsChecked != null)
+                Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
+        }
+
+
         private void MemorySlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            MemoryText.Text = (int) e.NewValue + "M";
-            Config.Instance.MaxMemory = (int) MemorySlider.Value;
+            MemoryText.Text = (int)e.NewValue + "M";
+            
         }
 
         private void ChooseJava(object sender, RoutedEventArgs e)
         {
-            var selecter = new OpenFileDialog {Filter = @"javaw.exe|javaw.exe"};
+            var selecter = new OpenFileDialog { Filter = @"javaw.exe|javaw.exe" };
             selecter.ShowDialog();
             if (File.Exists(selecter.FileName))
                 Config.Instance.JavaPath = selecter.FileName;
-        }
-
-        private void Args_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            Config.Instance.JavaArguments = Args.Text;
-        }
-
-        private void DisableHardwareSpeedupToggleButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (DisableHardwareSpeedupToggleButton.IsChecked != null)
-                Config.Instance.DisableHardwareSpeedup = DisableHardwareSpeedupToggleButton.IsChecked.Value;
-        }
-
-        private void EnableLaunchProgress_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (EnableLaunchProgress.IsChecked != null)
-                Config.Instance.LaunchProgress = EnableLaunchProgress.IsChecked.Value;
         }
 
         private void ForceUpdate(object sender, RoutedEventArgs e)
@@ -91,18 +90,6 @@ namespace OrigindLauncher.UI.Dialogs
         {
             var text = OpinionTextBox.Text;
             Task.Run(() => MessageUploadManager.Suggests($"{Config.Instance.PlayerAccount.Username}:{text}"));
-        }
-
-        private void UseGameBoost_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (UseGameBoost.IsChecked != null)
-                Config.Instance.UseBoost = UseGameBoost.IsChecked.Value;
-        }
-
-        private void UseAdmin_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (UseAdmin.IsChecked != null)
-                Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
         }
     }
 }

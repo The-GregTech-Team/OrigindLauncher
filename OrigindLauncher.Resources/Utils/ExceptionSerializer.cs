@@ -2,7 +2,7 @@
 
 namespace OrigindLauncher.Resources.Utils
 {
-    public static class ExceptionHelper
+    public static class ExceptionSerializer
     {
         public static string SerializeException(this Exception ex)
         {

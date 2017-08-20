@@ -27,10 +27,10 @@ namespace OrigindLauncher.Resources.Configs
         public bool DisableHardwareSpeedup { get; set; } = false;
 
         public static int LauncherVersion { get; } =
-            266
+            272
             ;
 
-        public static string[] Admins { get; } = {"Cyl18", "EMROF"};
+        public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun
 
         public static void Save()
         {
@@ -39,7 +39,7 @@ namespace OrigindLauncher.Resources.Configs
 
         #region GameLauncher
 
-        public string JavaPath { get; set; } = JavaHelper.FindJava().FirstOrDefault();
+        public string JavaPath { get; set; } = JavaFinder.FindJava().FirstOrDefault();
 
         public string JavaArguments { get; set; } =
             "-XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m";

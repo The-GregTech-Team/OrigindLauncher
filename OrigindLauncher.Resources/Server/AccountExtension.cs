@@ -1,6 +1,6 @@
 ﻿namespace OrigindLauncher.Resources.Server
 {
-    public static class AccountHelper
+    public static class AccountExtension
     {
         public static LoginStatus Login(this Account account)
         {

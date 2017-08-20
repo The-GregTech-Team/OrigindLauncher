@@ -53,7 +53,7 @@ namespace OrigindLauncher.Resources.Client
                 string hash;
                 using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    hash = SHA128Helper.Compute(sfile);
+                    hash = SHA128Computer.Compute(sfile);
                 }
 
                 Console.WriteLine($"计算哈希完成: {path}.");

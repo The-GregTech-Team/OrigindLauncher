@@ -12,6 +12,26 @@
              FontSize="16"
              TextOptions.TextRenderingMode="Auto"
              Height="500" Width="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Combobox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
@@ -27,8 +47,8 @@
             </materialDesign:Card>
         </ScrollViewer>
 
-        <Button Style="{StaticResource MaterialDesignFlatAccentButton}" Margin="8" VerticalAlignment="Center"
-                HorizontalAlignment="Right"
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" Margin="8" VerticalAlignment="Center"
+                HorizontalAlignment="Right" Background="Red"
                 Grid.Row="2" Click="Confirm" x:Name="ConfirmBtn">
             确认
         </Button>

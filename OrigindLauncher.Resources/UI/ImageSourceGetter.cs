@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace OrigindLauncher.Resources.UI
 {
-    public static class ImageHelper
+    public static class ImageSourceGetter
     {
         public static ImageSource GetImageSource(string source)
         {

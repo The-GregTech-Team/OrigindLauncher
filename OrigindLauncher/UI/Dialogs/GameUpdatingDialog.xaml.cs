@@ -102,7 +102,7 @@ namespace OrigindLauncher.UI.Dialogs
                         {
                             using (var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                             {
-                                if (SHA128Helper.Compute(file) == downloadEntry.Hash)
+                                if (SHA128Computer.Compute(file) == downloadEntry.Hash)
                                     goto finish;
                             }
 

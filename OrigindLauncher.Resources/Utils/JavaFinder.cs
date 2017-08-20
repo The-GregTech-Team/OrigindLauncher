@@ -5,7 +5,7 @@ using Microsoft.Win32;
 
 namespace OrigindLauncher.Resources.Utils
 {
-    public static class JavaHelper
+    public static class JavaFinder
     {
         public static IEnumerable<string> FindJava()
         {

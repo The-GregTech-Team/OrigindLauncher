@@ -38,7 +38,7 @@ namespace OrigindLauncher.UI.StartupSteps
 
             if (IsLogin)
             {
-                var account = new Account(username, SHA512Helper.Compute(Password.Password), "注册");
+                var account = new Account(username, SHA512Computer.Compute(Password.Password), "注册");
                 var status = await Task.Run(() => account.Login());
                 if (status != LoginStatus.Successful)
                 {
@@ -48,7 +48,7 @@ namespace OrigindLauncher.UI.StartupSteps
                 Config.Instance.PlayerAccount = account;
                 try
                 {
-                    await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard);
+                    await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderInfoGetter.IsIntelVideoCard);
                 }
                 catch (Exception exception)
                 {
@@ -77,7 +77,7 @@ namespace OrigindLauncher.UI.StartupSteps
                     return;
                 }
 
-                var account = new Account(username, SHA512Helper.Compute(Password.Password), "注册");
+                var account = new Account(username, SHA512Computer.Compute(Password.Password), "注册");
                 var result = await Task.Run(() => account.Register());
                 if (result != RegisterStatus.Successful)
                 {
@@ -87,7 +87,7 @@ namespace OrigindLauncher.UI.StartupSteps
                 Config.Instance.PlayerAccount = account;
                 try
                 {
-                    await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderHelper.IsIntelVideoCard);
+                    await Task.Run(() => Config.Instance.DisableHardwareSpeedup = RenderInfoGetter.IsIntelVideoCard);
                 }
                 catch (Exception exception)
                 {

@@ -3,7 +3,7 @@ using System.Text;
 
 namespace OrigindLauncher.Resources.String
 {
-    public static class SHA512Helper
+    public static class SHA512Computer
     {
         /// <summary>
         ///     Compute a string into Sha512
