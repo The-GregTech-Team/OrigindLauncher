@@ -27,7 +27,7 @@ namespace OrigindLauncher.Resources.Configs
         public bool DisableHardwareSpeedup { get; set; } = false;
 
         public static int LauncherVersion { get; } =
-            279
+            281
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun

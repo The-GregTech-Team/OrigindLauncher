@@ -30,10 +30,17 @@ namespace OrigindLauncher
 
         private static void KMCCCBugFix()
         {
-            var dict = ClientManager.GetGameStorageDirectory("$natives");
-            if (Directory.Exists(dict))
+            try
             {
-                Directory.Delete(dict, true);
+                var dict = ClientManager.GetGameStorageDirectory("$natives");
+                if (Directory.Exists(dict))
+                {
+                    Directory.Delete(dict, true);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
