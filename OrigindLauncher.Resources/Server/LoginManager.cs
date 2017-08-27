@@ -13,7 +13,7 @@ namespace OrigindLauncher.Resources.Server
 {
     public static class LoginManager
     {
-        private static readonly Timer Timer = new Timer(4000);
+        private static readonly Timer Timer = new Timer(2000);
 
         static LoginManager()
         {
@@ -56,7 +56,7 @@ namespace OrigindLauncher.Resources.Server
             req.AddQueryParameter("successStr", isSuccessful ? "true" : "false");
             req.AddQueryParameter("username", Config.Instance.PlayerAccount.Username);
             req.AddQueryParameter("password", Config.Instance.PlayerAccount.Password);
-            rc.Put(req);
+            rc.Get(req);
         }
 
         public static void Stop()

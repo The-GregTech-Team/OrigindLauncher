@@ -85,7 +85,7 @@ namespace OrigindLauncher
             EnsureUpdatePathExists();
             //await UpdateUpdatePathAsync(); 其他服务器的兼容
 
-#if !DEBUG
+#if true
             
             // 检测更新状态
             if (!CheckUpdate(out var updateStatus))

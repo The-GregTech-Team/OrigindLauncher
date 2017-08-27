@@ -112,7 +112,7 @@ namespace OrigindLauncher.UI.Dialogs
                         wc.DownloadProgressChanged += (o, args) => Dispatcher.Invoke(() =>
                         {
                             var progress = _downloadProgressDictionary[downloadEntry];
-                            progress.AnimeToValueAsPercent(args.BytesReceived / (double)args.TotalBytesToReceive);
+                            progress.Value = args.BytesReceived / (double)args.TotalBytesToReceive;
                         });
 
                         wc.DownloadFileTaskAsync(downloadEntry.Url, path).Wait();

@@ -12,7 +12,7 @@
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Microsoft YaHei UI" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
+        WindowStyle="None" Topmost="True"
         mc:Ignorable="d"
         Title="LoginVerifyWindow" Height="180" Width="350">
     <Window.Resources>

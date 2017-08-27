@@ -109,7 +109,7 @@ namespace OrigindLauncher.UI
         public void Done()
         {
             LoadingText.Text = "加载完成.";
-            StatusProgressBar.Value = 1;
+            StatusProgressBar.AnimeToValueAsPercent(1);
         }
 
         public void Process(string text, double progress)

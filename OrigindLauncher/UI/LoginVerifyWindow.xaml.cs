@@ -28,7 +28,7 @@ namespace OrigindLauncher.UI
             InitializeComponent();
             Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(20));
+                await Task.Delay(TimeSpan.FromSeconds(10));
                 Dispatcher.Invoke(() => this.FlyoutAndClose());
             });
         }

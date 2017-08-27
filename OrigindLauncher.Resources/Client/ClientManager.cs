@@ -100,6 +100,8 @@ namespace OrigindLauncher.Resources.Client
             var updateInfo = new UpdateInfo();
 
             var filesInOnlineInfo = clientInfo.Files;
+
+            CurrentInfo.Files.RemoveAll(r => r == null);
             var filesInCurrentInfoDictionary = new HashSet<FileEntry>(CurrentInfo.Files).ToDictionary(e => e.Path);
             var filesInOnlineInfoDictionary = filesInOnlineInfo.ToDictionary(e => e.Path);
 
