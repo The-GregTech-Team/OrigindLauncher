@@ -53,7 +53,7 @@ namespace OrigindLauncher
             try
             {
                 var result1 = ServerInfoGetter.GetServerInfoAsync();
-                result1.Wait(500); // 避免由服务器错误引起的无限等待
+                result1.Wait(1000); // 避免由服务器错误引起的无限等待
                 if (result1.IsCompleted)
                 {
                     var result = result1.Result;
@@ -85,11 +85,8 @@ namespace OrigindLauncher
             EnsureUpdatePathExists();
             //await UpdateUpdatePathAsync(); 其他服务器的兼容
 
-            // 刷新登录状态
-            var status = await Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
-            if (status != LoginStatus.Successful)
-                MainSnackbar.MessageQueue.Enqueue("登录状态刷新失败."); // 登录状态在现在的 Origind 不用刷新
-
+#if !DEBUG
+            
             // 检测更新状态
             if (!CheckUpdate(out var updateStatus))
             {
@@ -107,6 +104,8 @@ namespace OrigindLauncher
                     return;
                 }
             }
+#endif
+
             BeginCrashReportDetector();
             KMCCCBugFix();
 
@@ -117,6 +116,7 @@ namespace OrigindLauncher
 
             gm.OnGameExit += (handle, i) => Dispatcher.Invoke(async () =>
             {
+                LoginManager.Stop();
                 this.Show();
                 lpm.Close();
                 await CheckCrashAsync();
@@ -137,6 +137,7 @@ namespace OrigindLauncher
 
             if (Config.Instance.LaunchProgress)
                 lpm.Begin(lh1.Handle);
+            LoginManager.Start();
 
             // 退出
             StartButton.IsEnabled = true;

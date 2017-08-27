@@ -53,14 +53,15 @@ namespace OrigindLauncher.Resources.Client
                 case @"construction":
                     return "构建";
                 case @"pre_initialization":
-                    return "预初始化";
+                    return "第一次初始化";
                 case @"initialization":
-                    return "初始化";
+                    return "第二次初始化";
                 case @"post_initialization":
-                    return "后初始化";
+                    return "第三次初始化";
                 case @"completed":
                     return "加载";
                 case @"reloading_resource_packs":
+                    
                     return "加载资源包";
                 default:
                     return progressName;
@@ -76,9 +77,7 @@ namespace OrigindLauncher.Resources.Client
                 _launchProgressWindow.ProcessHandle = processHandle;
                 if (Config.Instance.UseBoost)
                 {
-                    
-                    processHandle.ProcessorAffinity = (IntPtr)((1 << Environment.ProcessorCount)-2);
-
+                    processHandle.ProcessorAffinity = (IntPtr)((1 << Environment.ProcessorCount) - 2);
                     processHandle.PriorityClass = ProcessPriorityClass.RealTime;
                 }
 

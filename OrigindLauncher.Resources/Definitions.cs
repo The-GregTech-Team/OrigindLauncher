@@ -1,4 +1,6 @@
-﻿namespace OrigindLauncher.Resources
+﻿using System;
+
+namespace OrigindLauncher.Resources
 {
     internal static class Definitions
     {
@@ -11,6 +13,7 @@
         {
             public const string Register = "api/Accounts/Register";
             public const string Login = "api/Accounts/Login";
+            [Obsolete]
             public const string LoginStatus = "api/Accounts/LoginStatus";
             public const string UserExists = "api/Accounts/UserExists";
 
@@ -21,6 +24,9 @@
 
             public const string LauncherVersion = "api/Launcher/Version";
             public const string LauncherDownload = "api/Launcher/Download";
+
+            public const string PullLoginVerify = "api/Player/PullLoginVerify";
+            public const string LoginVerify = "api/Player/LoginVerify";
         }
     }
 }

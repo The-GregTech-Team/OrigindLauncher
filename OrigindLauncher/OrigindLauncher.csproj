@@ -150,6 +150,9 @@
     <Compile Include="UI\LaunchProgressWindow.xaml.cs">
       <DependentUpon>LaunchProgressWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\LoginVerifyWindow.xaml.cs">
+      <DependentUpon>LoginVerifyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
     </Compile>
@@ -204,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\LaunchProgressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\LoginVerifyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

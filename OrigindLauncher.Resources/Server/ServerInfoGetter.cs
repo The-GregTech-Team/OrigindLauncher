@@ -15,7 +15,7 @@ namespace OrigindLauncher
         /// </exception>
         public static async Task<ServerStatus> GetServerInfoAsync()
         {
-            var pinger = new ServerPinger("Origind", "origind.320.io", 25565, PingVersion.MC_Current);
+            var pinger = new ServerPinger("Origind", "s1.natapp.cc", 42578, PingVersion.MC_Current);
             var result = await pinger.GetStatus();
             return result;
         }

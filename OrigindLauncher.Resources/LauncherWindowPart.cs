@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
@@ -98,6 +99,11 @@ namespace OrigindLauncher
             MainSnackbar.MessageQueue.Enqueue("正在更新客户端");
 
             return await ClientManager.UpdateAsync();
+        }
+
+        private void VerifyOnBackground(object sender, RoutedEventArgs e)
+        {
+            LoginManager.Start();
         }
     }
 }

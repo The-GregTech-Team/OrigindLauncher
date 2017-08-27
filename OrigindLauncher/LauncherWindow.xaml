@@ -11,7 +11,7 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="Transparent" AllowsTransparency="True"
-        FontFamily="Microsoft YaHei UI"
+        FontFamily="Microsoft YaHei UI" ResizeMode="NoResize"
         Title="LauncherWindow" Height="720" Width="1150" MouseLeftButtonDown="Move"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
@@ -111,6 +111,7 @@
                                     <StackPanel>
                                         <Button Content="打开.Minecraft" Click="OpenDMinecraft" />
                                         <Button Content="初始化环境" Click="InitEnvironment" />
+                                        <Button Content="在后台进行登录验证检查" Click="VerifyOnBackground"/>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
                             </StackPanel>
