@@ -52,7 +52,7 @@ namespace OrigindLauncher.UI
                     _instance.ProcessHandle.Refresh();
                     _instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
                     _instance.GameUseCpu.Text = $"{pt:F2} %";
-                    _instance.GameUseMem.Text = $"{_instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0:F2} M";
+                    _instance.GameUseMem.Text = $"{(_instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0):F2} M";
                 }
                 catch (Exception exception)
                 {
@@ -77,7 +77,7 @@ namespace OrigindLauncher.UI
                 Console.WriteLine(e);
                 return 0;
             }
-            
+
         }
 
         public void Begin()
@@ -121,7 +121,10 @@ namespace OrigindLauncher.UI
 
         private void LaunchProgressWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)

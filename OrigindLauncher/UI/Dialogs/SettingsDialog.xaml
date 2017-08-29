@@ -50,30 +50,29 @@
 
         <ScrollViewer Grid.Row="1" Margin="8">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <Grid >
                     <TextBlock Margin="8">关闭启动器硬件加速</TextBlock>
-                    <ToggleButton Margin="8" x:Name="DisableHardwareSpeedupToggleButton"
-                                  
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="DisableHardwareSpeedupToggleButton"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                </StackPanel>
+                </Grid>
 
-                <StackPanel Orientation="Horizontal">
+                <Grid>
                     <TextBlock Margin="8">启用启动状态检测</TextBlock>
-                    <ToggleButton Margin="8" x:Name="EnableLaunchProgress" 
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="EnableLaunchProgress" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                </StackPanel>
+                </Grid>
 
-                <StackPanel Orientation="Horizontal">
+                <Grid>
                     <TextBlock Margin="8">更有效地利用 CPU 资源 (两核以上推荐)</TextBlock>
-                    <ToggleButton Margin="8" x:Name="UseGameBoost" 
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseGameBoost" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                </StackPanel>
-                
-                <StackPanel Orientation="Horizontal">
+                </Grid>
+
+                <Grid>
                     <TextBlock Margin="8">以管理员身份开启 (可能有安全风险)</TextBlock>
-                    <ToggleButton Margin="8" x:Name="UseAdmin" 
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseAdmin" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                </StackPanel>
+                </Grid>
                 
                 <TextBlock Margin="8 8 0 0">最大内存</TextBlock>
                 <StackPanel Orientation="Horizontal">

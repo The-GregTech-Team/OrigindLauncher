@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using OrigindLauncher.Resources.Client;
+
 
 namespace Test
 {
@@ -11,7 +11,7 @@ namespace Test
             //var stat = ClientManager.Update();
 
 
-            Console.WriteLine("done");
+            Console.WriteLine(@"done");
            // Console.WriteLine(result.ErrorMessage);
 
             Thread.CurrentThread.Join();

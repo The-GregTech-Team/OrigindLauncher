@@ -35,6 +35,7 @@ namespace OrigindLauncher.Resources.Utils
                     select javaHomes.ToString()
                     into str
                     where !string.IsNullOrWhiteSpace(str)
+                    where str.Contains("8")
                     select str + @"\bin\javaw.exe";
             }
             catch (Exception)

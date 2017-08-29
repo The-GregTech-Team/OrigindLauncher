@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
@@ -50,15 +51,15 @@ namespace OrigindLauncher
                 AutoUpdater.UpdateInternal(args[1], args[2], app);
                 return;
             }
-
+            
             if (Config.Instance.UseAdmin && !IsRunAsAdmin())
             {
                 Process.Start(
                     new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName)
-                        { Verb = "runas" });
+                    { Verb = "runas" });
                 return;
             }
-
+            
             using (var mutex = new Mutex(false,
                 $"Global\\OrigindLauncher_{Process.GetCurrentProcess().MainModule.FileName.GetHashCode()}"))
             {

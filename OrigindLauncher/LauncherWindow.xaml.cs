@@ -32,7 +32,7 @@ namespace OrigindLauncher
 
         public LauncherWindow()
         {
-            
+
             InitializeComponent();
             try
             {
@@ -49,7 +49,7 @@ namespace OrigindLauncher
                 Console.WriteLine(e);
                 //throw;
             }
-            
+
             try
             {
                 var result1 = ServerInfoGetter.GetServerInfoAsync();
@@ -57,10 +57,10 @@ namespace OrigindLauncher
                 if (result1.IsCompleted)
                 {
                     var result = result1.Result;
-                    ServerMessage.Text += " " + result.players.online;
-                    ServerMessage.ToolTip = string.Join("\r\n", result.players.sample.Select(p => p.name));
+                    ServerMessage.Text = $"服务器在线人数 {result.players.online}";
+                    ServerMessage.ToolTip = result.players.sample != null ? string.Join("\r\n", result.players.sample.Select(p => p.name)) : "现在没有人..点这里来刷新!";
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -84,9 +84,10 @@ namespace OrigindLauncher
             StartButton.IsEnabled = false;
             EnsureUpdatePathExists();
             //await UpdateUpdatePathAsync(); 其他服务器的兼容
-
+            //foreach (Window currentWindow in Application.Current.Windows) 更好的方案
+            //    currentWindow.Flyout();
 #if true
-            
+
             // 检测更新状态
             if (!CheckUpdate(out var updateStatus))
             {
@@ -126,7 +127,6 @@ namespace OrigindLauncher
 
             // 游戏状态
             var lh1 = gm.Run();
-
             if (!lh1.Success)
             {
                 MessageUploadManager.CrashReport(
@@ -171,8 +171,8 @@ namespace OrigindLauncher
             try
             {
                 var result = await ServerInfoGetter.GetServerInfoAsync();
-                ServerMessage.Text = "服务器在线人数: " + result.players.online;
-                ServerMessage.ToolTip = string.Join("\r\n", result.players.sample.Select(p => p.name));
+                ServerMessage.Text = $"服务器在线人数: {result.players.online}";
+                ServerMessage.ToolTip = result.players.sample != null ? string.Join("\r\n", result.players.sample.Select(p => p.name)) : "现在没有人..点这里来刷新!";
             }
             catch (Exception e1)
             {
@@ -193,7 +193,7 @@ namespace OrigindLauncher
 
         private async void Theme(object sender, RoutedEventArgs e)
         {
-            await DialogHost.Show(new ThemeDialog(), "RootDialog").ConfigureAwait(false);
+            await DialogHost.Show(new ThemeDialog(), "RootDialog");
         }
     }
 }

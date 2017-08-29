@@ -3,18 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" BorderBrush="Transparent"
+        mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextFormattingMode="Ideal" ResizeMode="NoResize"
         TextOptions.TextRenderingMode="Auto"
-        Background="Transparent" AllowsTransparency="True"
-        FontFamily="Microsoft YaHei UI" ResizeMode="NoResize"
+        FontFamily="Microsoft YaHei UI" BorderThickness="0"
         Title="LauncherWindow" Height="720" Width="1150" MouseLeftButtonDown="Move"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"></WindowChrome>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -97,7 +99,7 @@
                                 <TextBlock x:Name="ServerMessage"
                                            MouseLeftButtonDown="ServerMessage_OnMouseLeftButtonDown" Margin="6 4 8 8"
                                            FontSize="14">
-                                    服务器在线人数:
+                                    服务器在线人数: 未知
                                 </TextBlock>
                                 <TextBlock TextWrapping="Wrap"></TextBlock>
                             </StackPanel>

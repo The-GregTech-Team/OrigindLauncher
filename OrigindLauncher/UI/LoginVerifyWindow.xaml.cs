@@ -28,26 +28,39 @@ namespace OrigindLauncher.UI
             InitializeComponent();
             Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(10));
-                Dispatcher.Invoke(() => this.FlyoutAndClose());
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                Dispatcher.Invoke(() =>
+                {
+                    MainTransitioner.SelectedIndex++;
+                });
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                var verify = LoginManager.LoginVerify(true);
+                Dispatcher.Invoke(() =>
+                {
+                    if (verify)
+                    {
+                        MainTextBlock.Text = "验证完成！ 祝你游戏愉快";
+                        AnimeBar.FadeOut();
+                        SuccessIcon.FadeIn();
+                    }
+                    else
+                    {
+                        MainTextBlock.Text = "很抱歉, 验证失败";
+                        AnimeBar.FadeOut();
+                        ErrorIcon.FadeIn();
+                    }
+                });
+                await Task.Delay(TimeSpan.FromSeconds(3));
+
+                Dispatcher.Invoke(() =>
+                {
+                    MainTransitioner.SelectedIndex++;
+                    
+                });
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Dispatcher.Invoke(this.Close);
             });
         }
 
-        private void Yes(object sender, RoutedEventArgs e)
-        {
-            LoginManager.LoginVerify(true);
-            this.FlyoutAndClose();
-        }
-
-        private async void No(object sender, RoutedEventArgs e)
-        {
-            var chooseDialog = new ChooseDialog("你要取消这次登录吗？", "这将会封禁被登录者的IP.", "是的, 登录账号的人不是我.", "取消");
-            await DialogHost.Show(chooseDialog, "LoginVerify");
-            if (chooseDialog.Result)
-            {
-                LoginManager.LoginVerify(false);
-                this.FlyoutAndClose();
-            }
-        }
     }
 }

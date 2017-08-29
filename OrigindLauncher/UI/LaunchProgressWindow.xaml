@@ -10,10 +10,13 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="Transparent" MouseLeftButtonDown="LaunchProgressWindow_OnMouseLeftButtonDown"
+        MouseLeftButtonDown="LaunchProgressWindow_OnMouseLeftButtonDown"
         FontFamily="Microsoft YaHei UI"
         Title="LauncherWindow" Height="600" Width="900"
-        WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
+        WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"></WindowChrome>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

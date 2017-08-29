@@ -4,7 +4,11 @@ namespace OrigindLauncher.Resources
 {
     internal static class Definitions
     {
+#if DEBUG
+        public const string OrigindServerUrl = "http://127.0.0.1:5000";
+#else
         public const string OrigindServerUrl = "http://origind.320.io";
+#endif
         public const string ClientJsonPath = "client.json";
         public const string ConfigJsonPath = "config.json";
         public const string ClientName = "Origind";

@@ -59,7 +59,7 @@
                                 <TextBlock Text="主要色" />
                                 <Viewbox Width="16" Height="16">
                                     <Canvas Width="24" Height="24">
-                                        <Path Style="{StaticResource PalettePath}" />
+                                        <Path Style="{DynamicResource PalettePath}" />
                                     </Canvas>
                                 </Viewbox>
                             </StackPanel>
@@ -78,7 +78,7 @@
                                 <TextBlock Text="强调色" />
                                 <Viewbox Width="16" Height="16">
                                     <Canvas Width="24" Height="24">
-                                        <Path Style="{StaticResource PalettePath}" />
+                                        <Path Style="{DynamicResource PalettePath}" />
                                     </Canvas>
                                 </Viewbox>
 
@@ -91,7 +91,7 @@
     </UserControl.Resources>
 
 
-    <Grid Background="{StaticResource MaterialDesignPaper}">
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
@@ -102,9 +102,9 @@
 
         <ScrollViewer Grid.Row="1" Margin="8">
             <StackPanel>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0" Height="48"
+                <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0" Height="48"
                         Width="48"
-                        Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}"
+                        Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="DimGray"
                         Click="ChangeLightDark">
                     <materialDesign:PackIcon Kind="ThemeLightDark" Height="28" Width="28" />
                 </Button>
@@ -121,7 +121,7 @@
         </ScrollViewer>
 
 
-        <Button Grid.Row="2" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
+        <Button Grid.Row="2" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignFlatButton}"
                 Margin="0 0 16 0" VerticalAlignment="Center"
                 Click="SaveAndClose">
             保存

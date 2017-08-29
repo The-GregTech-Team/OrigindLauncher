@@ -15,6 +15,7 @@
         WindowStyle="None" Topmost="True"
         mc:Ignorable="d"
         Title="LoginVerifyWindow" Height="180" Width="350">
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,8 +36,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <materialDesign:Transitioner SelectedIndex="0">
+    <materialDesign:Transitioner x:Name="MainTransitioner" SelectedIndex="0">
+        <materialDesign:TransitionerSlide/>
         <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
+            <materialDesign:TransitionerSlide.ForwardWipe>
+                <materialDesign:SlideOutWipe/>
+            </materialDesign:TransitionerSlide.ForwardWipe>
             <materialDesign:Card Height="160" Width="330" Margin="8" materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <materialDesign:DialogHost Identifier="LoginVerify">
                     <Grid>
@@ -44,15 +49,18 @@
                             <RowDefinition Height="55"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Margin="20 20 16 0" FontSize="18">你正在 Origind 尝试登录吗？</TextBlock>
+                        <TextBlock x:Name="MainTextBlock" Grid.Row="0" Margin="20 20 16 0" FontSize="18">正在进行 Origind 登陆验证...</TextBlock>
                         <Grid Grid.Row="1" Margin="0 0 0 16">
-                            <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="0 0 150 0" Height="25" Width="120" HorizontalAlignment="Center"  Click="No" FontSize="13">没有</Button>
-                            <Button Margin="150 0 0 0" Height="25" Width="120" HorizontalAlignment="Center" Click="Yes" FontSize="13">是的</Button>
+                            <ProgressBar x:Name="AnimeBar" IsIndeterminate="True" Margin="16"/>
+                            <materialDesign:PackIcon Opacity="0" x:Name="SuccessIcon" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="60" Kind="CheckboxMarkedCircleOutline" />
+                            <materialDesign:PackIcon Opacity="0" x:Name="ErrorIcon" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="60" Kind="Alert" />
                         </Grid>
                     </Grid>
                 </materialDesign:DialogHost>
             </materialDesign:Card>
         </materialDesign:TransitionerSlide>
+        <materialDesign:TransitionerSlide/>
+
     </materialDesign:Transitioner>
     
 </Window>
