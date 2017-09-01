@@ -20,7 +20,7 @@ namespace OrigindLauncher.Resources.Server
 
     public static class AccountManager
     {
-        public static RegisterStatus Register(Account account)
+        public static RegisterStatus Register(Account account) // 对没错 说的就是你 看代码的那位 请不要调用我们的私有接口 蟹蟹 请加群609600081
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);
             var req = RestRequestFactory.Create(Definitions.Rest.Register).AddBody(account);

@@ -1,7 +1,7 @@
 # OrigindLauncher
 A Minecraft Launcher for Origind.
 
-一个Origind的启动器！
+一个Origind的启动器！// 对没错 说的就是你 看代码的那位 请不要调用我们的私有接口 蟹蟹 请加群609600081
 代码很渣 见谅（
 
 ## Theme System & Material Design!

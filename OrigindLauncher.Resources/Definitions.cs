@@ -13,7 +13,7 @@ namespace OrigindLauncher.Resources
         public const string ConfigJsonPath = "config.json";
         public const string ClientName = "Origind";
 
-        public static class Rest
+        public static class Rest// 对没错 说的就是你 看代码的那位 请不要调用我们的私有接口 蟹蟹 请加群609600081
         {
             public const string Register = "api/Accounts/Register";
             public const string Login = "api/Accounts/Login";

@@ -50,14 +50,14 @@ namespace OrigindLauncher.UI
                         ErrorIcon.FadeIn();
                     }
                 });
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(1));
 
                 Dispatcher.Invoke(() =>
                 {
                     MainTransitioner.SelectedIndex++;
                     
                 });
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(2));
                 Dispatcher.Invoke(this.Close);
             });
         }

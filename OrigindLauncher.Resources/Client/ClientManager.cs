@@ -93,7 +93,7 @@ namespace OrigindLauncher.Resources.Client
             File.WriteAllText(Definitions.ClientJsonPath, CurrentInfo.ToJsonString());
         }
 
-        private static UpdateInfo GetUpdateInfo(ClientInfo clientInfo)
+        public static UpdateInfo GetUpdateInfo(ClientInfo clientInfo)
         {
             if (CurrentInfo == null) CurrentInfo = new ClientInfo();
 

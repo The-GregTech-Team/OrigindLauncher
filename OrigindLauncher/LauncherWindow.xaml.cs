@@ -30,7 +30,7 @@ namespace OrigindLauncher
             ;
 
 
-        public LauncherWindow()
+        public LauncherWindow()// 对没错 说的就是你 看代码的那位 请不要调用我们的私有接口 蟹蟹 请加群609600081
         {
 
             InitializeComponent();
@@ -81,11 +81,25 @@ namespace OrigindLauncher
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
         {
-            StartButton.IsEnabled = false;
             EnsureUpdatePathExists();
             //await UpdateUpdatePathAsync(); 其他服务器的兼容
             //foreach (Window currentWindow in Application.Current.Windows) 更好的方案
             //    currentWindow.Flyout();
+
+            if (Config.Instance.PlayerAccount.Login() == LoginStatus.NotFound)
+            {
+                MainSnackbar.MessageQueue.Enqueue("登录失败.", "查看详情", () => Dispatcher.Invoke(async () =>
+                {
+                    var chooseDialog = new ChooseDialog("要重新注册吗？", "很抱歉, 因为我们的技术删库跑路, 所有的玩家数据库都没了. 按下重新注册来用你当前的账号重新注册.", "重新注册");
+                    await DialogHost.Show(chooseDialog, "RootDialog");
+                    if (chooseDialog.Result)
+                    {
+                        Config.Instance.PlayerAccount.Register();
+                    }
+                }));
+                return;
+            }
+            StartButton.IsEnabled = false;
 #if true
 
             // 检测更新状态
@@ -111,11 +125,11 @@ namespace OrigindLauncher
             KMCCCBugFix();
 
             // 启动游戏
-            var gm = new GameManager();
+            var gameManager = new GameManager();
             //gm.OnError += result => Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception));
             var lpm = new LaunchProgressManager();
 
-            gm.OnGameExit += (handle, i) => Dispatcher.Invoke(async () =>
+            gameManager.OnGameExit += (handle, i) => Dispatcher.Invoke(async () =>
             {
                 LoginManager.Stop();
                 this.Show();
@@ -123,10 +137,9 @@ namespace OrigindLauncher
                 await CheckCrashAsync();
             });
 
-            gm.OnGameLog += (lh, log) => lpm.OnGameLog(log);
-
+            gameManager.OnGameLog += (lh, log) => lpm.OnGameLog(log);
             // 游戏状态
-            var lh1 = gm.Run();
+            var lh1 = gameManager.Run();
             if (!lh1.Success)
             {
                 MessageUploadManager.CrashReport(
@@ -143,7 +156,7 @@ namespace OrigindLauncher
             StartButton.IsEnabled = true;
             Hide();
         }
-
+        
 
         private void Close(object sender, RoutedEventArgs e)
         {

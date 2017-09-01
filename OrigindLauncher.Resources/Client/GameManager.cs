@@ -46,6 +46,7 @@ namespace OrigindLauncher.Resources.Client
                 IsRunning = false;
             }
 
+
             return result;
             /*
             result.Handle.GetPrivateField<Process>(nameof(Process)).Exited += (sender, args) =>
@@ -55,5 +56,6 @@ namespace OrigindLauncher.Resources.Client
             };
             */
         }
+        
     }
 }

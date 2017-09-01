@@ -25,9 +25,9 @@ namespace OrigindLauncher.UI
         public readonly DispatcherTimer AnimeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1),
             DispatcherPriority.Normal, UpdateAnime, Dispatcher.CurrentDispatcher);
 
-        public TimeSpan PrevCpuTime = TimeSpan.Zero;
+        private TimeSpan _prevCpuTime = TimeSpan.Zero;
 
-        public DateTime StartTime;
+        private DateTime _startTime;
 
         public LaunchProgressWindow()
         {
@@ -41,7 +41,7 @@ namespace OrigindLauncher.UI
 
         private static void UpdateAnime(object sender, EventArgs e)
         {
-            var ts = DateTime.Now - _instance.StartTime;
+            var ts = DateTime.Now - _instance._startTime;
             var pt = GetProcessTime();
 
             Dispatcher.CurrentDispatcher.Invoke(() =>
@@ -67,8 +67,8 @@ namespace OrigindLauncher.UI
             try
             {
                 var curTime = _instance.ProcessHandle.TotalProcessorTime;
-                var value = (curTime - _instance.PrevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
-                _instance.PrevCpuTime = curTime;
+                var value = (curTime - _instance._prevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
+                _instance._prevCpuTime = curTime;
                 return value;
 
             }
@@ -84,7 +84,7 @@ namespace OrigindLauncher.UI
         {
             AnimeTimer.Start();
             GameMem.Text = Config.Instance.MaxMemory + "M";
-            StartTime = DateTime.Now;
+            _startTime = DateTime.Now;
         }
 
         public void AddLog(string log)

@@ -61,7 +61,6 @@ namespace OrigindLauncher.Resources.Client
                 case @"completed":
                     return "加载";
                 case @"reloading_resource_packs":
-                    
                     return "加载资源包";
                 default:
                     return progressName;
