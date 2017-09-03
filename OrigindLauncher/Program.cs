@@ -37,6 +37,8 @@ namespace OrigindLauncher
         {
             if (Config.Instance.DisableHardwareSpeedup)
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            if (Config.Instance.EnableDebug)
+                DebugHelper.EnableDebug();
 
             if (args.Any(s => s == "AddPermissions"))
             {
@@ -75,7 +77,7 @@ namespace OrigindLauncher
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Trace.WriteLine(e);
                 }
 #endif
                 if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath) ||

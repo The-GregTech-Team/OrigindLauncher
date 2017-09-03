@@ -84,7 +84,7 @@ namespace OrigindLauncher.Resources.Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
             }
             _launchProgressWindow.Begin();
             _launchProgressWindow.Show();

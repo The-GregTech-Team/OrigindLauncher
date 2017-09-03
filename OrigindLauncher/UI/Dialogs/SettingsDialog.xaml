@@ -51,26 +51,56 @@
         <ScrollViewer Grid.Row="1" Margin="8">
             <StackPanel>
                 <Grid >
-                    <TextBlock Margin="8">关闭启动器硬件加速</TextBlock>
+                    <TextBlock Margin="8">
+                        <Run>关闭启动器硬件加速 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(针对 Intel 核显)</Run>
+                    </TextBlock>
                     <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="DisableHardwareSpeedupToggleButton"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </Grid>
 
                 <Grid>
-                    <TextBlock Margin="8">启用启动状态检测</TextBlock>
+                    <TextBlock Margin="8">
+                        <Run>启用启动状态检测 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(就是那个游戏加载窗口)</Run>
+                    </TextBlock>
                     <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="EnableLaunchProgress" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </Grid>
 
                 <Grid>
-                    <TextBlock Margin="8">更有效地利用 CPU 资源 (两核以上推荐)</TextBlock>
+                    <TextBlock Margin="8">
+                        <Run>更有效地利用 CPU 资源 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(两核以上推荐)</Run>
+                    </TextBlock>
                     <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseGameBoost" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </Grid>
 
                 <Grid>
-                    <TextBlock Margin="8">以管理员身份开启 (可能有安全风险)</TextBlock>
+                    <TextBlock Margin="8">
+                        <Run>以管理员身份开启 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(可能有安全风险)</Run>
+                    </TextBlock>
                     <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseAdmin" 
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                </Grid>
+                
+                <Grid>
+                    <TextBlock Margin="8">
+                        <Run>使用屏幕分享 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(娱乐向)</Run>
+                    </TextBlock>
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseScreenShare" 
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                </Grid>
+
+                <Grid>
+                    <TextBlock Margin="8">
+                        <Run>启用调试模式 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(你没有必要启用)</Run>
+                    </TextBlock>
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseDebug" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </Grid>
                 
@@ -89,6 +119,10 @@
                               IsEditable="True" MinWidth="460" />
                     <Button Click="ChooseJava" Style="{StaticResource MaterialDesignFlatButton}">选择Java</Button>
                 </StackPanel>
+                
+                <TextBlock Margin="8 0 0 0">游戏内字体选择</TextBlock>
+                <ComboBox x:Name="ComboBoxChooseFont" Margin="8" Style="{StaticResource MaterialDesignComboBox}"
+                          MinWidth="460" />
 
                 <TextBox TextWrapping="Wrap" Margin="8" x:Name="Args"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"

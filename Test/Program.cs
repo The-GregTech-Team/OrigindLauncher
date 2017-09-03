@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 
@@ -11,8 +12,8 @@ namespace Test
             //var stat = ClientManager.Update();
 
 
-            Console.WriteLine(@"done");
-           // Console.WriteLine(result.ErrorMessage);
+            Trace.WriteLine(@"done");
+           // Trace.WriteLine(result.ErrorMessage);
 
             Thread.CurrentThread.Join();
         }

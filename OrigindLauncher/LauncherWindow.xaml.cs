@@ -46,7 +46,7 @@ namespace OrigindLauncher
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
                 //throw;
             }
 
@@ -64,8 +64,10 @@ namespace OrigindLauncher
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
             }
+
+            Trace.WriteLine("MainWindow Loaded.");
         }
 
         private static string[] Before { get; set; }
@@ -189,7 +191,7 @@ namespace OrigindLauncher
             }
             catch (Exception e1)
             {
-                Console.WriteLine(e1);
+                Trace.WriteLine(e1);
             }
         }
 

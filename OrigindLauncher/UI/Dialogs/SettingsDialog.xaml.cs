@@ -1,4 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Drawing.Text;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,6 +45,49 @@ namespace OrigindLauncher.UI.Dialogs
             EnableLaunchProgress.IsChecked = Config.Instance.LaunchProgress;
             UseGameBoost.IsChecked = Config.Instance.UseBoost;
             UseAdmin.IsChecked = Config.Instance.UseAdmin;
+            UseScreenShare.IsChecked = Config.Instance.AllowScreenshotShare;
+            UseDebug.IsChecked = Config.Instance.EnableDebug;
+
+            foreach (var font in GetFonts())
+            {
+                ComboBoxChooseFont.Items.Add(font);
+            }
+
+            var path = ClientManager.GetGameStorageDirectory("config/betterfonts.cfg");
+            try
+            {
+                var line = File.ReadAllLines(path).FirstOrDefault(t => t.StartsWith("font.name"));
+                var name = line.Split('=')[1];
+                ComboBoxChooseFont.Items.Add(UnicodeToString(name));
+                ComboBoxChooseFont.Text = UnicodeToString(name);
+
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+            }
+        }
+
+        public static IEnumerable GetFonts()
+        {
+            return new InstalledFontCollection().Families.Select(font => font.Name).ToList();
+        }
+
+        public string StringToUnicode(string s)
+        {
+            var charbuffers = s.ToCharArray();
+            var sb = new StringBuilder();
+            foreach (var buffer in charbuffers.Select(t => Encoding.Unicode.GetBytes(t.ToString())))
+                sb.Append($"\\u{buffer[1]:X2}{buffer[0]:X2}");
+            return sb.ToString();
+        }
+
+        public string UnicodeToString(string value)
+        {
+            return Regex.Replace(
+                value,
+                @"\\u(?<Value>[a-zA-Z0-9]{4})",
+                m => ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString());
         }
 
         private void Cancal(object sender, RoutedEventArgs e)
@@ -64,13 +115,37 @@ namespace OrigindLauncher.UI.Dialogs
                 Config.Instance.UseBoost = UseGameBoost.IsChecked.Value;
             if (UseAdmin.IsChecked != null)
                 Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
+            if (UseScreenShare.IsChecked != null)
+                Config.Instance.AllowScreenshotShare = UseScreenShare.IsChecked.Value;
+            if (UseDebug.IsChecked != null)
+                Config.Instance.EnableDebug = UseDebug.IsChecked.Value;
+
+            var path = ClientManager.GetGameStorageDirectory("config/betterfonts.cfg");
+            try
+            {
+                var lines = File.ReadAllLines(path);
+                for (var index = 0; index < lines.Length; index++)
+                {
+                    var line = lines[index];
+                    if (line.StartsWith("font.name"))
+                    {
+                        lines[index] = "font.name=" + StringToUnicode(ComboBoxChooseFont.Text);
+                        break;
+                    }
+                }
+                File.WriteAllLines(path, lines);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+            }
         }
 
 
         private void MemorySlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MemoryText.Text = (int)e.NewValue + "M";
-            
+
         }
 
         private void ChooseJava(object sender, RoutedEventArgs e)

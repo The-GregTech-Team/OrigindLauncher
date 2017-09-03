@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace OrigindLauncher
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
             }
         }
 
@@ -67,7 +68,7 @@ namespace OrigindLauncher
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Trace.WriteLine(exception);
                 updateStatus = false;
                 return false;
             }
@@ -110,8 +111,8 @@ namespace OrigindLauncher
 
         private void VerifyOnBackground(object sender, RoutedEventArgs e)
         {
-            MainSnackbar.MessageQueue.Enqueue("抱歉, 我们暂时禁用了这个功能.");
-            //LoginManager.Start();
+            //MainSnackbar.MessageQueue.Enqueue("抱歉, 我们暂时禁用了这个功能.");
+            LoginManager.Start();
         }
     }
 }

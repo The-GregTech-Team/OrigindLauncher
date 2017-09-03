@@ -37,7 +37,7 @@ namespace OrigindLauncher.Resources.Core
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
             }
 
             if (File.Exists(currentLauncherPath))

@@ -50,7 +50,7 @@ namespace Setup
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    Trace.WriteLine(exception);
                 }
                 
                 if (!Directory.Exists(clientLocationText))
@@ -79,7 +79,7 @@ namespace Setup
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine(exception);
+                        Trace.WriteLine(exception);
                     }
                 }
                 Environment.Exit(0);

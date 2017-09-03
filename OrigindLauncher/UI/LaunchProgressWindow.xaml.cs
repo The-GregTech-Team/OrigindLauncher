@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +11,11 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.Screen;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.UI.Code;
+using Brush = System.Windows.Media.Brush;
+using Image = System.Drawing.Image;
 
 namespace OrigindLauncher.UI
 {
@@ -20,7 +24,7 @@ namespace OrigindLauncher.UI
     /// </summary>
     public partial class LaunchProgressWindow : Window
     {
-        private static LaunchProgressWindow _instance;
+        public static LaunchProgressWindow Instance;
 
         public readonly DispatcherTimer AnimeTimer = new DispatcherTimer(TimeSpan.FromSeconds(1),
             DispatcherPriority.Normal, UpdateAnime, Dispatcher.CurrentDispatcher);
@@ -33,7 +37,7 @@ namespace OrigindLauncher.UI
         {
             InitializeComponent();
             AnimeTimer.Stop();
-            _instance = this;
+            Instance = this;
         }
 
         public LaunchHandle LaunchHandle { get; set; }
@@ -41,7 +45,7 @@ namespace OrigindLauncher.UI
 
         private static void UpdateAnime(object sender, EventArgs e)
         {
-            var ts = DateTime.Now - _instance._startTime;
+            var ts = DateTime.Now - Instance._startTime;
             var pt = GetProcessTime();
 
             Dispatcher.CurrentDispatcher.Invoke(() =>
@@ -49,35 +53,48 @@ namespace OrigindLauncher.UI
                 try
                 {
                     var da = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(300)));
-                    _instance.ProcessHandle.Refresh();
-                    _instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
-                    _instance.GameUseCpu.Text = $"{pt:F2} %";
-                    _instance.GameUseMem.Text = $"{(_instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0):F2} M";
+                    Instance.ProcessHandle.Refresh();
+                    Instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
+                    Instance.GameUseCpu.Text = $"{pt:F2} %";
+                    Instance.GameUseMem.Text = $"{(Instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0):F2} M";
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    Trace.WriteLine(exception);
                 }
             });
-            _instance.LoadTime.Text = $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
+            Instance.LoadTime.Text = $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
         }
 
         private static double GetProcessTime()
         {
             try
             {
-                var curTime = _instance.ProcessHandle.TotalProcessorTime;
-                var value = (curTime - _instance._prevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
-                _instance._prevCpuTime = curTime;
+                var curTime = Instance.ProcessHandle.TotalProcessorTime;
+                var value = (curTime - Instance._prevCpuTime).TotalMilliseconds / 1000.0 / Environment.ProcessorCount * 100;
+                Instance._prevCpuTime = curTime;
                 return value;
 
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
                 return 0;
             }
 
+        }
+
+        public static Image ScreenCapture()
+        {
+            try
+            {
+                return new ScreenCapture().CaptureWindow(Instance.ProcessHandle.MainWindowHandle);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+                return new Bitmap(10, 10);
+            }
         }
 
         public void Begin()

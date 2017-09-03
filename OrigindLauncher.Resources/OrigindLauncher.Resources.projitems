@@ -14,12 +14,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\LaunchProgressManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configs\Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AutoUpdater.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\DebugHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Definitions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSystem\DirectoryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JsonHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LauncherWindowPart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ResourceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screen\ScreenCapture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerPinger\Misc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerPinger\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerPinger\ServerPinger.cs" />

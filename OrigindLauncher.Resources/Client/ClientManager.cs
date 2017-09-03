@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -56,7 +57,7 @@ namespace OrigindLauncher.Resources.Client
                     hash = SHA128Computer.Compute(sfile);
                 }
 
-                Console.WriteLine($"计算哈希完成: {path}.");
+                Trace.WriteLine($"计算哈希完成: {path}.");
                 files.Add(new FileEntry(path, hash));
             });
 

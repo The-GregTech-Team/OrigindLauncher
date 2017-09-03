@@ -108,7 +108,7 @@ namespace GoodTimeStudio.ServerPinger
                     var packetJsonLen = VarintHelper.ReadVarInt(reader);
                     var response = reader.ReadBytes(packetJsonLen);
                     var json = Encoding.UTF8.GetString(response);
-                    Debug.WriteLine(json);
+                    //Debug.WriteLine(json);
                     return JsonConvert.DeserializeObject<ServerStatus>(json);
                 }
             }

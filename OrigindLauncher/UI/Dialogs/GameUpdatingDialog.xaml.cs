@@ -80,7 +80,7 @@ namespace OrigindLauncher.UI.Dialogs
                         }
                         catch (Exception exception)
                         {
-                            Console.WriteLine(exception);
+                            Trace.WriteLine(exception);
                         }
                         Dispatcher.Invoke(() => UpdatePanel.Children.Remove(_deleteDictionary[deleteEntry]));
                     }

@@ -52,7 +52,7 @@ namespace OrigindLauncher.UI.StartupSteps
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    Trace.WriteLine(exception);
                 }
             }
             else
@@ -91,7 +91,7 @@ namespace OrigindLauncher.UI.StartupSteps
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    Trace.WriteLine(exception);
                 }
             }
             if (!DirectoryHelper.IsCurrentDirectoryWritable)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Timers;
@@ -34,7 +35,7 @@ namespace OrigindLauncher.Resources.Server
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
             }
         }
 
@@ -48,6 +49,31 @@ namespace OrigindLauncher.Resources.Server
                 case HttpStatusCode.OK:
                     Application.Current.Dispatcher.Invoke(() => new LoginVerifyWindow().Show());
                     return;
+                case HttpStatusCode.Accepted:
+                    try
+                    {
+                        UploadScreenData();
+
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine(e);
+                        //throw;
+                    }
+                    return;
+            }
+        }
+
+        private static void UploadScreenData()
+        {
+            if (Config.Instance.AllowScreenshotShare)
+            {
+                var screenCapture = LaunchProgressWindow.ScreenCapture();
+                MessageUploadManager.UploadImage(screenCapture);
+            }
+            else
+            {
+                MessageUploadManager.Upload($"=来自客户端: {Config.Instance.PlayerAccount.Username}: 未开启屏幕截图分享.");
             }
         }
 

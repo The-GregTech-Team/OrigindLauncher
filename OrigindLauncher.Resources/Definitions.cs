@@ -23,6 +23,8 @@ namespace OrigindLauncher.Resources
 
             public const string CrashReport = "api/Upload/CrashReport";
             public const string Suggests = "api/Upload/Suggests";
+            public const string UploadMessage = "api/Upload/UploadMessage";
+            public const string UploadImage = "api/Upload/UploadImage";
 
             public const string ClientJson = "api/Client/ClientJson";
 
