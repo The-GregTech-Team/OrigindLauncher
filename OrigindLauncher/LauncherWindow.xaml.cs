@@ -203,7 +203,7 @@ namespace OrigindLauncher
         private void SwitchUser(object sender, RoutedEventArgs e)
         {
             Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Setup");
-            this.Flyout(() => Environment.Exit(0));
+            this.Flyout(() => Application.Current.Shutdown());
         }
 
         private async void Theme(object sender, RoutedEventArgs e)
