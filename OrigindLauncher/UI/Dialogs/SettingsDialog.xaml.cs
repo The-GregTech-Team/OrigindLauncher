@@ -16,6 +16,8 @@ using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Utils;
+using OrigindLauncher.UI.Code;
+using Application = System.Windows.Application;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace OrigindLauncher.UI.Dialogs
@@ -107,6 +109,21 @@ namespace OrigindLauncher.UI.Dialogs
         {
             Config.Instance.MaxMemory = (int)MemorySlider.Value;
             Config.Instance.JavaArguments = Args.Text;
+
+            var needRestart = Config.Instance.DisableHardwareSpeedup != DisableHardwareSpeedupToggleButton.IsChecked ||
+                Config.Instance.EnableDebug != UseDebug.IsChecked ||
+                    Config.Instance.UseAdmin != UseAdmin.IsChecked;
+
+            if (needRestart)
+            {
+                ((LauncherWindow)Window.GetWindow(this)).MainSnackbar.MessageQueue.Enqueue("需要重启来应用你的设置.", "立即重启", () =>
+                {
+                    Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+                    ((LauncherWindow)Window.GetWindow(this)).Flyout();
+                    Application.Current.Shutdown();
+                });
+            }
+
             if (DisableHardwareSpeedupToggleButton.IsChecked != null)
                 Config.Instance.DisableHardwareSpeedup = DisableHardwareSpeedupToggleButton.IsChecked.Value;
             if (EnableLaunchProgress.IsChecked != null)
@@ -119,6 +136,8 @@ namespace OrigindLauncher.UI.Dialogs
                 Config.Instance.AllowScreenshotShare = UseScreenShare.IsChecked.Value;
             if (UseDebug.IsChecked != null)
                 Config.Instance.EnableDebug = UseDebug.IsChecked.Value;
+
+
 
             var path = ClientManager.GetGameStorageDirectory("config/betterfonts.cfg");
             try
@@ -154,6 +173,11 @@ namespace OrigindLauncher.UI.Dialogs
             selecter.ShowDialog();
             if (File.Exists(selecter.FileName))
                 Config.Instance.JavaPath = selecter.FileName;
+            if (!ComboBoxChooseJava.Items.Contains(ComboBoxChooseJava.Text))
+            {
+                ComboBoxChooseJava.Items.Add(Config.Instance.JavaPath);
+            }
+            ComboBoxChooseJava.Text = Config.Instance.JavaPath;
         }
 
         private void ForceUpdate(object sender, RoutedEventArgs e)

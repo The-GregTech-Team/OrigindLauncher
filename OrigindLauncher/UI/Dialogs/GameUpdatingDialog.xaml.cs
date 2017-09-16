@@ -70,8 +70,12 @@ namespace OrigindLauncher.UI.Dialogs
                     try
                     {
                         var path = ClientManager.GetGameStorageDirectory(deleteEntry.Path);
+
                         if (File.Exists(path))
                             File.Delete(path);
+                        else
+                            Trace.WriteLine($"文件不存在: {path}");
+
                         try
                         {
                             var current =
@@ -117,6 +121,7 @@ namespace OrigindLauncher.UI.Dialogs
 
                         wc.DownloadFileTaskAsync(downloadEntry.Url, path).Wait();
                         ClientManager.CurrentInfo.Files.Add(new FileEntry(downloadEntry.Path, downloadEntry.Hash));
+
                         finish:
                         Dispatcher.Invoke(() =>
                         {

@@ -33,7 +33,7 @@ namespace OrigindLauncher.Resources.Configs
         //public bool Readed
 
         public static int LauncherVersion { get; } =
-            308
+            321
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun

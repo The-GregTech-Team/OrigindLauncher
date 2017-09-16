@@ -64,7 +64,7 @@
                                         </Viewbox>
                                         <StackPanel>
                                             <TextBlock FontSize="15" Margin="4 4 0 0">很抱歉, Origind Launcher 发生了错误.</TextBlock>
-                                            <TextBlock FontSize="13" Margin="8 18 0 0">Origind Launcher 目前还不太稳定.</TextBlock>
+                                            <TextBlock FontSize="13" Margin="8 18 0 0">Origind Launcher 目前已经很稳定了.</TextBlock>
                                             <TextBlock FontSize="13" Margin="8 2 0 0">你可以提交错误报告来改进 Origind Launcher.</TextBlock>
                                             <TextBlock x:Name="ExcetionMessage" FontSize="13" Margin="8 2 0 0">No more info.</TextBlock>
 

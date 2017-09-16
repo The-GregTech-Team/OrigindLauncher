@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Utils;
@@ -14,36 +15,40 @@ namespace OrigindLauncher.Resources.Client
 
         public void OnGameLog(string log)
         {
-            if (log.Contains("LLHMessage")) // This for OrigindHelper
+            Task.Run(() =>
             {
-                var message = log.Split('%')[1];
-                var statusp = message.Split('&');
-                var statusw = statusp[0];
-                var progress = double.Parse(statusp[1]);
-                string modname = string.Empty, progressname;
-                if (statusw == "reloading_resource_packs")
+                if (log.Contains("LLHMessage")) // This for OrigindHelper
                 {
-                    progressname = statusw;
+                    var message = log.Split('%')[1];
+                    var statusp = message.Split('&');
+                    var statusw = statusp[0];
+                    var progress = double.Parse(statusp[1]);
+                    string modname = string.Empty, progressname;
+                    if (statusw == "reloading_resource_packs")
+                    {
+                        progressname = statusw;
+                    }
+                    else
+                    {
+                        var temp = statusw.Split('*');
+                        progressname = temp[0];
+                        modname = temp[1];
+                    }
+
+                    progressname = Translate(progressname);
+                    var progressText = $"{progressname} {modname} 完成";
+                    _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Process(progressText, progress));
+                }
+                else if (log.EndsWith("GuiMainMenu Loaded"))
+                {
+                    _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Done());
                 }
                 else
                 {
-                    var temp = statusw.Split('*');
-                    progressname = temp[0];
-                    modname = temp[1];
+                    _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.AddLog(log));
                 }
+            });
 
-                progressname = Translate(progressname);
-                var progressText = $"{progressname} {modname} 完成";
-                _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Process(progressText, progress));
-            }
-            else if (log.EndsWith("GuiMainMenu Loaded"))
-            {
-                _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Done());
-            }
-            else
-            {
-                _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.AddLog(log));
-            }
         }
 
         private static string Translate(string progressName)

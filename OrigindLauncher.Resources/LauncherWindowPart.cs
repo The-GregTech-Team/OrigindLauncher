@@ -65,6 +65,7 @@ namespace OrigindLauncher
             try
             {
                 updateStatus = ClientManager.CheckUpdate();
+                return true;
             }
             catch (Exception exception)
             {
@@ -72,7 +73,6 @@ namespace OrigindLauncher
                 updateStatus = false;
                 return false;
             }
-            return true;
         }
 
         private static void BeginCrashReportDetector()
@@ -93,7 +93,7 @@ namespace OrigindLauncher
         {
             while (!CheckUrlRegex.IsMatch(Config.Instance.UpdatePath))
             {
-                var input = new InputDialog {Title = {Text = "输入客户端更新地址."}};
+                var input = new InputDialog { Title = { Text = "输入客户端更新地址." } };
                 await DialogHost.Show(input, "RootDialog");
                 var text = input.InputBox.Text;
                 if (CheckUrlRegex.IsMatch(text))

@@ -10,6 +10,7 @@ using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.Core;
 using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.UI;
@@ -32,30 +33,25 @@ namespace OrigindLauncher
 
         public LauncherWindow()// 对没错 说的就是你 看代码的那位 请不要调用我们的私有接口 蟹蟹 请加群609600081
         {
-
             InitializeComponent();
-            try
-            {
-                InitForTheme();
 
-                WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
-                TitleTextBlock.Text += " " + Config.LauncherVersion +
-                                       (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username)
-                                           ? " Admin"
-                                           : string.Empty);
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e);
-                //throw;
-            }
+            Trace.WriteLine("Initialzing Launch Window.");
+            InitForTheme();
+            Trace.WriteLine("Done: Theme load.");
+
+            WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
+            TitleTextBlock.Text += " " + Config.LauncherVersion +
+                                   (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username)
+                                       ? " Admin"
+                                       : string.Empty);
 
             try
             {
                 var result1 = ServerInfoGetter.GetServerInfoAsync();
-                result1.Wait(1000); // 避免由服务器错误引起的无限等待
+                result1.Wait(2000); // 避免由服务器错误引起的无限等待
                 if (result1.IsCompleted)
                 {
+                    Trace.WriteLine("Done: Server info get.");
                     var result = result1.Result;
                     ServerMessage.Text = $"服务器在线人数 {result.players.online}";
                     ServerMessage.ToolTip = result.players.sample != null ? string.Join("\r\n", result.players.sample.Select(p => p.name)) : "现在没有人..点这里来刷新!";
@@ -67,18 +63,49 @@ namespace OrigindLauncher
                 Trace.WriteLine(e);
             }
 
-            Trace.WriteLine("MainWindow Loaded.");
+#if !DEBUG
+            try
+            {
+                if (AutoUpdater.HasUpdate)
+                {
+                    var version = AutoUpdater.GetVersion();
+                    if (version - Config.LauncherVersion > 10) // 开玩笑
+                    {
+                        AutoUpdater.Update();
+                        return;
+                    }
+                    MainSnackbar.MessageQueue.Enqueue("启动器有更新啦！ v" + version, "立即更新", AutoUpdater.Update);
+
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+            }
+#endif
+            Trace.WriteLine("Auto update check done.");
+
+            Trace.WriteLine("Launch Window loaded.");
         }
 
         private static string[] Before { get; set; }
 
         public void InitForTheme()
         {
-            var num = Config.Instance.ThemeConfig.IsDark ? "2" : "1";
-            var imageSource = ImageSourceGetter.GetImageSource($"/Images/Background{num}.png");
-            BgCache.Source = imageSource; // Fix a bug
-            Bg.ImageSource = imageSource;
-            Bg2.Source = ImageSourceGetter.GetImageSource($"/Images/flat{num}.png");
+            try
+            {
+                var num = Config.Instance.ThemeConfig.IsDark ? "2" : "1";
+                var imageSource = ImageSourceGetter.GetImageSource($"/Images/Background{num}.png");
+                BgCache.Source = imageSource; // Fix a bug
+                Bg.ImageSource = imageSource;
+                Bg2.Source = ImageSourceGetter.GetImageSource($"/Images/flat{num}.png");
+            }
+            catch (Exception e)
+            {
+                MainSnackbar.MessageQueue.Enqueue("警告: 加载主题时出现问题. 启用调试模式来看到更多.");
+                Trace.WriteLine(e);
+            }
+
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
@@ -128,7 +155,6 @@ namespace OrigindLauncher
 
             // 启动游戏
             var gameManager = new GameManager();
-            //gm.OnError += result => Dispatcher.Invoke(() => MainSnackbar.MessageQueue.Enqueue(result.Exception));
             var lpm = new LaunchProgressManager();
 
             gameManager.OnGameExit += (handle, i) => Dispatcher.Invoke(async () =>
@@ -158,7 +184,7 @@ namespace OrigindLauncher
             StartButton.IsEnabled = true;
             Hide();
         }
-        
+
 
         private void Close(object sender, RoutedEventArgs e)
         {

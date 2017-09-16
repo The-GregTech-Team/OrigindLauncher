@@ -49,7 +49,7 @@ namespace OrigindLauncher.Resources.Server
                 case HttpStatusCode.OK:
                     Application.Current.Dispatcher.Invoke(() => new LoginVerifyWindow().Show());
                     return;
-                case HttpStatusCode.Accepted:
+                /*case HttpStatusCode.Accepted:
                     try
                     {
                         UploadScreenData();
@@ -61,9 +61,10 @@ namespace OrigindLauncher.Resources.Server
                         //throw;
                     }
                     return;
+                */
             }
         }
-
+        /*
         private static void UploadScreenData()
         {
             if (Config.Instance.AllowScreenshotShare)
@@ -76,7 +77,7 @@ namespace OrigindLauncher.Resources.Server
                 MessageUploadManager.Upload($"=来自客户端: {Config.Instance.PlayerAccount.Username}: 未开启屏幕截图分享.");
             }
         }
-
+        */
         public static bool LoginVerify(bool isSuccessful)
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);

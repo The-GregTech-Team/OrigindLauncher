@@ -70,16 +70,8 @@ namespace OrigindLauncher
                     MessageBox.Show("有一个 Origind Launcher 进程正在运行. 这个进程将会退出.");
                     return;
                 }
-#if !DEBUG
-                try
-                {
-                    if (AutoUpdater.HasUpdate) AutoUpdater.Update();
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine(e);
-                }
-#endif
+                Trace.WriteLine("Init done.");
+
                 if (args.Any(s => s == "Setup") || !File.Exists(Definitions.ConfigJsonPath) ||
                     Config.Instance.PlayerAccount == null)
                 {

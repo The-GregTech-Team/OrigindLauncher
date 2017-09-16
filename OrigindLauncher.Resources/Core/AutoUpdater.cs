@@ -13,7 +13,7 @@ namespace OrigindLauncher.Resources.Core
     {
         public static bool HasUpdate => GetVersion() != Config.LauncherVersion;
 
-        private static int GetVersion()
+        public static int GetVersion()
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);
             var result = rc.Get(RestRequestFactory.Create(Definitions.Rest.LauncherVersion));
@@ -26,7 +26,7 @@ namespace OrigindLauncher.Resources.Core
             var currentLauncherPath = Process.GetCurrentProcess().MainModule.FileName;
             File.Copy(currentLauncherPath, temppath);
             Process.Start(temppath, $"Update \"{currentLauncherPath}\" {Process.GetCurrentProcess().Id}");
-            Environment.Exit(0);
+            Application.Current.Shutdown();
         }
 
         internal static void UpdateInternal(string currentLauncherPath, string processid, Application app)
