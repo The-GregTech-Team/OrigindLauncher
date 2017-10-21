@@ -30,7 +30,7 @@ namespace OrigindLauncher.Resources.Configs
         public bool EnableDebug { get; set; } = false;
 
         public static int LauncherVersion { get; } =
-            340
+            343
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun

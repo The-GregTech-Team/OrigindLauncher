@@ -36,7 +36,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <TextBlock Margin="12" FontSize="19">Origind Launcher 游戏更新</TextBlock>
         <materialDesign:Card MinHeight="400" Grid.Row="1" Margin="8">
@@ -47,9 +47,9 @@
         </ScrollViewer>
         </materialDesign:Card>
 
-        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" Margin="8" VerticalAlignment="Center"
+        <Button Height="180" Width="300" Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" VerticalAlignment="Center"
                 HorizontalAlignment="Right" Background="Red"
-                Grid.Row="2" Click="Confirm" x:Name="ConfirmBtn">
+                Grid.Row="2" FontSize="88" Click="Confirm" x:Name="ConfirmBtn">
             确认
         </Button>
     </Grid>
