@@ -9,9 +9,13 @@ namespace OrigindLauncher.Resources.Utils
     {
         public static IEnumerable<string> FindJava()
         {
-            var rootReg = Environment.Is64BitOperatingSystem
-                ? RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey("SOFTWARE")
-                : RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey("SOFTWARE");
+            RegistryKey rootReg;
+            if (Environment.Is64BitOperatingSystem)
+                rootReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64)
+                    .OpenSubKey("SOFTWARE");
+            else
+                rootReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                    .OpenSubKey("SOFTWARE");
 
             return rootReg == null
                 ? new string[0]
@@ -23,7 +27,8 @@ namespace OrigindLauncher.Resources.Utils
             try
             {
                 var registryKey = registry.OpenSubKey("JavaSoft");
-                if (registryKey == null || (registry = registryKey.OpenSubKey("Java Runtime Environment")) == null)
+                registry = registryKey?.OpenSubKey("Java Runtime Environment");
+                if (registryKey == null || registry == null)
                     return new string[0];
                 return from ver in registry.GetSubKeyNames()
                     select registry.OpenSubKey(ver)

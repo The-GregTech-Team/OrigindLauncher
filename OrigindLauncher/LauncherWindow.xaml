@@ -7,15 +7,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
+        TextElement.FontSize="14"
         TextOptions.TextFormattingMode="Ideal" ResizeMode="NoResize"
-        TextOptions.TextRenderingMode="Auto"
+        TextOptions.TextRenderingMode="Auto" Background="Transparent"
         FontFamily="Microsoft YaHei UI" BorderThickness="0"
         Title="LauncherWindow" Height="720" Width="1150" MouseLeftButtonDown="Move"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen" AllowsTransparency="True"
         WindowStyle="None">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"></WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
     </WindowChrome.WindowChrome>
     <Window.Resources>
         <ResourceDictionary>
@@ -39,101 +39,111 @@
     </Window.Resources>
 
 
-    <materialDesign:Card MinHeight="730" Background="{x:Null}"
+    <materialDesign:Card MinHeight="730" Background="Transparent"
                          materialDesign:ShadowAssist.ShadowDepth="Depth5">
 
         <materialDesign:DialogHost Identifier="RootDialog"
                                    SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
-
-            <DockPanel>
-                <DockPanel.Background>
-                    <ImageBrush x:Name="Bg" ImageSource="Images/Background2.png" />
-                </DockPanel.Background>
-                <materialDesign:ColorZone Opacity="0.85" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+            <materialDesign:Transitioner x:Name="MainTransitioner" Background="Transparent" SelectedIndex="0">
+                <materialDesign:TransitionerSlide/>
+                <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
+                    <materialDesign:TransitionerSlide.OpeningEffects>
+                        <materialDesign:TransitionEffect Kind="ExpandIn"></materialDesign:TransitionEffect>
+                        <materialDesign:TransitionEffect Kind="FadeIn"></materialDesign:TransitionEffect>
+                    </materialDesign:TransitionerSlide.OpeningEffects>
+                    
+                    <DockPanel>
+                        <DockPanel.Background>
+                            <ImageBrush x:Name="Bg" ImageSource="Images/Background2.png" />
+                        </DockPanel.Background>
+                        <materialDesign:ColorZone Opacity="0.85" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
-                    <DockPanel Margin="16 8 16 8">
+                            <DockPanel Margin="16 8 16 8">
 
-                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0"
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0"
                                 Height="48" Width="48" Background="{x:Null}" DockPanel.Dock="Right"
                                 BorderBrush="{x:Null}" Foreground="White" Click="Close">
-                            <materialDesign:PackIcon Kind="Close" Height="32" Width="32" />
-                        </Button>
-                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0"
+                                    <materialDesign:PackIcon Kind="Close" Height="32" Width="32" />
+                                </Button>
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="16 0 0 0"
                                 Height="48" Width="48"
                                 Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
                                 Click="Options">
-                            <materialDesign:PackIcon Kind="Memory" Height="32" Width="32" />
-                        </Button>
-                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0"
+                                    <materialDesign:PackIcon Kind="Memory" Height="32" Width="32" />
+                                </Button>
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin=" 16 0 0 0"
                                 Height="48" Width="48"
                                 Background="{x:Null}" DockPanel.Dock="Right" BorderBrush="{x:Null}" Foreground="White"
                                 Click="Theme">
-                            <materialDesign:PackIcon Kind="Marker" Height="28" Width="28" />
-                        </Button>
-                        <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    <materialDesign:PackIcon Kind="Marker" Height="28" Width="28" />
+                                </Button>
+                                <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Margin="16 0 0 0"
                                    FontSize="26">
                             Origind Launcher Beta
-                        </TextBlock>
-                    </DockPanel>
-                </materialDesign:ColorZone>
+                                </TextBlock>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
 
-                <Grid DockPanel.Dock="Left" HorizontalAlignment="Left">
-                    <materialDesign:Card Margin="24 32 0 0" Width="260" Opacity="0.95">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="140" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Image x:Name="Bg2" Source="Images/flat2.png" Height="140" Width="246" Stretch="Fill" />
-                            <Button x:Name="StartButton" Click="StartButton_OnClick" Grid.Row="0"
+                        <Grid DockPanel.Dock="Left" HorizontalAlignment="Left">
+                            <materialDesign:Card x:Name="MainCard" Margin="24 32 0 0" Width="260" Opacity="0.95">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="140" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image x:Name="Bg2" Source="Images/flat2.png" Height="140" Width="246" Stretch="Fill" />
+                                    <Button x:Name="StartButton" Click="StartButton_OnClick" Grid.Row="0"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                     Margin="0 0 16 -20">
-                                <materialDesign:PackIcon Kind="Play" />
-                            </Button>
-                            <StackPanel Grid.Row="1" Margin="8 24 8 0" MinHeight="220">
-                                <TextBlock FontWeight="Bold" Margin="8 0 8 8" FontSize="18">启动客户端</TextBlock>
-                                <TextBlock x:Name="WelcomeMessage" Margin="6 4 8 8" FontSize="14">欢迎, </TextBlock>
-                                <TextBlock x:Name="ServerMessage"
+                                        <materialDesign:PackIcon Kind="Play" />
+                                    </Button>
+                                    <StackPanel Grid.Row="1" Margin="8 24 8 0" MinHeight="220">
+                                        <TextBlock FontWeight="Bold" Margin="8 0 8 8" FontSize="18">启动客户端</TextBlock>
+                                        <TextBlock x:Name="WelcomeMessage" Margin="6 4 8 8" FontSize="14">欢迎,</TextBlock>
+                                        <TextBlock x:Name="ServerMessage"
                                            MouseLeftButtonDown="ServerMessage_OnMouseLeftButtonDown" Margin="6 4 8 8"
                                            FontSize="14">
                                     服务器在线人数: 未知
-                                </TextBlock>
-                                <TextBlock TextWrapping="Wrap"></TextBlock>
-                            </StackPanel>
-                            <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
-                                <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0"
-                                        materialDesign:RippleAssist.IsCentered="True" Click="SwitchUser">
-                                    <materialDesign:PackIcon Kind="Account" />
-                                </Button>
-                                <materialDesign:PopupBox Style="{StaticResource MaterialDesignToolPopupBox}"
-                                                         Padding="2 0 2 0">
-                                    <StackPanel>
-                                        <Button Content="打开.Minecraft" Click="OpenDMinecraft" />
-                                        <Button Content="初始化环境" Click="InitEnvironment" />
-                                        <Button Content="在后台进行登录验证检查" Click="VerifyOnBackground"/>
+                                        </TextBlock>
+                                        <TextBlock TextWrapping="Wrap"></TextBlock>
                                     </StackPanel>
-                                </materialDesign:PopupBox>
-                            </StackPanel>
+                                    <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
+                                        <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0"
+                                        materialDesign:RippleAssist.IsCentered="True" Click="SwitchUser">
+                                            <materialDesign:PackIcon Kind="Account" />
+                                        </Button>
+                                        <materialDesign:PopupBox Style="{StaticResource MaterialDesignToolPopupBox}"
+                                                         Padding="2 0 2 0">
+                                            <StackPanel>
+                                                <Button Content="打开.Minecraft" Click="OpenDMinecraft" />
+                                                <Button Content="初始化环境" Click="InitEnvironment" />
+                                                <Button Content="在后台进行登录验证检查" Click="VerifyOnBackground"/>
+                                            </StackPanel>
+                                        </materialDesign:PopupBox>
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:Card>
+
+                            <Image x:Name="BgCache" Height="0" Width="0" />
                         </Grid>
-                    </materialDesign:Card>
-
-                    <Image x:Name="BgCache" Height="0" Width="0" />
-                </Grid>
 
 
-                <!--
+                        <!--
             <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Margin="32">
                 <materialDesign:PackIcon Kind="Play" Height="32" Width="32"  />
             </Button>
             -->
-                <materialDesign:Snackbar DockPanel.Dock="Bottom" Margin="0 0 0 12"
+                        <materialDesign:Snackbar DockPanel.Dock="Bottom" Margin="0 0 0 12"
                                          MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" />
 
-            </DockPanel>
+                    </DockPanel>
+                </materialDesign:TransitionerSlide>
+
+            </materialDesign:Transitioner>
 
         </materialDesign:DialogHost>
     </materialDesign:Card>

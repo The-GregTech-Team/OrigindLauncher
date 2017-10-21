@@ -36,11 +36,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Server\LoginManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\MessageUploader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\ServerInfoGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sound\SoundPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)String\SHA128Computer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)String\SHA512Computer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ImageSourceGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ThemeConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ThemeManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\EmbedResourceReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ExceptionSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\JavaFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\PrivateFieldExtension.cs" />

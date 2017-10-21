@@ -158,7 +158,7 @@ namespace OrigindLauncher.Resources.Client
 
         public override bool Equals(object obj)
         {
-            return ((DownloadInfo) obj)?.Path == Path;
+            return (obj as DownloadInfo)?.Path == Path;
         }
     }
 }

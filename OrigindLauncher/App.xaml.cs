@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,7 +17,7 @@ namespace OrigindLauncher
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             File.AppendAllText("crashreport.txt", e.Exception.SerializeException());
-
+            Trace.WriteLine(e.Exception);
             Dispatcher.Invoke(() => { new ExceptionHandlerWindow(e.Exception).ShowDialog(); });
             e.Handled = true;
         }
@@ -30,8 +31,9 @@ namespace OrigindLauncher
         private void TaskSchedulerOnUnobservedTaskException(object sender,
             UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
-            File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.SerializeException());
-            //File.AppendAllText("crashreport.txt", unobservedTaskExceptionEventArgs.Exception.InnerExceptions.FirstOrDefault().SerializeException());
+            var serializedException = unobservedTaskExceptionEventArgs.Exception.SerializeException();
+            File.AppendAllText("crashreport.txt", serializedException);
+            Trace.WriteLine(serializedException);
 
             Dispatcher.Invoke(() =>
             {
@@ -42,8 +44,9 @@ namespace OrigindLauncher
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            File.WriteAllText("crashreport.txt", ((Exception) e.ExceptionObject).SerializeException());
-
+            var serializedException = ((Exception)e.ExceptionObject).SerializeException();
+            File.AppendAllText("crashreport.txt", serializedException);
+            Trace.WriteLine(serializedException);
             Dispatcher.Invoke(() => { new ExceptionHandlerWindow((Exception) e.ExceptionObject).ShowDialog(); });
         }
     }

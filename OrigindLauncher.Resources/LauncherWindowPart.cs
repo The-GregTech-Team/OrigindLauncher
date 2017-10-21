@@ -36,7 +36,7 @@ namespace OrigindLauncher
                 var dict = ClientManager.GetGameStorageDirectory("$natives");
                 if (Directory.Exists(dict))
                 {
-                    Directory.Delete(dict, true);
+                    Directory.Delete(dict, recursive: true);
                 }
             }
             catch (Exception e)
@@ -85,8 +85,7 @@ namespace OrigindLauncher
         {
             var path = ClientManager.GetGameStorageDirectory("crash-reports");
             DirectoryHelper.EnsureDirectoryExists(path);
-            var files = Directory.GetFiles(path);
-            return files;
+            return Directory.GetFiles(path);
         }
 
         private static async Task UpdateUpdatePathAsync() // 兼容其它的服务器

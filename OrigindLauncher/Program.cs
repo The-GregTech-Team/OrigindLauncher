@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -12,7 +14,9 @@ using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Core;
 using OrigindLauncher.Resources.FileSystem;
+using OrigindLauncher.Resources.Sound;
 using OrigindLauncher.Resources.UI;
+using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 
 namespace OrigindLauncher
@@ -39,7 +43,8 @@ namespace OrigindLauncher
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             if (Config.Instance.EnableDebug)
                 DebugHelper.EnableDebug();
-
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("zh-CN");
+            
             if (args.Any(s => s == "AddPermissions"))
             {
                 DirectoryHelper.AddCurrentDirectoryWritePermissionInternal();

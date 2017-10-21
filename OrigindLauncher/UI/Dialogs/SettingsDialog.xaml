@@ -88,10 +88,10 @@
                 
                 <Grid>
                     <TextBlock Margin="8">
-                        <Run>使用屏幕分享 </Run>
-                        <Run FontSize="14" Foreground="DarkGray">(娱乐向)</Run>
+                        <Run>在加载完成后播放跳电音效 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(跳电啦)</Run>
                     </TextBlock>
-                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseScreenShare" 
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="PlayGameLoadedSound" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </Grid>
 

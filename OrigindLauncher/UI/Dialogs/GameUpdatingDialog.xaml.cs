@@ -113,17 +113,18 @@ namespace OrigindLauncher.UI.Dialogs
                             File.Delete(path);
                         }
                         DirectoryHelper.EnsureDirectoryExists(Path.GetDirectoryName(path));
-                        wc.DownloadProgressChanged += (o, args) => Dispatcher.Invoke(() =>
+                        wc.DownloadProgressChanged += (o, args) => Dispatcher.InvokeAsync(() =>
                         {
                             var progress = _downloadProgressDictionary[downloadEntry];
                             progress.Value = args.BytesReceived / (double)args.TotalBytesToReceive;
                         });
 
+                        wc.DownloadFileCompleted += (o, args) =>
+                         ClientManager.CurrentInfo.Files.Add(new FileEntry(downloadEntry.Path, downloadEntry.Hash));
                         wc.DownloadFileTaskAsync(downloadEntry.Url, path).Wait();
-                        ClientManager.CurrentInfo.Files.Add(new FileEntry(downloadEntry.Path, downloadEntry.Hash));
 
                         finish:
-                        Dispatcher.Invoke(() =>
+                        Dispatcher.InvokeAsync(() =>
                         {
                             UpdatePanel.Children.Remove(_downloadProgressDictionary[downloadEntry]);
                             UpdatePanel.Children.Remove(_downloadTbDictionary[downloadEntry]);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using KMCCC.Authentication;
 using KMCCC.Launcher;
 using OrigindLauncher.Resources.Configs;
@@ -11,7 +12,6 @@ namespace OrigindLauncher.Resources.Client
         public event Action<LaunchHandle, int> OnGameExit;
         public event Action<LaunchHandle, string> OnGameLog;
         public event Action<LaunchResult> OnError;
-
 
         public LaunchResult Run()
         {

@@ -17,7 +17,6 @@ namespace OrigindLauncher.Resources.Configs
             Instance = File.Exists(Definitions.ConfigJsonPath)
                 ? File.ReadAllText(Definitions.ConfigJsonPath).JsonCast<Config>()
                 : new Config();
-            //Reporter.SetReportLevel(Reporter.ReportLevel.None);
         }
 
         public ThemeConfig ThemeConfig { get; set; } = new ThemeConfig();
@@ -26,14 +25,12 @@ namespace OrigindLauncher.Resources.Configs
 
         public bool DisableHardwareSpeedup { get; set; } = false;
 
-        public bool AllowScreenshotShare { get; set; } = false;
+        public bool PlayGameLoadedSound { get; set; } = true;
 
         public bool EnableDebug { get; set; } = false;
 
-        //public bool Readed
-
         public static int LauncherVersion { get; } =
-            321
+            340
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun

@@ -1,0 +1,18 @@
+{
+  "Items": [
+    {
+      "Analyzer": "AutomaticPropertyAnalyzer",
+      "OccurrenceCount": 1,
+      "Exceptions": null,
+      "SentToServer": true,
+      "InstallationName": "CYL18-HOMEPC"
+    },
+    {
+      "Analyzer": "UnusedMethodsAnalyzer",
+      "OccurrenceCount": 11,
+      "Exceptions": null,
+      "SentToServer": true,
+      "InstallationName": "CYL18-HOMEPC"
+    }
+  ]
+}

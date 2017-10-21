@@ -3,9 +3,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
@@ -39,11 +41,9 @@ namespace OrigindLauncher
             InitForTheme();
             Trace.WriteLine("Done: Theme load.");
 
-            WelcomeMessage.Text += " " + Config.Instance.PlayerAccount.Username;
-            TitleTextBlock.Text += " " + Config.LauncherVersion +
-                                   (Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username)
-                                       ? " Admin"
-                                       : string.Empty);
+            WelcomeMessage.Text += $" {Config.Instance.PlayerAccount.Username}";
+            TitleTextBlock.Text +=
+                $" {Config.LauncherVersion}{(Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username) ? " 管理" : string.Empty)}";
 
             try
             {
@@ -84,6 +84,17 @@ namespace OrigindLauncher
             }
 #endif
             Trace.WriteLine("Auto update check done.");
+
+            Task.Run(() =>
+            {
+                Thread.Sleep(300);
+                Dispatcher.Invoke(() =>
+                {
+                    var doubleAnimation = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(1)));
+                    MainCard.BeginAnimation(OpacityProperty, doubleAnimation);
+                    MainTransitioner.SelectedIndex = 1;
+                });
+            });
 
             Trace.WriteLine("Launch Window loaded.");
         }
@@ -129,7 +140,6 @@ namespace OrigindLauncher
                 return;
             }
             StartButton.IsEnabled = false;
-#if true
 
             // 检测更新状态
             if (!CheckUpdate(out var updateStatus))
@@ -148,7 +158,6 @@ namespace OrigindLauncher
                     return;
                 }
             }
-#endif
 
             BeginCrashReportDetector();
             KMCCCBugFix();
@@ -156,7 +165,7 @@ namespace OrigindLauncher
             // 启动游戏
             var gameManager = new GameManager();
             var lpm = new LaunchProgressManager();
-
+            
             gameManager.OnGameExit += (handle, i) => Dispatcher.Invoke(async () =>
             {
                 LoginManager.Stop();
@@ -188,7 +197,13 @@ namespace OrigindLauncher
 
         private void Close(object sender, RoutedEventArgs e)
         {
-            this.FlyoutAndClose(() => Application.Current.Shutdown());
+            MainTransitioner.SelectedIndex = 0;
+            Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                Dispatcher.Invoke(() => Application.Current.Shutdown());
+            });
+
         }
 
         private void OpenDMinecraft(object sender, RoutedEventArgs e)
@@ -197,7 +212,7 @@ namespace OrigindLauncher
                 ClientManager.GameStorageDirectory);
         }
 
-        private async void Options(object sender, RoutedEventArgs e)
+        async void Options(object sender, RoutedEventArgs e)
         {
             await DialogHost.Show(new SettingsDialog(), "RootDialog").ConfigureAwait(false);
         }

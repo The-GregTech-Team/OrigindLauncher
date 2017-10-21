@@ -42,7 +42,6 @@ namespace OrigindLauncher.UI
 
         public LaunchHandle LaunchHandle { get; set; }
         public Process ProcessHandle { get; set; }
-        private DateTime TimeSinceLastCalc { get; set; } = DateTime.Now;
 
         private static void UpdateAnime(object sender, EventArgs e)
         {
@@ -58,7 +57,7 @@ namespace OrigindLauncher.UI
                     Instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
                     Instance.GameUseCpu.Text = $"{pt:F2} %";
                     Instance.GameUseMem.Text = $"{(Instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0):F2} M";
-                    Instance.TimeSinceLastCalc = DateTime.Now;
+                    
                 }
                 catch (Exception exception)
                 {
@@ -73,7 +72,7 @@ namespace OrigindLauncher.UI
             try
             {
                 var curTime = Instance.ProcessHandle.TotalProcessorTime;
-                var value = (curTime - Instance._prevCpuTime).TotalMilliseconds / (DateTime.Now - Instance.TimeSinceLastCalc).Milliseconds * 100;
+                var value = (curTime - Instance._prevCpuTime).TotalMilliseconds / 1000.0 * 100;
                 Instance._prevCpuTime = curTime;
                 return value;
 

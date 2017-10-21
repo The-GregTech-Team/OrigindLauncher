@@ -31,11 +31,9 @@ namespace OrigindLauncher.Resources.UI
 
         public static void SavePalette()
         {
-            /*
             var palette = new PaletteHelper().QueryPalette();
             Config.Instance.ThemeConfig.AccentName = palette.AccentSwatch.Name;
             Config.Instance.ThemeConfig.PrimaryName = palette.PrimarySwatch.Name;
-            */
         }
     }
 }

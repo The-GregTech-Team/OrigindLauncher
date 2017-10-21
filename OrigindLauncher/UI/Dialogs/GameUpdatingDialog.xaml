@@ -39,13 +39,13 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <TextBlock Margin="12" FontSize="19">Origind Launcher 游戏更新</TextBlock>
-        <ScrollViewer Grid.Row="1" Margin="8">
-            <materialDesign:Card Margin="8">
+        <materialDesign:Card MinHeight="400" Grid.Row="1" Margin="8">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="8">
 
                 <StackPanel x:Name="UpdatePanel" Margin="8" />
 
-            </materialDesign:Card>
         </ScrollViewer>
+        </materialDesign:Card>
 
         <Button Style="{StaticResource MaterialDesignFloatingActionButton}" Margin="8" VerticalAlignment="Center"
                 HorizontalAlignment="Right" Background="Red"

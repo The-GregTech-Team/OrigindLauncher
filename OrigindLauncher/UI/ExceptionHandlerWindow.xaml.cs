@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
+using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI.Code;
@@ -45,7 +46,11 @@ namespace OrigindLauncher.UI
             {
                 if (AutoRestartButton.IsChecked == true)
                     Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-                this.Flyout(() => { Application.Current.Shutdown(); });
+                this.Flyout(() =>
+                {
+                    if (!Config.Instance.EnableDebug)
+                        Application.Current.Shutdown();
+                });
             });
         }
 

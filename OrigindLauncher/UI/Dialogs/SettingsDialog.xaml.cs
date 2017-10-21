@@ -19,6 +19,7 @@ using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI.Code;
 using Application = System.Windows.Application;
 using UserControl = System.Windows.Controls.UserControl;
+// ReSharper disable PossibleInvalidOperationException
 
 namespace OrigindLauncher.UI.Dialogs
 {
@@ -47,7 +48,7 @@ namespace OrigindLauncher.UI.Dialogs
             EnableLaunchProgress.IsChecked = Config.Instance.LaunchProgress;
             UseGameBoost.IsChecked = Config.Instance.UseBoost;
             UseAdmin.IsChecked = Config.Instance.UseAdmin;
-            UseScreenShare.IsChecked = Config.Instance.AllowScreenshotShare;
+            PlayGameLoadedSound.IsChecked = Config.Instance.PlayGameLoadedSound;
             UseDebug.IsChecked = Config.Instance.EnableDebug;
 
             foreach (var font in GetFonts())
@@ -116,7 +117,7 @@ namespace OrigindLauncher.UI.Dialogs
 
             if (needRestart)
             {
-                ((LauncherWindow)Window.GetWindow(this)).MainSnackbar.MessageQueue.Enqueue("需要重启来应用你的设置.", "立即重启", () =>
+                ((LauncherWindow)Window.GetWindow(this))?.MainSnackbar.MessageQueue.Enqueue("需要重启来应用你的设置.", "立即重启", () =>
                 {
                     Process.Start(Process.GetCurrentProcess().MainModule.FileName);
                     ((LauncherWindow)Window.GetWindow(this)).Flyout();
@@ -124,18 +125,12 @@ namespace OrigindLauncher.UI.Dialogs
                 });
             }
 
-            if (DisableHardwareSpeedupToggleButton.IsChecked != null)
-                Config.Instance.DisableHardwareSpeedup = DisableHardwareSpeedupToggleButton.IsChecked.Value;
-            if (EnableLaunchProgress.IsChecked != null)
-                Config.Instance.LaunchProgress = EnableLaunchProgress.IsChecked.Value;
-            if (UseGameBoost.IsChecked != null)
-                Config.Instance.UseBoost = UseGameBoost.IsChecked.Value;
-            if (UseAdmin.IsChecked != null)
-                Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
-            if (UseScreenShare.IsChecked != null)
-                Config.Instance.AllowScreenshotShare = UseScreenShare.IsChecked.Value;
-            if (UseDebug.IsChecked != null)
-                Config.Instance.EnableDebug = UseDebug.IsChecked.Value;
+            Config.Instance.DisableHardwareSpeedup = DisableHardwareSpeedupToggleButton.IsChecked.Value;
+            Config.Instance.LaunchProgress = EnableLaunchProgress.IsChecked.Value;
+            Config.Instance.UseBoost = UseGameBoost.IsChecked.Value;
+            Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
+            Config.Instance.PlayGameLoadedSound = PlayGameLoadedSound.IsChecked.Value;
+            Config.Instance.EnableDebug = UseDebug.IsChecked.Value;
 
 
 

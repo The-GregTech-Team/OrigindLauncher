@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using KMCCC.Launcher;
+using NAudio.Wave;
 using OrigindLauncher.Resources.Configs;
+using OrigindLauncher.Resources.Sound;
 using OrigindLauncher.Resources.Utils;
 using OrigindLauncher.UI;
 using OrigindLauncher.UI.Code;
@@ -22,7 +24,10 @@ namespace OrigindLauncher.Resources.Client
                     var message = log.Split('%')[1];
                     var statusp = message.Split('&');
                     var statusw = statusp[0];
-                    var progress = double.Parse(statusp[1]);
+                    if (!double.TryParse(statusp[1], out var progress))
+                    {
+                        progress = 0.5;
+                    }
                     string modname = string.Empty, progressname;
                     if (statusw == "reloading_resource_packs")
                     {
@@ -42,6 +47,14 @@ namespace OrigindLauncher.Resources.Client
                 else if (log.EndsWith("GuiMainMenu Loaded"))
                 {
                     _launchProgressWindow.Dispatcher.Invoke(() => _launchProgressWindow.Done());
+
+                    if (Config.Instance.PlayGameLoadedSound)
+                        Task.Run(async () =>
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(10));
+                            var sound = EmbedResourceReader.GetStream("OrigindLauncher.Sounds.InterruptOne.ogg");
+                            SoundPlayer.PlaySound(sound);
+                        });
                 }
                 else
                 {
