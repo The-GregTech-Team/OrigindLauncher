@@ -9,7 +9,7 @@
     },
     {
       "Analyzer": "UnusedMethodsAnalyzer",
-      "OccurrenceCount": 11,
+      "OccurrenceCount": 629,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "CYL18-HOMEPC"
