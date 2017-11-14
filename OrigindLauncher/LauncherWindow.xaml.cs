@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -9,11 +8,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using MaterialDesignThemes.Wpf;
-using OrigindLauncher.Resources;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.Configs;
 using OrigindLauncher.Resources.Core;
-using OrigindLauncher.Resources.FileSystem;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.UI;
 using OrigindLauncher.Resources.Utils;
@@ -33,12 +30,12 @@ namespace OrigindLauncher
             ;
 
 
-        public LauncherWindow()// 对没错 说的就是你 看代码的那位 请不要调用我们的私有接口 蟹蟹 请加群609600081
+        public LauncherWindow()
         {
             InitializeComponent();
 
             Trace.WriteLine("Initialzing Launch Window.");
-            InitForTheme();
+            InitTheme();
             Trace.WriteLine("Done: Theme load.");
 
             WelcomeMessage.Text += $" {Config.Instance.PlayerAccount.Username}";
@@ -56,7 +53,6 @@ namespace OrigindLauncher
                     ServerMessage.Text = $"服务器在线人数 {result.players.online}";
                     ServerMessage.ToolTip = result.players.sample != null ? string.Join("\r\n", result.players.sample.Select(p => p.name)) : "现在没有人..点这里来刷新!";
                 }
-
             }
             catch (Exception e)
             {
@@ -74,8 +70,7 @@ namespace OrigindLauncher
                         AutoUpdater.Update();
                         return;
                     }
-                    MainSnackbar.MessageQueue.Enqueue("启动器有更新啦！ v" + version, "立即更新", AutoUpdater.Update);
-
+                    MainSnackbar.MessageQueue.Enqueue($"启动器有更新啦！ {version}", "立即更新", AutoUpdater.Update);
                 }
             }
             catch (Exception e)
@@ -101,7 +96,7 @@ namespace OrigindLauncher
 
         private static string[] Before { get; set; }
 
-        public void InitForTheme()
+        public void InitTheme()
         {
             try
             {
@@ -130,32 +125,34 @@ namespace OrigindLauncher
             {
                 MainSnackbar.MessageQueue.Enqueue("登录失败.", "查看详情", () => Dispatcher.Invoke(async () =>
                 {
-                    var chooseDialog = new ChooseDialog("要重新注册吗？", "很抱歉, 因为我们的技术删库跑路, 所有的玩家数据库都没了. 按下重新注册来用你当前的账号重新注册.", "重新注册");
+                    var chooseDialog = new ChooseDialog("要重新注册吗？",
+                        "很抱歉, 因为我们的技术删库跑路, 所有的玩家数据库都没了. 按下重新注册来用你当前的账号重新注册.", "重新注册");
                     await DialogHost.Show(chooseDialog, "RootDialog");
                     if (chooseDialog.Result)
-                    {
                         Config.Instance.PlayerAccount.Register();
-                    }
                 }));
                 return;
             }
             StartButton.IsEnabled = false;
 
-            // 检测更新状态
-            if (!CheckUpdate(out var updateStatus))
+            if (!Config.Instance.DisableUpdateCheck)
             {
-                OnLaunchError("更新检测失败");
-                return;
-            }
-
-            // 等待更新
-            if (updateStatus)
-            {
-                var result = await UpdateClientAsync();
-                if (!result)
+                // 检测更新状态
+                if (!CheckUpdate(out var updateStatus))
                 {
-                    OnLaunchError("更新失败.");
+                    OnLaunchError("更新检测失败");
                     return;
+                }
+
+                // 等待更新
+                if (updateStatus)
+                {
+                    var result = await UpdateClientAsync();
+                    if (!result)
+                    {
+                        OnLaunchError("更新失败.");
+                        return;
+                    }
                 }
             }
 
@@ -166,13 +163,17 @@ namespace OrigindLauncher
             var gameManager = new GameManager();
             var lpm = new LaunchProgressManager();
             
-            gameManager.OnGameExit += (handle, i) => Dispatcher.Invoke(async () =>
+            gameManager.OnGameExit += (handle, i) =>
             {
-                LoginManager.Stop();
-                this.Show();
-                lpm.Close();
-                await CheckCrashAsync();
-            });
+                async Task Callback()
+                {
+                    LoginManager.Stop();
+                    this.Show();
+                    lpm.Close();
+                    await CheckCrashAsync();
+                }
+                Dispatcher.Invoke(Callback);
+            };
 
             gameManager.OnGameLog += (lh, log) => lpm.OnGameLog(log);
             // 游戏状态
@@ -203,7 +204,6 @@ namespace OrigindLauncher
                 Thread.Sleep(500);
                 Dispatcher.Invoke(() => Application.Current.Shutdown());
             });
-
         }
 
         private void OpenDMinecraft(object sender, RoutedEventArgs e)
@@ -247,7 +247,7 @@ namespace OrigindLauncher
             this.Flyout(() => Application.Current.Shutdown());
         }
 
-        private async void Theme(object sender, RoutedEventArgs e)
+        async void Theme(object sender, RoutedEventArgs e)
         {
             await DialogHost.Show(new ThemeDialog(), "RootDialog");
         }

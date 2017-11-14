@@ -103,7 +103,16 @@
                     <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="UseDebug" 
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 </Grid>
-                
+
+                <Grid>
+                    <TextBlock Margin="8">
+                        <Run>禁用更新检测 </Run>
+                        <Run FontSize="14" Foreground="DarkGray">(仅本次生效)</Run>
+                    </TextBlock>
+                    <ToggleButton HorizontalAlignment="Right" Margin="8" x:Name="DisableUpdateCheck" 
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                </Grid>
+
                 <TextBlock Margin="8 8 0 0">最大内存</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Slider ValueChanged="MemorySlider_OnValueChanged" x:Name="MemorySlider"

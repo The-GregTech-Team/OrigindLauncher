@@ -1,6 +1,8 @@
+using System;
 using System.IO;
 using System.Linq;
 using KMCCC.Launcher;
+using Newtonsoft.Json;
 using OrigindLauncher.Resources.Json;
 using OrigindLauncher.Resources.Server;
 using OrigindLauncher.Resources.UI;
@@ -29,8 +31,11 @@ namespace OrigindLauncher.Resources.Configs
 
         public bool EnableDebug { get; set; } = false;
 
+        [JsonIgnore]
+        public bool DisableUpdateCheck { get; set; } = false;
+
         public static int LauncherVersion { get; } =
-            343
+            357
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun
@@ -38,6 +43,7 @@ namespace OrigindLauncher.Resources.Configs
         public static void Save()
         {
             File.WriteAllText(Definitions.ConfigJsonPath, Instance.ToJsonString());
+            
         }
 
         #region GameLauncher

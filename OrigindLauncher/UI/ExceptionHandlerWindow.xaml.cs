@@ -59,7 +59,7 @@ namespace OrigindLauncher.UI
             Task.Run(() =>
             {
                 var flag = MessageUploadManager.CrashReport(_exceptionString);
-                Dispatcher.Invoke(() => { MessageSnackbar.MessageQueue.Enqueue(flag ? "成功上传错误报告." : "上传失败."); });
+                Dispatcher.Invoke(() => MessageSnackbar.MessageQueue.Enqueue(flag ? "成功上传错误报告." : "上传失败."));
             });
         }
     }

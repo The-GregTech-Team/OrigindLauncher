@@ -52,11 +52,15 @@ namespace OrigindLauncher.UI
             {
                 try
                 {
-                    var da = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(300)));
+                    var da = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(400)))
+                    {
+                        EasingFunction = new CubicEase()
+                    };
+
                     Instance.ProcessHandle.Refresh();
                     Instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
                     Instance.GameUseCpu.Text = $"{pt:F2} %";
-                    Instance.GameUseMem.Text = $"{(Instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0):F2} M";
+                    Instance.GameUseMem.Text = $"{Instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0:F2} M";
                     
                 }
                 catch (Exception exception)
@@ -75,7 +79,6 @@ namespace OrigindLauncher.UI
                 var value = (curTime - Instance._prevCpuTime).TotalMilliseconds / 1000.0 * 100;
                 Instance._prevCpuTime = curTime;
                 return value;
-
             }
             catch (Exception e)
             {
@@ -115,9 +118,9 @@ namespace OrigindLauncher.UI
         }
 
 
-        private Brush TranslateToBrush(string a)
+        private Brush TranslateToBrush(string source)
         {
-            var sub = a.Length > 50 ? a.Substring(0, 50) : a;
+            var sub = source.Length > 50 ? source.Substring(0, 50) : source;
             if (sub.Contains("INFO")) return new SolidColorBrush(Colors.Teal);
             if (sub.Contains("DEBUG")) return new SolidColorBrush(Colors.DeepSkyBlue);
             if (sub.Contains("WARN")) return new SolidColorBrush(Colors.GreenYellow);

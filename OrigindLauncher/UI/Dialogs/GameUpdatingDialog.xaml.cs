@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using OrigindLauncher.Resources.Client;
 using OrigindLauncher.Resources.FileSystem;
@@ -146,6 +149,20 @@ namespace OrigindLauncher.UI.Dialogs
         private void Close()
         {
             Dispatcher.Invoke(() => DialogHost.CloseDialogCommand.Execute(this, this));
+        }
+
+        private static readonly Random Random = new Random();
+        private void ConfirmBtn_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            var transformGroup = (TransformGroup) ConfirmBtn.RenderTransform;
+            var translate = (TranslateTransform)transformGroup.Children.First(t => t is TranslateTransform);
+            translate.X += (Random.NextDouble() - 0.5) * 20;
+            translate.Y += (Random.NextDouble() - 0.5) * 20;
+            var translate2 = (ScaleTransform)transformGroup.Children.First(t => t is ScaleTransform);
+            translate2.ScaleX += (Random.NextDouble() - 0.5) / 5.0;
+            translate2.ScaleY += (Random.NextDouble() - 0.5) / 5.0;
+            var translate3 = (RotateTransform)transformGroup.Children.First(t => t is RotateTransform);
+            translate3.Angle += (Random.NextDouble() - 0.5) * 10;
         }
     }
 }

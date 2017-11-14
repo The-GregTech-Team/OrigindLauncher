@@ -50,6 +50,7 @@ namespace OrigindLauncher.UI.Dialogs
             UseAdmin.IsChecked = Config.Instance.UseAdmin;
             PlayGameLoadedSound.IsChecked = Config.Instance.PlayGameLoadedSound;
             UseDebug.IsChecked = Config.Instance.EnableDebug;
+            DisableUpdateCheck.IsChecked = Config.Instance.DisableUpdateCheck;
 
             foreach (var font in GetFonts())
             {
@@ -131,7 +132,7 @@ namespace OrigindLauncher.UI.Dialogs
             Config.Instance.UseAdmin = UseAdmin.IsChecked.Value;
             Config.Instance.PlayGameLoadedSound = PlayGameLoadedSound.IsChecked.Value;
             Config.Instance.EnableDebug = UseDebug.IsChecked.Value;
-
+            Config.Instance.DisableUpdateCheck = DisableUpdateCheck.IsChecked.Value;
 
 
             var path = ClientManager.GetGameStorageDirectory("config/betterfonts.cfg");

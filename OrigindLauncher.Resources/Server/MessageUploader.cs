@@ -18,13 +18,7 @@ namespace OrigindLauncher.Resources.Server
                 .AddBody($"{Config.Instance.PlayerAccount.Username}: {data}");
             var result = rc.Post(req);
 
-            switch (result.StatusCode)
-            {
-                case HttpStatusCode.NoContent:
-                    return true;
-                default:
-                    return false;
-            }
+            return result.StatusCode == HttpStatusCode.NoContent;
         }
 
         public static bool Suggests(UploadData data)
@@ -33,13 +27,7 @@ namespace OrigindLauncher.Resources.Server
             var req = RestRequestFactory.Create(Definitions.Rest.Suggests).AddBody(data);
             var result = rc.Post(req);
 
-            switch (result.StatusCode)
-            {
-                case HttpStatusCode.NoContent:
-                    return true;
-                default:
-                    return false;
-            }
+            return result.StatusCode == HttpStatusCode.NoContent;
         }
 
         public static void Upload(string data)
@@ -62,7 +50,6 @@ namespace OrigindLauncher.Resources.Server
         {
             using (var ms = new MemoryStream())
             {
-                
                 data.Save(ms, ImageFormat.Jpeg);
                 var arr = new byte[ms.Length];
                 ms.Position = 0;

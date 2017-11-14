@@ -30,7 +30,7 @@ namespace OrigindLauncher.UI.Dialogs
         {
             ThemeManager.ChangeLightDark();
             var window = (LauncherWindow) Window.GetWindow(this);
-            window.InitForTheme();
+            window.InitTheme();
         }
     }
 
