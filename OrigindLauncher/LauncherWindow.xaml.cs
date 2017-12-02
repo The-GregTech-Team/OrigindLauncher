@@ -29,7 +29,6 @@ namespace OrigindLauncher
                     "((http|ftp|https):\\/\\/)?[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?")
             ;
 
-
         public LauncherWindow()
         {
             InitializeComponent();
@@ -38,9 +37,9 @@ namespace OrigindLauncher
             InitTheme();
             Trace.WriteLine("Done: Theme load.");
 
-            WelcomeMessage.Text += $" {Config.Instance.PlayerAccount.Username}";
-            TitleTextBlock.Text +=
-                $" {Config.LauncherVersion}{(Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username) ? " 管理" : string.Empty)}";
+            //            WelcomeMessage.Text += $" {Config.Instance.PlayerAccount.Username}";
+            //            TitleTextBlock.Text +=
+            //                $" {Config.LauncherVersion}{(Config.Admins.Any(u => u == Config.Instance.PlayerAccount.Username) ? " 管理" : string.Empty)}";
 
             try
             {
@@ -111,7 +110,6 @@ namespace OrigindLauncher
                 MainSnackbar.MessageQueue.Enqueue("警告: 加载主题时出现问题. 启用调试模式来看到更多.");
                 Trace.WriteLine(e);
             }
-
         }
 
         private async void StartButton_OnClick(object sender, RoutedEventArgs e)
@@ -162,7 +160,7 @@ namespace OrigindLauncher
             // 启动游戏
             var gameManager = new GameManager();
             var lpm = new LaunchProgressManager();
-            
+
             gameManager.OnGameExit += (handle, i) =>
             {
                 async Task Callback()
@@ -195,7 +193,6 @@ namespace OrigindLauncher
             Hide();
         }
 
-
         private void Close(object sender, RoutedEventArgs e)
         {
             MainTransitioner.SelectedIndex = 0;
@@ -212,7 +209,7 @@ namespace OrigindLauncher
                 ClientManager.GameStorageDirectory);
         }
 
-        async void Options(object sender, RoutedEventArgs e)
+        private async void Options(object sender, RoutedEventArgs e)
         {
             await DialogHost.Show(new SettingsDialog(), "RootDialog").ConfigureAwait(false);
         }
@@ -247,7 +244,7 @@ namespace OrigindLauncher
             this.Flyout(() => Application.Current.Shutdown());
         }
 
-        async void Theme(object sender, RoutedEventArgs e)
+        private async void Theme(object sender, RoutedEventArgs e)
         {
             await DialogHost.Show(new ThemeDialog(), "RootDialog");
         }

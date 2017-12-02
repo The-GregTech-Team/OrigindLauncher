@@ -35,7 +35,7 @@ namespace OrigindLauncher.Resources.Configs
         public bool DisableUpdateCheck { get; set; } = false;
 
         public static int LauncherVersion { get; } =
-            360
+            361
             ;
 
         public static string[] Admins { get; } = {"Cyl18", "EMROF"}; // Just For Fun

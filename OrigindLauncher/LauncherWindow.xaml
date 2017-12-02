@@ -79,7 +79,7 @@
                                 <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Margin="16 0 0 0"
                                    FontSize="26">
-                            Origind Launcher Lambda
+                            Origind Launcher Last Forever
                                 </TextBlock>
                             </DockPanel>
                         </materialDesign:ColorZone>
@@ -107,7 +107,7 @@
                                            FontSize="14">
                                     服务器在线人数: 未知
                                         </TextBlock>
-                                        <TextBlock TextWrapping="Wrap">Origind Launcher 不再维护。</TextBlock>
+                                        <TextBlock Margin="6 4 8 8" TextWrapping="Wrap">Origind Launcher 不再维护。</TextBlock>
                                     </StackPanel>
                                     <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
                                         <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0"
