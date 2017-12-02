@@ -46,7 +46,6 @@
         </ResourceDictionary>
     </Window.Resources>
 
-
     <DockPanel Background="{DynamicResource MaterialDesignPaper}" Height="600" Width="900">
         <materialDesign:ColorZone Height="62" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                   Mode="PrimaryMid" DockPanel.Dock="Top">
@@ -68,10 +67,7 @@
                             VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="WindowClose" Height="32" Width="32" />
                     </Button>
-
                 </Grid>
-
-
             </Grid>
         </materialDesign:ColorZone>
 
@@ -101,11 +97,9 @@
                     <TextBlock Margin="8 12 8 8" TextAlignment="Center" FontSize="14">使用CPU</TextBlock>
                     <TextBlock x:Name="GameUseCpu" Margin="8" TextAlignment="Center" FontSize="14">2048M</TextBlock>
 
-                    <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="4 64 8 4" Click="Ref">刷新登录状态</Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="4 64 8 4" Click="Ref">没用的按钮</Button>
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="8" Click="CloseGame">结束游戏</Button>
                 </StackPanel>
-
-
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Column="1" Margin="8">
@@ -115,9 +109,7 @@
                                   HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <ListBox x:Name="LogList" Style="{StaticResource MaterialDesignListBox}" ScrollViewer.CanContentScroll="False" />
                     </ScrollViewer>
-
                 </StackPanel>
-
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Column="1" Margin="8" VerticalAlignment="Bottom">
@@ -125,12 +117,8 @@
                     <TextBlock x:Name="LoadingText" FontSize="16" TextAlignment="Center">正在加载:</TextBlock>
                     <ProgressBar x:Name="StatusProgressBar" IsIndeterminate="True"
                                  Style="{StaticResource MaterialDesignLinearProgressBar}" Maximum="1" Margin="8" />
-
                 </StackPanel>
-
             </materialDesign:Card>
         </Grid>
-
     </DockPanel>
-
 </Window>

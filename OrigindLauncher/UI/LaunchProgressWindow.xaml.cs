@@ -61,7 +61,6 @@ namespace OrigindLauncher.UI
                     Instance.Add1sAnimeText.BeginAnimation(OpacityProperty, da);
                     Instance.GameUseCpu.Text = $"{pt:F2} %";
                     Instance.GameUseMem.Text = $"{Instance.ProcessHandle.WorkingSet64 / 1024.0 / 1024.0:F2} M";
-                    
                 }
                 catch (Exception exception)
                 {
@@ -85,8 +84,8 @@ namespace OrigindLauncher.UI
                 Trace.WriteLine(e);
                 return 0;
             }
-
         }
+
         /*
         public static Image ScreenCapture()
         {
@@ -101,6 +100,7 @@ namespace OrigindLauncher.UI
             }
         }
         */
+
         public void Begin()
         {
             AnimeTimer.Start();
@@ -117,7 +117,6 @@ namespace OrigindLauncher.UI
             LogList.SelectedIndex = LogList.Items.Count - 1;
         }
 
-
         private Brush TranslateToBrush(string source)
         {
             var sub = source.Length > 50 ? source.Substring(0, 50) : source;
@@ -127,6 +126,7 @@ namespace OrigindLauncher.UI
             if (sub.Contains("ERROR")) return new SolidColorBrush(Colors.Red);
             return new SolidColorBrush(Colors.Teal);
         }
+
         public void Done()
         {
             LoadingText.Text = "加载完成.";
@@ -168,7 +168,6 @@ namespace OrigindLauncher.UI
 
         private void Ref(object sender, RoutedEventArgs e)
         {
-            Task.Run(() => Config.Instance.PlayerAccount.UpdateLoginStatus());
         }
     }
 }

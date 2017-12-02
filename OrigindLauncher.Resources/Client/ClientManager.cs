@@ -46,20 +46,20 @@ namespace OrigindLauncher.Resources.Client
             var clientInfo = new ClientInfo();
             var files = new List<FileEntry>();
 
-            Parallel.ForEach(basePath, new ParallelOptions {MaxDegreeOfParallelism = 16}, (file, state) =>
-            {
-                var path = file.Substring(GameStoragePath.Length);
+            Parallel.ForEach(basePath, new ParallelOptions { MaxDegreeOfParallelism = 16 }, (file, state) =>
+              {
+                  var path = file.Substring(GameStoragePath.Length);
                 // var fileData = File.ReadAllText(file);
 
                 string hash;
-                using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    hash = SHA128Computer.Compute(sfile);
-                }
+                  using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                  {
+                      hash = SHA128Computer.Compute(sfile);
+                  }
 
-                Trace.WriteLine($"计算哈希完成: {path}.");
-                files.Add(new FileEntry(path, hash));
-            });
+                  Trace.WriteLine($"计算哈希完成: {path}.");
+                  files.Add(new FileEntry(path, hash));
+              });
 
             clientInfo.Files = files;
 
@@ -107,6 +107,7 @@ namespace OrigindLauncher.Resources.Client
             var filesInOnlineInfoDictionary = filesInOnlineInfo.ToDictionary(e => e.Path);
 
             foreach (var onlineInfoFile in filesInOnlineInfo)
+            {
                 if (filesInCurrentInfoDictionary.ContainsKey(onlineInfoFile.Path))
                 {
                     // 要更新的文件
@@ -123,42 +124,36 @@ namespace OrigindLauncher.Resources.Client
                         onlineInfoFile.Path, onlineInfoFile.Hash));
                 }
 
-            // 要删除的文件
-            foreach (var localInfoFile in CurrentInfo.Files.Where(
-                localInfoFile => !filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path)))
-                updateInfo.FilesToDelete.Add(localInfoFile);
-
+                // 要删除的文件
+                foreach (var localInfoFile in CurrentInfo.Files.Where(
+                    localInfoFile => !filesInOnlineInfoDictionary.ContainsKey(localInfoFile.Path)))
+                    updateInfo.FilesToDelete.Add(localInfoFile);
+            }
             return updateInfo;
         }
-    }
 
-    public class UpdateInfo
-    {
-        public List<FileEntry> FilesToDelete { get; } = new List<FileEntry>();
-        public List<DownloadInfo> FilesToDownload { get; } = new List<DownloadInfo>();
-    }
-
-    public class DownloadInfo
-    {
-        public readonly string Hash;
-        public readonly string Path;
-        public readonly string Url;
-
-        public DownloadInfo(string url, string path, string hash)
+        public class UpdateInfo
         {
-            Url = url;
-            Path = path;
-            Hash = hash;
+            public List<FileEntry> FilesToDelete { get; } = new List<FileEntry>();
+            public List<DownloadInfo> FilesToDownload { get; } = new List<DownloadInfo>();
         }
 
-        public override int GetHashCode()
+        public class DownloadInfo
         {
-            return Path.GetHashCode();
-        }
+            public readonly string Hash;
+            public readonly string Path;
+            public readonly string Url;
 
-        public override bool Equals(object obj)
-        {
-            return (obj as DownloadInfo)?.Path == Path;
+            public DownloadInfo(string url, string path, string hash)
+            {
+                Url = url;
+                Path = path;
+                Hash = hash;
+            }
+
+            public override int GetHashCode() => Path.GetHashCode();
+
+            public override bool Equals(object obj) => (obj as DownloadInfo)?.Path == Path;
         }
     }
 }

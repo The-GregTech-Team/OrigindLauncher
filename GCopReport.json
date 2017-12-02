@@ -13,6 +13,15 @@
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "CYL18-HOMEPC"
+    },
+    {
+      "Analyzer": "ConstantVariableAnalyzer",
+      "OccurrenceCount": 1,
+      "Exceptions": {
+        "ArgumentException": "Reported diagnostic 'GCop179' has a source location in file 'C:\\Users\\qq775\\documents\\visual studio 2017\\Projects\\OrigindLauncher\\OrigindLauncher.Resources\\Client\\ClientManager.cs', which is not part of the compilation being analyzed.\r\nParameter name: diagnostic\r\n\r\nSource:\r\npublic static ClientInfo MakeClientInfo()\r\n{\r\n    var basePath = Directory.GetFiles(GameStoragePath, \"*\", SearchOption.AllDirectories);\r\n    var clientInfo = new ClientInfo();\r\n    var files = new List<FileEntry>();\r\n    Parallel.ForEach(basePath, new ParallelOptions{MaxDegreeOfParallelism = 16}, (file, state) =>\r\n    {\r\n        var path = file.Substring(GameStoragePath.Length);\r\n        // var fileData = File.ReadAllText(file);\r\n        string hash;\r\n        using (var sfile = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))\r\n        {\r\n            hash = SHA128Computer.Compute(sfile);\r\n        }\r\n\r\n        Trace.WriteLine($\"计算哈希完成: {path}.\");\r\n        files.Add(new FileEntry(path, hash));\r\n    }\r\n\r\n    );\r\n    clientInfo.Files = files;\r\n    return clientInfo;\r\n}"
+      },
+      "SentToServer": false,
+      "InstallationName": "CYL18-HOMEPC"
     }
   ]
 }

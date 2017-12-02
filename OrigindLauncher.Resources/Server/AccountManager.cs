@@ -30,8 +30,10 @@ namespace OrigindLauncher.Resources.Server
             {
                 case HttpStatusCode.Accepted:
                     return RegisterStatus.Successful;
+
                 case HttpStatusCode.BadRequest:
                     return RegisterStatus.UserExists;
+
                 default:
                     return RegisterStatus.UnknownError;
             }
@@ -49,13 +51,16 @@ namespace OrigindLauncher.Resources.Server
             {
                 case HttpStatusCode.OK:
                     return LoginStatus.Successful;
+
                 case HttpStatusCode.NotFound:
                     return LoginStatus.NotFound;
+
                 default:
                     return LoginStatus.UnknownError;
             }
         }
 
+        [Obsolete]
         public static LoginStatus UpdateLoginStatus(string userName, string hashedPassword)
         {
             var rc = new RestClient(Definitions.OrigindServerUrl);
@@ -68,8 +73,10 @@ namespace OrigindLauncher.Resources.Server
             {
                 case HttpStatusCode.OK:
                     return LoginStatus.Successful;
+
                 case HttpStatusCode.NotFound:
                     return LoginStatus.NotFound;
+
                 default:
                     return LoginStatus.UnknownError;
             }
@@ -90,9 +97,11 @@ namespace OrigindLauncher.Resources.Server
                     case HttpStatusCode.OK:
                         callback(LoginStatus.Successful);
                         break;
+
                     case HttpStatusCode.NotFound:
                         callback(LoginStatus.NotFound);
                         break;
+
                     default:
                         callback(LoginStatus.UnknownError);
                         break;
@@ -111,8 +120,10 @@ namespace OrigindLauncher.Resources.Server
             {
                 case HttpStatusCode.OK:
                     return LoginStatus.Successful;
+
                 case HttpStatusCode.NotFound:
                     return LoginStatus.NotFound;
+
                 default:
                     return LoginStatus.UnknownError;
             }

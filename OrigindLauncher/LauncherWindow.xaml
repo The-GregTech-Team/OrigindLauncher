@@ -15,7 +15,7 @@
         WindowStartupLocation="CenterScreen" AllowsTransparency="True"
         WindowStyle="None">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
     <Window.Resources>
         <ResourceDictionary>
@@ -38,20 +38,19 @@
         </ResourceDictionary>
     </Window.Resources>
 
-
     <materialDesign:Card MinHeight="730" Background="Transparent"
                          materialDesign:ShadowAssist.ShadowDepth="Depth5">
 
         <materialDesign:DialogHost Identifier="RootDialog"
                                    SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <materialDesign:Transitioner x:Name="MainTransitioner" Background="Transparent" SelectedIndex="0">
-                <materialDesign:TransitionerSlide/>
+                <materialDesign:TransitionerSlide />
                 <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
                     <materialDesign:TransitionerSlide.OpeningEffects>
                         <materialDesign:TransitionEffect Kind="ExpandIn"></materialDesign:TransitionEffect>
                         <materialDesign:TransitionEffect Kind="FadeIn"></materialDesign:TransitionEffect>
                     </materialDesign:TransitionerSlide.OpeningEffects>
-                    
+
                     <DockPanel>
                         <DockPanel.Background>
                             <ImageBrush x:Name="Bg" ImageSource="Images/Background2.png" />
@@ -108,7 +107,7 @@
                                            FontSize="14">
                                     服务器在线人数: 未知
                                         </TextBlock>
-                                        <TextBlock TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock TextWrapping="Wrap">Origind Launcher 不再维护。</TextBlock>
                                     </StackPanel>
                                     <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
                                         <Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0"
@@ -120,7 +119,7 @@
                                             <StackPanel>
                                                 <Button Content="打开.Minecraft" Click="OpenDMinecraft" />
                                                 <Button Content="初始化环境" Click="InitEnvironment" />
-                                                <Button Content="在后台进行登录验证检查" Click="VerifyOnBackground"/>
+                                                <Button Content="在后台进行登录验证检查" Click="VerifyOnBackground" />
                                             </StackPanel>
                                         </materialDesign:PopupBox>
                                     </StackPanel>
@@ -130,22 +129,17 @@
                             <Image x:Name="BgCache" Height="0" Width="0" />
                         </Grid>
 
-
                         <!--
             <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Margin="32">
-                <materialDesign:PackIcon Kind="Play" Height="32" Width="32"  />
+                <materialDesign:PackIcon Kind="Play" Height="32" Width="32" />
             </Button>
             -->
                         <materialDesign:Snackbar DockPanel.Dock="Bottom" Margin="0 0 0 12"
                                          MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" />
-
                     </DockPanel>
                 </materialDesign:TransitionerSlide>
-
             </materialDesign:Transitioner>
-
         </materialDesign:DialogHost>
     </materialDesign:Card>
-
 </Window>

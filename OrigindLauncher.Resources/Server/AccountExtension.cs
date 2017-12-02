@@ -1,4 +1,6 @@
-﻿namespace OrigindLauncher.Resources.Server
+﻿using System;
+
+namespace OrigindLauncher.Resources.Server
 {
     public static class AccountExtension
     {
@@ -7,6 +9,7 @@
             return AccountManager.Login(account.Username, account.Password);
         }
 
+        [Obsolete]
         public static LoginStatus UpdateLoginStatus(this Account account)
         {
             return AccountManager.UpdateLoginStatus(account.Username, account.Password);

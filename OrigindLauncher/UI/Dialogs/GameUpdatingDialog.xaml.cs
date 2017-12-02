@@ -27,15 +27,15 @@ namespace OrigindLauncher.UI.Dialogs
     {
         private readonly Dictionary<FileEntry, TextBlock> _deleteDictionary = new Dictionary<FileEntry, TextBlock>();
 
-        private readonly Dictionary<DownloadInfo, ProgressBar> _downloadProgressDictionary =
-            new Dictionary<DownloadInfo, ProgressBar>();
+        private readonly Dictionary<ClientManager.DownloadInfo, ProgressBar> _downloadProgressDictionary =
+            new Dictionary<ClientManager.DownloadInfo, ProgressBar>();
 
-        private readonly Dictionary<DownloadInfo, TextBlock> _downloadTbDictionary =
-            new Dictionary<DownloadInfo, TextBlock>();
+        private readonly Dictionary<ClientManager.DownloadInfo, TextBlock> _downloadTbDictionary =
+            new Dictionary<ClientManager.DownloadInfo, TextBlock>();
 
         private bool isRunning = true;
 
-        public GameUpdatingDialog(UpdateInfo updateInfo)
+        public GameUpdatingDialog(ClientManager.UpdateInfo updateInfo)
         {
             UpdateInfo = updateInfo;
             InitializeComponent();
@@ -57,7 +57,7 @@ namespace OrigindLauncher.UI.Dialogs
             }
         }
 
-        private UpdateInfo UpdateInfo { get; }
+        private ClientManager.UpdateInfo UpdateInfo { get; }
 
         public bool Result { get; private set; }
 
@@ -152,9 +152,10 @@ namespace OrigindLauncher.UI.Dialogs
         }
 
         private static readonly Random Random = new Random();
+
         private void ConfirmBtn_OnMouseMove(object sender, MouseEventArgs e)
         {
-            var transformGroup = (TransformGroup) ConfirmBtn.RenderTransform;
+            var transformGroup = (TransformGroup)ConfirmBtn.RenderTransform;
             var translate = (TranslateTransform)transformGroup.Children.First(t => t is TranslateTransform);
             translate.X += (Random.NextDouble() - 0.5) * 20;
             translate.Y += (Random.NextDouble() - 0.5) * 20;
